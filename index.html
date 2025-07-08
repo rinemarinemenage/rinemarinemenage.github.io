@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Référentiel DD&RS – Arbre Radial Coloré</title>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <style>
+    html, body {
+      margin: 0; padding: 0;
+      height: 100%; overflow: auto;
+      font-family: sans-serif;
+    }
+    h1 {
+      margin: 1em 0 0.5em;
+      text-align: center;
+    }
+    #chart {
+      width: 100vw;
+      height: calc(100vh - 3.5em);
+      overflow: auto;
+    }
+    svg {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+    .node:hover circle {
+      stroke: orange;
+      stroke-width: 2px;
+    }
+  </style>
+</head>
+<body>
+  <div id="chart"></div>
+  <script>
+  document.addEventListener("DOMContentLoaded", () => {
+    // —————————————
+    // Définition des couleurs
+    const rootColor  = "#2c3e50";                   
+    const axisColors = [
+      "#6a619c", // Stratégie
+      "#e84e4e", // Enseignement
+      "#dd945b", // Recherche
+      "#7fb475", // Environnement
+      "#47c4e0"  // Sociale
+    ];
+    // —————————————
+
+    const data = {
+      name: "LE REFERENTIEL DD&RS",
+      children: [
+        {
+          name: "1. Stratégie & Gouvernance",
+          children: [
+            {
+              name: "1.1 Formaliser sa politique DD&RS",
+              children: [
+                { name: "1.1.1 Définir sa stratégie et élaborer un plan d'actions en couvrant toutes les dimensions" },
+                { name: "1.1.2 Intégrer la démarche à l'ensemble des services/directions de l'établissement et de ses activités fonctionnelles et opérationnelles" },
+                { name: "1.1.3 Mettre en place une politique d'achats responsables" },
+                { name: "1.1.4 Communiquer sur les objectifs, les pratiques et rendre compte des résultats de la démarche DD&RS auprès de toutes les parties prenantes" }
+              ]
+            },
+            {
+              name: "1.2 Déployer des ressources",
+              children: [
+                { name: "1.2.1 Affecter des moyens à la conduite du DD&RS" },
+                { name: "1.2.2 Evaluer, analyser la performance de la démarche DD&RS" }
+              ]
+            },
+            {
+              name: "1.3 Société responsable",
+              children: [
+                { name: "1.3.1 Sensibiliser et susciter l'adhésion de toutes les parties prenantes internes de l'établissement dans une dynamique de pratiques durables" },
+                { name: "1.3.2 Agir avec des réseaux d'acteurs nationaux et internationaux pour contribuer à faire évoluer les comportements et partager ses performances durables pour co-construire une société responsable" },
+                { name: "1.3.3 S'engager sur ses territoires au travers de sa politique DD&RS" }
+              ]
+            }
+          ]
+        },
+        {
+          name: "2. Enseignement & Formation",
+          children: [
+            {
+              name: "2.1 Intégrer le DD&RS",
+              children: [
+                { name: "2.1.1 Adapter les enseignements des cursus traditionnels : intégration des problématiques de DD&RS…" },
+                { name: "2.1.2 Intégrer le DD&RS dans les programmes de formation continue" }
+              ]
+            },
+            {
+              name: "2.2 Développer les compétences",
+              children: [
+                { name: "2.2.1 Apprentissage à la mise en application des connaissances et compétences DD&RS…" },
+                { name: "2.2.2 Accompagnement et reconnaissance des initiatives étudiantes …" }
+              ]
+            },
+            {
+              name: "2.3 Soutenir les enseignant.es",
+              children: [
+                { name: "2.3.1 Incitation et soutien aux enseignant.e.s pour favoriser l'intégration du DD&RS…" },
+                { name: "2.3.2 Formation des futurs enseignant.e.s et/ou doctorant.e.s aux enjeux DD&RS" }
+              ]
+            },
+            {
+              name: "2.4 Société de la connaissance",
+              children: [
+                { name: "2.4.1 Développer et accompagner les démarches pédagogiques favorisant la diffusion…" },
+                { name: "2.4.2 Ouvrir à l'international dans un objectif de co-développement …" }
+              ]
+            }
+          ]
+        },
+        {
+          name: "3. Recherche & Innovation",
+          children: [
+            {
+              name: "3.1 Stratégie R&I",
+              children: [
+                { name: "3.1.1 Définir et mettre en œuvre un pilotage opérationnel de la stratégie R&I" },
+                { name: "3.1.2 Inciter et accompagner les pratiques de recherche transdisciplinaires" },
+                { name: "3.1.3 Identifier les impacts DD&RS ex ante et ex post" },
+                { name: "3.1.4 Prendre en compte les enjeux DD&RS dans la conduite des projets" },
+                { name: "3.1.5 Développer des projets R&I répondant aux enjeux sociétaux" }
+              ]
+            },
+            {
+              name: "3.2 Science/société",
+              children: [
+                { name: "3.2.1 Favoriser la science participative" },
+                { name: "3.2.2 Intégrer la recherche dans les programmes de formation" },
+                { name: "3.2.3 Transférer la recherche vers le monde socio-économique" },
+                { name: "3.2.4 Diffuser la recherche au grand public" },
+                { name: "3.2.5 Aider à la décision en politiques publiques" }
+              ]
+            },
+            {
+              name: "3.3 Réflexion éthique",
+              children: [
+                { name: "3.3.1 Promouvoir l’intégrité scientifique" },
+                { name: "3.3.2 Ouvrir les données dans le respect des cadres réglementaires" }
+              ]
+            }
+          ]
+        },
+        {
+          name: "4. Gestion environnementale",
+          children: [
+            {
+              name: "4.1 Émissions & ressources",
+              children: [
+                { name: "4.1.1 Réduire les émissions de gaz à effet de serre" },
+                { name: "4.1.2 Intégrer des critères environnementaux dans les cahiers des charges" },
+                { name: "4.1.3 Politique incitative de déplacements alternatifs" },
+                { name: "4.1.4 Management énergétique des établissements" },
+                { name: "4.1.5 Optimiser la consommation d'eau" }
+              ]
+            },
+            {
+              name: "4.2 Pollution",
+              children: [
+                { name: "4.2.1 Gestion des effluents liquides organiques" },
+                { name: "4.2.2 Recycler les déchets ménagers" },
+                { name: "4.2.3 Recycler les déchets dangereux" },
+                { name: "4.2.4 Traiter les D.E.E.E." },
+                { name: "4.2.5 Optimiser la pollution atmosphérique" }
+              ]
+            },
+            {
+              name: "4.3 Biodiversité",
+              children: [
+                { name: "4.3.1 Agir en faveur de la biodiversité sur site" },
+                { name: "4.3.2 Agir à l’échelle territoriale" }
+              ]
+            },
+            {
+              name: "4.4 Alimentation responsable",
+              children: [
+                { name: "4.4.1 Démarche d'alimentation responsable en interne" },
+                { name: "4.4.2 Promouvoir l’alimentation responsable auprès des externes" }
+              ]
+            }
+          ]
+        },
+        {
+          name: "5. Politique sociale",
+          children: [
+            { 
+				name: "5.1 Égalité & diversité",
+				children: [
+					{name:"Mettre en place des actions en faveur de la parité dans le recrutement et la promotion des personnels, dans les fonctions managériales et de gouvernance, dans les instances représentatives des personnels"},
+					{name:"Mettre en place des actions en faveur de la diversité dans le recrutement et la promotion des personnels"}
+				]
+			},
+            { 
+				name: "5.2 Compétences DD&RS",
+				children: [
+					{name: "5.2.1 Déployer une gestion prévisionnelle des emplois et des compétences DD&RS dédiée aux personnels administratifs, des bibliothèques et techniques (fonctions support)"},
+					{name: "5.2.2 Déployer une gestion prévisionnelle des emplois et des compétences DD&RS des personnels dédiés à l'enseignement et/ou la recherche"}
+				]
+			},
+            { 
+				name: "5.3 Qualité de vie",
+				children: [
+					{name: "5.3.1 Mettre en place une politique  de prévention, de santé et de sécurité (personnels et/ou apprenant.e.s)"},
+					{name: "5.3.2 Mettre en place une politique de qualité de vie sur le(s) site(s) de l'établissement"},
+					{name: "5.3.3 Mettre en place une politique de qualité de vie au travail"}
+				]
+			},
+            { 
+				name: "5.4 Égalité des chances",
+				children: [
+					{name:"5.4.1 Préparer la venue de futurs apprenant.e.s quels que soient leurs profils"},
+					{name:"5.4.2 Développer des conditions d'études/formations favorables à la réussite des apprenant.e.s en situation de handicap"},
+					{name:"5.4.3 Développer des conditions d'études/formations favorables à la réussite des apprenant.e.s internationa(les)ux"},
+					{name:"5.4.4 Développer des conditions d'études/formations favorables à l'ouverture sociale des établissements et à la réussite des apprenant.e.s"},
+					{name:"5.4.5 Favoriser l'insertion professionnelle des apprenant.e.s quels que soient leurs profils"}
+				]
+				}
+          ]
+        }
+      ]
+    };
+    
+    function wrap(text, width) {
+      text.each(function() {
+        const textEl     = d3.select(this);
+        const words      = textEl.text().split(/\s+/).reverse();
+        const W      = window.innerWidth;
+        const H      = window.innerHeight;
+        const radius = Math.min(W, H) / 2 - 80;
+        let word;
+        let line        = [];
+        let lineNumber  = 0;
+        const lineHeight= 0.9; // ems
+        const y         = textEl.attr("y") || 0;
+        const x         = textEl.attr("x") || 0;
+        const dy        = parseFloat(textEl.attr("dy")) || 0;
+        
+        let tspan = textEl
+          .text(null)
+          .append("tspan")
+            .attr("x", x)
+            .attr("y", y)
+            .attr("dy", dy + "em");
+        
+        while (word = words.pop()) {
+          line.push(word);
+          tspan.text(line.join(" "));
+          if (tspan.node().getComputedTextLength() > width) {
+            line.pop();
+            tspan.text(line.join(" "));
+            line = [word];
+            lineNumber++;
+            tspan = textEl.append("tspan")
+              .attr("x", x)
+              .attr("y", y)
+              .attr("dy", lineNumber * lineHeight + dy + "em")
+              .text(word);
+          }
+        }
+      });
+    }
+  // Recursion pour plier *tout* le sous arbre d'un nœud
+    function collapseAll(d) {
+      if (!d.children) return;
+      d.children.forEach(collapseAll);
+      d._children = d.children;
+      d.children = null;
+    }
+    
+    // Colorisation selon la profondeur et l’axe parent
+    function applyColors(root) {
+      root.color = rootColor;
+      root.children.forEach((ax, i) => ax.color = axisColors[i]);
+      root.each(d => {
+        if (d.depth >= 2) {
+          // on trouve l’ancêtre de depth=1
+          let anc = d;
+          while (anc.depth > 1) anc = anc.parent;
+          const factor = 0.7 + 0.3 * (d.depth - 1);
+          d.color = d3.color(anc.color).brighter(factor).formatHex();
+        }
+      });
+    }
+  
+  function chart() {
+  // 1) calcul des dimensions
+    const W      = window.innerWidth;
+    const H      = window.innerHeight;
+    const radius = Math.min(W, H) / 2 - 80;
+  
+    // 2) configuration de l'arbre
+    const tree = d3.tree().size([2 * Math.PI, radius]);
+    const root = d3.hierarchy(data);
+    let id = 0;
+    root.each(d => {
+      d.id        = id++;
+      d._children = d.children || null;
+    });
+  
+    // 3) pliage initial (depth >= 2)
+    root.each(d => {
+      if (d.depth >= 1 && d.children) collapseAll(d);
+    });
+  
+    // 4) application des couleurs + calcul des positions
+    applyColors(root);
+    tree(root);
+	
+	const maxDepth = root.height;
+    // 5) création du SVG centré
+    const svg = d3.create("svg")
+      .attr("viewBox", [-W/2, -H/2, W, H])
+      .style("font", "12px sans-serif")
+      .style("user-select", "none");
+  
+    const g        = svg.append("g");
+    const linkG    = g.append("g").attr("class", "links");
+    const nodeG    = g.append("g").attr("class", "nodes");
+    const diagonal = d3.linkRadial()
+      .angle(d => d.x)
+      .radius(d => d.y);
+  
+    // 6) fonction update
+    function update() {
+      tree(root);
+      applyColors(root);
+  
+      // 6.1) tracé des liens
+      linkG.selectAll("path.link")
+        .data(root.links(), d => d.target.id)
+        .join(
+          enter => enter.append("path")
+                        .attr("class","link")
+                        .attr("d", diagonal)
+                        .attr("stroke","#999")
+                        .attr("fill","none"),
+          upd   => upd.transition().duration(300).attr("d", diagonal),
+          exit => exit.transition().duration(300).attr("opacity", 0).remove()
+        );
+  
+      // 6.2) tracé des nœuds
+      nodeG.selectAll("g.node")
+        .data(root.descendants(), d => d.id)
+        .join(
+          enter => {
+            const ng = enter.append("g")
+              .attr("class","node")
+              .attr("transform", d => {
+                const ang = d.x - Math.PI/2;
+                return `translate(${d.y*Math.cos(ang)},${d.y*Math.sin(ang)})`;
+              })
+              .style("cursor", d =>
+                d.depth === 1 && d._children ? "pointer" : "default"
+              )
+              .on("click", (e, d) => {
+				  if (d.children) {
+					collapseAll(d);
+				  } else if (d._children) {
+					// fermez les frères du même niveau
+					if (d.parent) {
+					  d.parent.children.forEach(sib => {
+						if (sib !== d) collapseAll(sib);
+					  });
+					}
+					d.children  = d._children;
+					d._children = null;
+				  }
+				  update();
+				});
+  
+            // cercle
+            ng.append("circle")
+              .attr("r", d =>
+                d.depth === 0 ? 14 :
+                d.depth === 1 ? 10 : 6
+              )
+              .attr("fill", d => d.color)
+              .attr("stroke", "#333");
+  
+            // texte + wrap
+            ng.append("text")
+              .attr("x", d =>
+                d.depth === 0 ? 0 :
+                d.x < Math.PI ? 12 : -12
+              )
+              .attr("dy", d =>
+                d.depth === 0 ? "-1.6em" : "0.31em"
+              )
+              .attr("text-anchor", d =>
+                d.depth === 0 ? "middle" :
+                d.x < Math.PI ? "start" : "end"
+              )
+              .style("font-weight", d =>
+                d.depth <= 1 ? "bold" : "normal"
+              )
+              .style("font-size", d =>
+				  d.depth === 0 ? "30px" :
+				  d.depth === 1 ? "15px" :
+				  "12px"
+			   )
+
+              .style("fill", d => d.color)
+              .text(d => d.data.name)
+              .call(wrap, 300);
+  
+            return ng;
+          },
+          upd => upd.transition().duration(300)
+                    .attr("transform", d => {
+                      const ang = d.x - Math.PI/2;
+                      return `translate(${d.y*Math.cos(ang)},${d.y*Math.sin(ang)})`;
+                    }),
+          exit => exit.transition().duration(300).attr("opacity", 0).remove()
+        );
+    }
+  
+    // 7) initialisation
+    update();
+    return svg.node();
+  }
+
+
+    // 8) rendu + resize
+  const container = document.getElementById("chart");
+  function render() {
+    container.innerHTML = "";
+    container.appendChild(chart());
+  }
+  window.addEventListener("resize", render);
+  render();
+});
+  </script>
+</body>
+</html>
