@@ -2,435 +2,1014 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Référentiel DD&RS – Arbre Radial Coloré</title>
+  <title>Schéma directeur DD&RS</title>
   <script src="https://d3js.org/d3.v7.min.js"></script>
   <style>
     html, body {
       margin: 0; padding: 0;
-      height: 100%; overflow: auto;
+      width: 100%; height: 100%;
+      overflow: hidden;
       font-family: sans-serif;
-    }
-    h1 {
-      margin: 1em 0 0.5em;
-      text-align: center;
+      position: relative;
     }
     #chart {
-      width: 100vw;
-      height: calc(100vh - 3.5em);
-      overflow: auto;
+      width: 100vw; height: 100vh;
     }
-    svg {
-      display: block;
-      width: 100%;
-      height: 100%;
+    /* Barre des numéros */
+    #number-bar {
+      position: absolute; top: 10px; right: 10px;
+      display: flex; gap: 4px; z-index: 10;
     }
-    .node:hover circle {
-      stroke: orange;
-      stroke-width: 2px;
+    #number-bar button {
+      width: 28px; height: 28px;
+      background: #fff; border: 1px solid #666;
+      border-radius: 4px; cursor: pointer;
     }
+    #number-bar button:hover { background: #eee; }
+
+    /* Modal et overlay */
+    #modal-overlay {
+      position: fixed; top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.4);
+      display: none; align-items: center;
+      justify-content: center; z-index: 20;
+    }
+    #modal {
+      background: #fff; padding: 20px;
+      border-radius: 6px; width: 60%;
+      max-height: 80%; overflow-y: auto;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    }
+    .action {
+      margin-bottom: 12px;
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 8px;
+    }
+    .action h4 {
+      margin: 0; cursor: pointer;
+      font-size: 16px; color: #2c3e50;
+    }
+    .action p {
+      margin: 4px 0 0; display: none;
+      font-size: 14px; color: #444;
+    }
+	#chart, #chart svg {
+		overflow: visible;
+	}
+	#number-bar button:hover {
+		filter: brightness(1.2);
+	}
+	#modal h3 {
+		margin-bottom: 12px;
+		font-size: 18px;
+		color: #2c3e50;
+		border-bottom: 1px solid #ddd;
+		padding-bottom: 6px;
+	}
+	/* jauge */
+	#indicator-gauge {
+	  position: absolute;
+	  left: 60px;
+	  top: 50%;
+	  transform: translateY(-50%);
+	  width: 40px;
+	  display: flex;
+	  flex-direction: column;
+	  align-items: center;
+	  z-index: 15;
+	}
+
+	#gauge-bar {
+	  position: relative;
+	  width: 16px;
+	  height: 60vh;
+	  background: #eee;
+	  border: 1px solid #999;
+	  border-radius: 8px;
+	  overflow: hidden;
+	  margin-bottom: 8px;
+	}
+
+	#gauge-fill {
+	  position: absolute;
+	  bottom: 0;
+	  width: 100%;
+	  height: 0%;          /* mis à jour dynamiquement */
+	  background: #4caf50; /* vert si respecté */
+	  transition: height 0.6s;
+	}
+
+	#indicator-btn {
+	  display: flex;
+	  align-items: center;
+	  gap: 6px;                   /* espace entre icône et texte */
+	  padding: 8px 12px;
+	  font-size: 14px;
+	  font-weight: bold;
+	  color: #fff;
+	  background: linear-gradient(135deg, #4caf50 0%, #66bb6a 100%);
+	  border: none;
+	  border-radius: 24px;         /* forme ronde/ovale */
+	  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+	  cursor: pointer;
+	  transition: transform 0.2s, box-shadow 0.2s;
+	}
+
+	#indicator-btn .btn-icon {
+	  font-size: 18px;             /* ajuste la taille de l’icône */
+	}
+
+	#indicator-btn:hover {
+	  transform: translateY(-2px) scale(1.03);
+	  box-shadow: 0 6px 12px rgba(0,0,0,0.25);
+	}
+
+	#indicator-btn:active {
+	  transform: translateY(0) scale(0.98);
+	  box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+	}
+
   </style>
 </head>
 <body>
+  <div id="indicator-gauge">
+    <div id="gauge-bar">
+    	<div id="gauge-fill"></div>
+	   </div>
+	  <button id="indicator-btn">Indicateurs</button>
+  </div>
   <div id="chart"></div>
+  <div id="number-bar"></div>
+  <div id="modal-overlay"><div id="modal"></div></div>
+
   <script>
-  document.addEventListener("DOMContentLoaded", () => {
-    // —————————————
-    // Définition des couleurs
-    const rootColor  = "#2c3e50";                   
-    const axisColors = [
-      "#6a619c", // Stratégie
-      "#e84e4e", // Enseignement
-      "#dd945b", // Recherche
-      "#7fb475", // Environnement
-      "#47c4e0"  // Sociale
-    ];
-    // —————————————
-
-    const data = {
-      name: "LE REFERENTIEL DD&RS",
-      children: [
-        {
-          name: "1. Stratégie & Gouvernance",
-          children: [
-            {
-              name: "1.1 Formaliser sa politique DD&RS",
-              children: [
-                { name: "1.1.1 Définir sa stratégie et élaborer un plan d'actions en couvrant toutes les dimensions" },
-                { name: "1.1.2 Intégrer la démarche à l'ensemble des services/directions de l'établissement et de ses activités fonctionnelles et opérationnelles" },
-                { name: "1.1.3 Mettre en place une politique d'achats responsables" },
-                { name: "1.1.4 Communiquer sur les objectifs, les pratiques et rendre compte des résultats de la démarche DD&RS auprès de toutes les parties prenantes" }
-              ]
-            },
-            {
-              name: "1.2 Déployer des ressources",
-              children: [
-                { name: "1.2.1 Affecter des moyens à la conduite du DD&RS" },
-                { name: "1.2.2 Evaluer, analyser la performance de la démarche DD&RS" }
-              ]
-            },
-            {
-              name: "1.3 Société responsable",
-              children: [
-                { name: "1.3.1 Sensibiliser et susciter l'adhésion de toutes les parties prenantes internes de l'établissement dans une dynamique de pratiques durables" },
-                { name: "1.3.2 Agir avec des réseaux d'acteurs nationaux et internationaux pour contribuer à faire évoluer les comportements et partager ses performances durables pour co-construire une société responsable" },
-                { name: "1.3.3 S'engager sur ses territoires au travers de sa politique DD&RS" }
-              ]
-            }
-          ]
-        },
-        {
-          name: "2. Enseignement & Formation",
-          children: [
-            {
-              name: "2.1 Intégrer le DD&RS",
-              children: [
-                { name: "2.1.1 Adapter les enseignements des cursus traditionnels : intégration des problématiques de DD&RS…" },
-                { name: "2.1.2 Intégrer le DD&RS dans les programmes de formation continue" }
-              ]
-            },
-            {
-              name: "2.2 Développer les compétences",
-              children: [
-                { name: "2.2.1 Apprentissage à la mise en application des connaissances et compétences DD&RS…" },
-                { name: "2.2.2 Accompagnement et reconnaissance des initiatives étudiantes …" }
-              ]
-            },
-            {
-              name: "2.3 Soutenir les enseignant.es",
-              children: [
-                { name: "2.3.1 Incitation et soutien aux enseignant.e.s pour favoriser l'intégration du DD&RS…" },
-                { name: "2.3.2 Formation des futurs enseignant.e.s et/ou doctorant.e.s aux enjeux DD&RS" }
-              ]
-            },
-            {
-              name: "2.4 Société de la connaissance",
-              children: [
-                { name: "2.4.1 Développer et accompagner les démarches pédagogiques favorisant la diffusion…" },
-                { name: "2.4.2 Ouvrir à l'international dans un objectif de co-développement …" }
-              ]
-            }
-          ]
-        },
-        {
-          name: "3. Recherche & Innovation",
-          children: [
-            {
-              name: "3.1 Stratégie R&I",
-              children: [
-                { name: "3.1.1 Définir et mettre en œuvre un pilotage opérationnel de la stratégie R&I" },
-                { name: "3.1.2 Inciter et accompagner les pratiques de recherche transdisciplinaires" },
-                { name: "3.1.3 Identifier les impacts DD&RS ex ante et ex post" },
-                { name: "3.1.4 Prendre en compte les enjeux DD&RS dans la conduite des projets" },
-                { name: "3.1.5 Développer des projets R&I répondant aux enjeux sociétaux" }
-              ]
-            },
-            {
-              name: "3.2 Science/société",
-              children: [
-                { name: "3.2.1 Favoriser la science participative" },
-                { name: "3.2.2 Intégrer la recherche dans les programmes de formation" },
-                { name: "3.2.3 Transférer la recherche vers le monde socio-économique" },
-                { name: "3.2.4 Diffuser la recherche au grand public" },
-                { name: "3.2.5 Aider à la décision en politiques publiques" }
-              ]
-            },
-            {
-              name: "3.3 Réflexion éthique",
-              children: [
-                { name: "3.3.1 Promouvoir l’intégrité scientifique" },
-                { name: "3.3.2 Ouvrir les données dans le respect des cadres réglementaires" }
-              ]
-            }
-          ]
-        },
-        {
-          name: "4. Gestion environnementale",
-          children: [
-            {
-              name: "4.1 Émissions & ressources",
-              children: [
-                { name: "4.1.1 Réduire les émissions de gaz à effet de serre" },
-                { name: "4.1.2 Intégrer des critères environnementaux dans les cahiers des charges" },
-                { name: "4.1.3 Politique incitative de déplacements alternatifs" },
-                { name: "4.1.4 Management énergétique des établissements" },
-                { name: "4.1.5 Optimiser la consommation d'eau" }
-              ]
-            },
-            {
-              name: "4.2 Pollution",
-              children: [
-                { name: "4.2.1 Gestion des effluents liquides organiques" },
-                { name: "4.2.2 Recycler les déchets ménagers" },
-                { name: "4.2.3 Recycler les déchets dangereux" },
-                { name: "4.2.4 Traiter les D.E.E.E." },
-                { name: "4.2.5 Optimiser la pollution atmosphérique" }
-              ]
-            },
-            {
-              name: "4.3 Biodiversité",
-              children: [
-                { name: "4.3.1 Agir en faveur de la biodiversité sur site" },
-                { name: "4.3.2 Agir à l’échelle territoriale" }
-              ]
-            },
-            {
-              name: "4.4 Alimentation responsable",
-              children: [
-                { name: "4.4.1 Démarche d'alimentation responsable en interne" },
-                { name: "4.4.2 Promouvoir l’alimentation responsable auprès des externes" }
-              ]
-            }
-          ]
-        },
-        {
-          name: "5. Politique sociale",
-          children: [
-            { 
-				name: "5.1 Égalité & diversité",
-				children: [
-					{name:"Mettre en place des actions en faveur de la parité dans le recrutement et la promotion des personnels, dans les fonctions managériales et de gouvernance, dans les instances représentatives des personnels"},
-					{name:"Mettre en place des actions en faveur de la diversité dans le recrutement et la promotion des personnels"}
-				]
-			},
-            { 
-				name: "5.2 Compétences DD&RS",
-				children: [
-					{name: "5.2.1 Déployer une gestion prévisionnelle des emplois et des compétences DD&RS dédiée aux personnels administratifs, des bibliothèques et techniques (fonctions support)"},
-					{name: "5.2.2 Déployer une gestion prévisionnelle des emplois et des compétences DD&RS des personnels dédiés à l'enseignement et/ou la recherche"}
-				]
-			},
-            { 
-				name: "5.3 Qualité de vie",
-				children: [
-					{name: "5.3.1 Mettre en place une politique  de prévention, de santé et de sécurité (personnels et/ou apprenant.e.s)"},
-					{name: "5.3.2 Mettre en place une politique de qualité de vie sur le(s) site(s) de l'établissement"},
-					{name: "5.3.3 Mettre en place une politique de qualité de vie au travail"}
-				]
-			},
-            { 
-				name: "5.4 Égalité des chances",
-				children: [
-					{name:"5.4.1 Préparer la venue de futurs apprenant.e.s quels que soient leurs profils"},
-					{name:"5.4.2 Développer des conditions d'études/formations favorables à la réussite des apprenant.e.s en situation de handicap"},
-					{name:"5.4.3 Développer des conditions d'études/formations favorables à la réussite des apprenant.e.s internationa(les)ux"},
-					{name:"5.4.4 Développer des conditions d'études/formations favorables à l'ouverture sociale des établissements et à la réussite des apprenant.e.s"},
-					{name:"5.4.5 Favoriser l'insertion professionnelle des apprenant.e.s quels que soient leurs profils"}
-				]
-				}
-          ]
-        }
-      ]
-    };
-    
-    function wrap(text, width) {
-      text.each(function() {
-        const textEl     = d3.select(this);
-        const words      = textEl.text().split(/\s+/).reverse();
-        const W      = window.innerWidth;
-        const H      = window.innerHeight;
-        const radius = Math.min(W, H) / 2 - 80;
-        let word;
-        let line        = [];
-        let lineNumber  = 0;
-        const lineHeight= 0.9; // ems
-        const y         = textEl.attr("y") || 0;
-        const x         = textEl.attr("x") || 0;
-        const dy        = parseFloat(textEl.attr("dy")) || 0;
-        
-        let tspan = textEl
-          .text(null)
-          .append("tspan")
-            .attr("x", x)
-            .attr("y", y)
-            .attr("dy", dy + "em");
-        
-        while (word = words.pop()) {
-          line.push(word);
-          tspan.text(line.join(" "));
-          if (tspan.node().getComputedTextLength() > width) {
-            line.pop();
-            tspan.text(line.join(" "));
-            line = [word];
-            lineNumber++;
-            tspan = textEl.append("tspan")
-              .attr("x", x)
-              .attr("y", y)
-              .attr("dy", lineNumber * lineHeight + dy + "em")
-              .text(word);
-          }
-        }
-      });
-    }
-  // Recursion pour plier *tout* le sous arbre d'un nœud
-    function collapseAll(d) {
-      if (!d.children) return;
-      d.children.forEach(collapseAll);
-      d._children = d.children;
-      d.children = null;
-    }
-    
-    // Colorisation selon la profondeur et l’axe parent
-    function applyColors(root) {
-      root.color = rootColor;
-      root.children.forEach((ax, i) => ax.color = axisColors[i]);
-      root.each(d => {
-        if (d.depth >= 2) {
-          // on trouve l’ancêtre de depth=1
-          let anc = d;
-          while (anc.depth > 1) anc = anc.parent;
-          const factor = 0.7 + 0.3 * (d.depth - 1);
-          d.color = d3.color(anc.color).brighter(factor).formatHex();
-        }
-      });
-    }
-  
-  function chart() {
-  // 1) calcul des dimensions
-    const W      = window.innerWidth;
-    const H      = window.innerHeight;
-    const radius = Math.min(W, H) / 2 - 80;
-  
-    // 2) configuration de l'arbre
-    const tree = d3.tree().size([2 * Math.PI, radius]);
-    const root = d3.hierarchy(data);
-    let id = 0;
-    root.each(d => {
-      d.id        = id++;
-      d._children = d.children || null;
-    });
-  
-    // 3) pliage initial (depth >= 2)
-    root.each(d => {
-      if (d.depth >= 1 && d.children) collapseAll(d);
-    });
-  
-    // 4) application des couleurs + calcul des positions
-    applyColors(root);
-    tree(root);
-	
-	const maxDepth = root.height;
-    // 5) création du SVG centré
-    const svg = d3.create("svg")
-      .attr("viewBox", [-W/2, -H/2, W, H])
-      .style("font", "12px sans-serif")
-      .style("user-select", "none");
-  
-    const g        = svg.append("g");
-    const linkG    = g.append("g").attr("class", "links");
-    const nodeG    = g.append("g").attr("class", "nodes");
-    const diagonal = d3.linkRadial()
-      .angle(d => d.x)
-      .radius(d => d.y);
-  
-    // 6) fonction update
-    function update() {
-      tree(root);
-      applyColors(root);
-  
-      // 6.1) tracé des liens
-      linkG.selectAll("path.link")
-        .data(root.links(), d => d.target.id)
-        .join(
-          enter => enter.append("path")
-                        .attr("class","link")
-                        .attr("d", diagonal)
-                        .attr("stroke","#999")
-                        .attr("fill","none"),
-          upd   => upd.transition().duration(300).attr("d", diagonal),
-          exit => exit.transition().duration(300).attr("opacity", 0).remove()
-        );
-  
-      // 6.2) tracé des nœuds
-      nodeG.selectAll("g.node")
-        .data(root.descendants(), d => d.id)
-        .join(
-          enter => {
-            const ng = enter.append("g")
-              .attr("class","node")
-              .attr("transform", d => {
-                const ang = d.x - Math.PI/2;
-                return `translate(${d.y*Math.cos(ang)},${d.y*Math.sin(ang)})`;
-              })
-              .style("cursor", d =>
-                d.depth === 1 && d._children ? "pointer" : "default"
-              )
-              .on("click", (e, d) => {
-				  if (d.children) {
-					collapseAll(d);
-				  } else if (d._children) {
-					// fermez les frères du même niveau
-					if (d.parent) {
-					  d.parent.children.forEach(sib => {
-						if (sib !== d) collapseAll(sib);
-					  });
-					}
-					d.children  = d._children;
-					d._children = null;
-				  }
-				  update();
-				});
-  
-            // cercle
-            ng.append("circle")
-              .attr("r", d =>
-                d.depth === 0 ? 14 :
-                d.depth === 1 ? 10 : 6
-              )
-              .attr("fill", d => d.color)
-              .attr("stroke", "#333");
-  
-            // texte + wrap
-            ng.append("text")
-              .attr("x", d =>
-                d.depth === 0 ? 0 :
-                d.x < Math.PI ? 12 : -12
-              )
-              .attr("dy", d =>
-                d.depth === 0 ? "-1.6em" : "0.31em"
-              )
-              .attr("text-anchor", d =>
-                d.depth === 0 ? "middle" :
-                d.x < Math.PI ? "start" : "end"
-              )
-              .style("font-weight", d =>
-                d.depth <= 1 ? "bold" : "normal"
-              )
-              .style("font-size", d =>
-				  d.depth === 0 ? "30px" :
-				  d.depth === 1 ? "15px" :
-				  "12px"
-			   )
-
-              .style("fill", d => d.color)
-              .text(d => d.data.name)
-              .call(wrap, 300);
-  
-            return ng;
+  // ----- Vos données d'arbre (indicateurs retirés) -----
+  const data = {
+    name: "SCHEMA DIRECTEUR DD&RS",
+    children: [
+      {
+        name: "1. POLITIQUE DD&RS",
+        children: [
+          {
+            name: "1.1 Formaliser notre politique DD&RS et la déployer à toute l'activité de l'université",
+            children: [
+              { name: "1.1.1 Obtenir et maintenir la labellisation DD&RS et s'en servir comme outil d'amélioration continue" },
+              { name: "1.1.2 Communiquer de manière responsable" },
+              { name: "1.1.3 Intégrer les enjeux sociaux et environnementaux au sein de chaque entité" }
+            ]
           },
-          upd => upd.transition().duration(300)
-                    .attr("transform", d => {
-                      const ang = d.x - Math.PI/2;
-                      return `translate(${d.y*Math.cos(ang)},${d.y*Math.sin(ang)})`;
-                    }),
-          exit => exit.transition().duration(300).attr("opacity", 0).remove()
-        );
-    }
+          {
+            name: "1.2 Déployer et piloter la stratégie DD&RS au sein de l'établissement en affectant les moyens humains, techniques et financiers",
+            children: [
+              { name: "1.2.1 Déployer des moyens humains pour accélérer l'intégration du DD&RS au sein de l'établissement" },
+              { name: "1.2.2 Déployer des moyens financiers pour accélérer l’intégration du DD&RS au sein de l’établissement" },
+              { name: "1.2.3 Faciliter et organiser la collecte des données DD&RS" }
+            ]
+          },
+          {
+            name: "1.3 Contribuer avec l'ensemble des parties prenantes à la construction d'une société responsable conciliant les dimensions économique, sociale et environnementale",
+            children: [
+              { name: "1.3.1 Accompagner et mobiliser les personnels et les étudiant·e·s qui s’engagent en faveur de la transition socio-écologique" },
+              { name: "1.3.2 Sensibiliser les personnels et les étudiant·e·s via des formats variés" },
+              { name: "1.3.3 Agir sur nos territoires" },
+              { name: "1.3.4 Adopter une politique partenariale en cohérence avec nos engagements" }
+            ]
+          }
+        ]
+      },
+      {
+        name: "2. ENSEIGNEMENT & FORMATION",
+        children: [
+          {
+            name: "2.1 Intégrer les problématiques de DD&RS dans les programmes et enseignements",
+            children: [
+              { name: "2.1.1 Former l’ensemble des étudiant·e·s de premier cycle à la TEDs" },
+              { name: "2.1.2 Former l’ensemble des étudiant·e·s à la transition socio-écologique, en tenant compte de leurs spécificités et leurs futurs métiers" },
+              { name: "2.1.3 Evaluer et attester des connaissances en DD&RS des étudiant·e·s" }
+            ]
+          },
+          {
+            name: "2.2 Favoriser et accompagner le développement des compétences en DD&RS dans les apprenant·e·s",
+            children: [
+              { name: "2.2.1 Valoriser l'engagement DD&RS étudiant" },
+              { name: "2.2.2 Renforcer les enjeux DD&RS dans les stages, alternances et projets étudiants" },
+              { name: "2.2.3 Mettre en lien les apprenant·e·s avec des structures engagées dans la transition socio-écologique" }
+            ]
+          }
+        ]
+      },
+      {
+        name: "3. RECHERCHE & INNOVATION",
+        children: [
+          {
+            name: "3.1 Intégrer le DD&RS dans la stratégie de recherche et d'innovation de l'établissement",
+            children: [
+              { name: "3.1.1 Valoriser et accompagner l’intégration des enjeux DD&RS dans les travaux de recherche" },
+              { name: "3.1.2 Prendre en compte les impacts socio-écologiques liés aux activités de la recherche" }
+            ]
+          },
+          {
+            name: "3.2 Développer et valoriser les interactions science société pour répondre aux enjeux du DD&RS",
+            children: [
+              { name: "3.2.1 Développer et valoriser les interactions science société pour répondre aux enjeux du DD&RS" }
+            ]
+          },
+          {
+            name: "3.3 Promouvoir et favoriser un dispositif de réflexion éthique au regard de l'exercice de la responsabilité de la recherche et de l'innovation",
+            children: [
+              { name: "3.3.1 Promouvoir et favoriser un dispositif de réflexion éthique au regard de l'exercice de la responsabilité de la recherche et de l'innovation" }
+            ]
+          }
+        ]
+      },
+      {
+        name: "4. ACTIVITÉ & GAZ À EFFET DE SERRE",
+        children: [
+          {
+            name: "4.1 Réduire l'impact environnemental de nos déplacements",
+            children: [
+              { name: "4.1.1 Réaliser un état des lieux des pratiques de mobilités au sein de l'université" },
+              { name: "4.1.2 Sensibiliser nos parties prenantes à l'impact environnemental des déplacements" },
+              { name: "4.1.3 Favoriser l'usage de mobilités moins carbonées" },
+              { name: "4.1.4 Réduire nos déplacements en avion en proposant des alternatives" },
+              { name: "4.1.5 Faciliter la mise en œuvre du covoiturage" }
+            ]
+          },
+          {
+            name: "4.2 Acheter de manière responsable",
+            children: [
+              { name: "4.2.1 Formaliser et mettre en œuvre une politique d’achats responsables" },
+              { name: "4.2.2 Questionner le besoin d'acheter" },
+              { name: "4.2.3 Faire durer nos équipements" }
+            ]
+          },
+          {
+            name: "4.3 Réduire l'impact environnemental de nos consommations d'énergie",
+            children: [
+              { name: "4.3.1 Analyser, de manière précise, les consommations d'énergie et sensibiliser les usagers" },
+              { name: "4.3.2 Réduire notre consommation d’énergie" },
+              { name: "4.3.3 Poursuivre la rénovation thermique de nos bâtiments" },
+              { name: "4.3.4 Privilégier le recours aux énergies peu carbonées" }
+            ]
+          },
+          {
+            name: "4.4 Mettre en œuvre une politique numérique éco-responsable",
+            children: [
+              { name: "4.4.1 Évaluer les impacts pour formaliser un plan d'actions et sensibiliser pour accompagner sa mise en œuvre" },
+              { name: "4.4.2 Éco-concevoir les outils numériques" },
+              { name: "4.4.3 Optimiser et rationaliser les équipements en fonction du besoin" },
+              { name: "4.4.4 Réduire la consommation énergétique du numérique" }
+            ]
+          },
+          {
+            name: "4.5 Préserver notre ressource en eau",
+            children: [
+              { name: "4.5.1 Préserver notre ressource en eau" }
+            ]
+          }
+        ]
+      },
+      {
+        name: "5. POLLUTION & SANTÉ",
+        children: [
+          {
+            name: "5.1 Mettre en œuvre une politique de prévention et de réduction des déchets",
+            children: [
+              { name: "5.1.1 Définir et formaliser une politique de réduction des déchets" },
+              { name: "5.1.2 Reconditionner les équipements usagés, plutôt que de les recycler" },
+              { name: "5.1.3 Optimiser et généraliser le système de tri des déchets" }
+            ]
+          },
+          {
+            name: "5.2 Améliorer la qualité de l'air et de l'eau",
+            children: [
+              { name: "5.2.1 Préserver la qualité de l'air intérieur de nos bâtiments" },
+              { name: "5.2.2 Mesurer, en sortie d’effluents, les eaux usées" }
+            ]
+          },
+          {
+            name: "5.3 Développer une politique en faveur de la biodiversité",
+            children: [
+              { name: "5.3.1 Gérer, de manière durable, nos espaces verts" },
+              { name: "5.3.2 Agir pour la végétalisation des campus" }
+            ]
+          },
+          {
+            name: "5.4 Promouvoir une alimentation responsable accessible au plus grand nombre",
+            children: [
+              { name: "5.4.1 Faire appliquer la loi EGALIM au sein de l’université" },
+              { name: "5.4.2 Généraliser les pratiques d’alimentation durable" },
+              { name: "5.4.3 Sensibiliser les parties prenantes à l’alimentation durable" }
+            ]
+          }
+        ]
+      },
+      {
+        name: "6. POLITIQUE SOCIALE",
+        children: [
+          {
+            name: "6.1 Favoriser une politique humaine et sociale d'égalité et de diversité au sein des personnels",
+            children: [
+              { name: "6.1.1 Mettre en œuvre le plan Egalité 2024-26" },
+              { name: "6.1.2 Rédiger et mettre en œuvre le Schéma Directeur Handicap" }
+            ]
+          },
+          {
+            name: "6.2 Favoriser et accompagner le développement des compétences, dont les compétences DD&RS, dans l'évolution des métiers",
+            children: [
+              { name: "6.2.1 Former tous les personnels à la transition socio-écologique et valoriser les compétences acquises" },
+              { name: "6.2.2 Intégrer les enjeux DD&RS dans le GPEEC" }
+            ]
+          },
+          {
+            name: "6.3 Développer une politique de qualité de vie dans l'établissement",
+            children: [
+              { name: "6.3.1 Formaliser une politique de qualité de vie au travail" },
+              { name: "6.3.2 Mettre en œuvre le Plan d'Action pour la qualité de la Vie Étudiante (PAVE)" }
+            ]
+          },
+          {
+            name: "6.4 Formaliser une égalité des chances pour les étudiantes et étudiants",
+            children: [
+              { name: "6.4.1 Formaliser une égalité des chances pour les étudiantes et étudiants" }
+            ]
+          }
+        ]
+      }
+    ]
+  };
+
+  const actions = [
+    { axe: "1.1.1", num: [16], titre: "Construction d'une politique DD&RS 2023-2025", description: "Alimentée par les échanges des groupes de travail thématiques et par une grande consultation à destination de la communauté universitaire (170 contributions et 2756 votes), la politique DD&RS 2023-2025 fixe les orientations de la transformation de l'établissement et de ses missions pour cette période." },
+    { axe: "1.1.1", num: [16], titre: "Formalisation d'un schéma directeur DD&RS pour la période 2024-30", description: "Le document fixe les grandes orientations de la stratégie DD&RS de l'université jusqu'à 2030, s'inscrivant dans la dynamique des objectifs de développement durable définis par l'ONU. Ces grandes orientations seront précisées annuellement par des feuilles de route opérationnelles. Chacune des orientations citées rejoint un ou plusieurs des 17 objectifs de développement durable.",url:"https://mission-ddrs.univ-gustave-eiffel.fr/politique-ddrs/schema-directeur-ddrs"},
+	{ axe: "1.1.2",num:[4], titre:"Etablissement d'une charte de la communication responsable ",description:"A la suite de la formation relative aux thématiques de communication responsable suivie en 2024, un document cadre listant les principes que l'université souhaite désormais suivre a été rédigé."},	
+	{axe:"1.1.2",num:[13],titre:"Réalisation de BEGES annuels et formalisation de plans d'actions",description:"L'établissement, après avoir réalisé son premier BEGES en 2019, se fixe pour objectif de conduire annuellement cette démarche pour suivre au plus près la réduction de ses émissions de gaz à effet de serre. Le BEGES 2022 a été mis à jour et celui de 2023 est en cours de finalisation. Des plans d'action sont établis en parallèle."},    
+	{ axe: "1.1.3", num: [16], titre: "Constitution d'un réseau de référent.e.s DD&RS", description: "Volontaires issus de différentes composantes, services et campus, les référent·e·s DD&RS (personnels et étudiant·e·s) ont pour rôle de diffuser la démarche DD&RS autour d'elles/eux, mais également de participer à des projets autour des enjeux DD&RS. " },
+	{ axe: "1.1.3",num:[16], titre:"Constitution d'un comité de pilotage DD&RS transversal",description:"Dès 2020, un COPIL DD&RS composé de vice-présidences (y compris étudiante) et directeur·ice·s de service a été créé. Celui-ci a pour objectifs d'échanger et valider les actions proposées sur chacune des thématiques mais également de diffuser la culture DD&RS dans leurs équipes respectives."},
+	{axe:"1.1.2",num:[13],titre:"Établissement d'un plan d'actions concerté pour la réduction des émissions de GES",description:"Les BEGES successifs ont permis de dégager les postes les plus émetteurs : un plan d'actions est construit en conséquence avec la direction générale des services et la Présidence de l'université."},	
+	{ axe: "1.1.2",num:[4], titre:"Mise en place de divers canaux de communication sur les enjeux DD&RS",description:"Comptes instagram, facebook, site internet, rubriques intranet, rapports d'activité, événements sont autant de façons de sensibiliser aux enjeux DD&RS, d'informer sur les dispositifs mis en place mais également de relayer les initiatives mises en œuvre par la communauté universitaire."},
+	{ axe: "1.1.2",num:[11], titre:"Mise en ligne d'un profil Zei",description:"L'établissement a créé et complété son profil sur la plateforme Zei : en remplissant divers indicateurs regroupés sous les trois piliers social, gouvernance et environnement, l'objectif est de donner à voir de la manière la plus transparente possible l'avancée de l'université sur ces thématiques."},
+	{ axe: "1.3.2",num:[12], titre:"Etablissement d'une charte et d'un guide de l'événementiel responsable",description:"L'organisation d'événements à l'université a de nombreux impacts en termes d'utilisation de ressources, de transport et de production de déchets. L'établissement a ainsi souhaité guider les organisateur·ice·s d'événements vers une meilleure prise en compte de ces enjeux."},
+	{ axe: "1.3.2",num:[4], titre:"Formation de l'ensemble de la direction de la communication aux pratiques de communication responsable ",description:"L'équipe de la direction de la communication, les équipes communication des écoles membres et établissements composantes, ainsi que les membres de la mission DD&RS et certain·e·s référent·e·s ont suivi une formation d'une journée en mai 2024 pour acquérir les bases afin de concrétiser une démarche complète de communication responsable."},
+	{ axe: "1.3.2",num:[4], titre:"Eco-Festival - Organisation d'un événement annuel sur le développement durable, décliné sur les campus",description:"L'université met annuellement en place un événement visant à sensibiliser la communauté universitaire aux enjeux DD&RS. Divers formats sont proposés : village d'exposants, conférences, ateliers ludiques, friperie, ciné-débat, exposition...L'événement est décliné sur les campus et remplace les manifestations auparavant organisées à l'occasion des semaines thématiques (SEDD, SeDD, Semaine de la Mobilité, Semaine de Réduction des Déchets...). ",url:"https://mission-ddrs.univ-gustave-eiffel.fr/eco-festival"},
+	{ axe: "1.3.2",num:[4,9,11], titre:"FUTURE Days - événement annuel autour des villes et territoires durables",description:"Les FUTURE Days sont des cycles de conférences organisés par l’Université Gustave Eiffel dans le cadre de l’I-SITE FUTURE. Il s’agit de l’évènement annuel qui réunit la communauté scientifique autour du thème des villes et territoires durables. Les FUTURE Days sont conçus comme un lieu de rencontre et d’échange rassemblant les acteurs qui travaillent sur tous les domaines intéressant la ville parmi lesquels le transport, la mobilité, le logement, la construction, l’aménagement, la gestion des ressources et les services associés (déchets, eau, énergie), la culture, l’architecture, l’éducation, le développement économique, ou encore le développement social. L'événement est décliné sur les différents campus de l'université. L'édition 2024 porte sur la thématique de l'eau.",url:"https://www.univ-gustave-eiffel.fr/future-days"},
+	{ axe: "1.2.1",num:[16], titre:"Création d'une mission DD&RS dotée de plusieurs ETP ",description:"Dès 2020, une mission DD&RS est créée. Une responsable (dont le poste est pérenne) est nommée. Elle est progressivement rejointe par plusieurs chargé⸱e⸱s de mission et soutenue par un réseau de référent⸱e⸱s DD&RS réparti⸱e⸱s dans les composantes et services."},
+	{axe: "1.2.2",num:[8,11], titre:"Affectation d'un budget en propre à la mission DD&RS",description:"Le budget (hors ressources humaines) alloué à la mission DD&RS est d'environ 100 000€ en 2024. Des dépenses en lien avec le DD&RS sont également prises en charge sur le budget d'autres directions. On cite également le budget alloué aux projets transformants de l'établissement, centrés sur les enjeux des villes et territoires durables."},
+	{axe: "1.2.3",num:[11], titre:"Réalisation d'une auto-évaluation annuelle, depuis 2020, à partir du référentiel DD&RS ",description:"L'établissement, depuis sa création, complète chaque année son auto-évaluation DD&RS à partir du référentiel. L'évolution des notes indiquées est bien sûr due à une réelle progression sur certaines variables, mais également à la collecte progressive de davantage d'éléments auprès des diverses entités de l'établissement, permettant de préciser l'état des lieux. L'auto-évaluation sur certaines variables a parfois régressé au fur et à mesure des années, en adéquation avec la vision de plus en plus systémique et globale des enjeux et des périmètres concernés."},
+	{axe: "1.2.3",num:[11], titre:"Démarche de définition d'indicateurs pertinents, pour chacune des thématiques, avec les parties prenantes internes concernées ",description:"Le panel d'indicateurs proposés et/ou imposés pour suivre la démarche DD&RS est vaste. Les données qu'il est demandé à l'établissement de remonter sur ces thématiques ne correspondent pas toujours à son contexte : la démarche de définition d'un système d'indicateurs pertinents, avec les services et vice-présidences impliqués, est donc un vaste chantier. D'abord envisagée sous la forme d'une plateforme en ligne à laquelle contribueraient les différentes entités de l'établissement, la collecte des indicateurs se réalise actuellement via un processus d'échanges soutenus avec les services et VP (pour définir des indicateurs pertinents et collecter la donnée). La plateforme \"Toovalu\", permet de collecter l'ensemble des données relatives au bilan carbone. Le SD DD&RS a permis la structuration de nouveaux indicateurs sur lesquels la démarche DD&RS s'appuiera désormais principalement."},
+	{axe: "1.3.1",num:[17], titre:"Création d'un groupe de travail autour de l'Accord de Grenoble",description:"Un groupe de travail regroupant étudiant⸱e⸱s, personnels administratifs et enseignant⸱e⸱s/chercheur⸱euse⸱s a récemment été relancé à l'échelle de l'université. L'objectif est de faire dialoguer davantage les parties prenantes internes, fédérer, créer du lien et envisager la création de nouvelles initiatives.",url:"https://mission-ddrs.univ-gustave-eiffel.fr/politique-ddrs/accords-de-grenoble"},	
+	{axe: "1.3.2",num:[11], titre:"Organisation annuelle de l'Eco-Festival sur l'ensemble des campus",description:"L'Eco-Festival est l'événement annuel dédié aux enjeux DD&RS. Décliné sur les campus, il propose des ateliers, conférences, autour des enjeux DD&RS et invite des organisations locales œuvrant pour ces questions.",url:"https://mission-ddrs.univ-gustave-eiffel.fr/eco-festival"},
+	{axe: "1.3.2",num:[4], titre:"Référencement des actions de sensibilisation au DD&RS menées par les composantes ",description:"Au-delà des actions de sensibilisation initiées par la mission DD&RS et la mission Egalité notamment, l'ensemble des composantes participent à sensibiliser la communauté universitaire aux enjeux DD&RS : conférences, événements, relais d'informations passent régulièrement dans les actualités ou les mails de l'établissement. Dans le but d'avoir une connaissance générale de ces actions et formats participant eux aussi à la sensibilisation, une étudiante en contrat à la mission DD&RS a tâché de référencer ces éléments. Ce travail doit encore être consolidé."},
+	{axe: "1.3.2",num:[4], titre:"Organisation d'ateliers d'intelligence collective à destination des personnels et des étudiant⸱e⸱s",description:"Fresques du climat, du numérique, du sol, des limites planétaires, Atelier 2 tonnes... et même escape-game \"objectifs de développement durable\" : les ateliers d'intelligence collective sont un outil plébiscité par l'université pour sensibiliser aux enjeux DD&RS."},
+	{axe: "1.3.3",num:[17], titre:"Partage de pratiques : interventions de l'université en webinaires thématiques ",description:"On citera par exemple l'intervention de Clémence Garnier, responsable de la mission DD&RS, dans un webinaire du Club DDEP portant sur les thématiques biodiversité, ou encore le témoignage lié au réseau de référent⸱e⸱s DD&RS dans un webinaire thématique du CIRSES."},
+	{axe: "1.3.3",num:[17], titre:"Construction d'une université européenne autour des enjeux de ville durable – PIONEER ",description:"Dans une volonté de partage de pratiques et de mutualisation des démarches en lien avec les objectifs de développement durable, l'Université Gustave Eiffel coordonne l'Alliance Pioneer, réseau d'universités européennes pour la ville durable."},
+	{axe: "1.3.3",num:[17], titre:"Mise en oeuvre du programme CityFab",description:"CityFAB est un projet d’établissement lauréat de l'appel à projet \"ExcellencES sous toutes ses formes\", un programme de France 2030 ayant vocation à financer le développement de projets \"signatures\" des universités lauréates. Dans la continuité du projet scientifique de l'I-SITE sur les villes et les territoires durables et en lien avec les autres projets financés par France 2030 (Avid et Forco-VD notamment), City-FAB contribue à renforcer l'université dans ses missions d’appui aux politiques publiques et à valoriser la dimension nationale de l’établissement. Monté en partenariat avec le CNRS, CityFAB a pour ambition d'accompagner les collectivités proches des différents campus de l’Université Gustave Eiffel dans leurs trajectoires de transitions par des recherches-actions « sur mesure » et le développement de programmes de formation et de dispositifs de diffusion des savoirs. A ce jour, 4 projets ont été lancés et 6 autres doivent suivre."},
+	{axe: "1.3.2",num:[4], titre:"Production de supports pédagogiques autour des enjeux DD&RS, à destination de parties prenantes internes et externes ", description:"Le MOOC Demain ma rue (décrit succinctement en document d'appui), l'escape-game objectifs développement durable constituent des exemples de supports pédagogiques autour des enjeux DD&RS réalisés par les équipes de l'Université Gustave Eiffel."},
+	{axe: "1.3.2",num:[4], titre:"Organisation d'événements de diffusion de la connaissance à destination du grand public ", description:"Ateliers, conférences et expositions sont organisés à destination des établissements scolaires, des collectivités ou du public local, et portent bien souvent sur les enjeux DD&RS. "},
+	{axe: "1.3.2",num:[4], titre:"Mise en ligne de plateformes de co-construction et de diffusion des savoirs ", description:"Les plateformes en ligne Reflexscience (portail de diffusion et de co-construction des savoirs de l'université, regroupant ressources pédagogiques et redirection vers des événements), Clap Eiffel (vidéothèque de l'université), ainsi que le compte \"The Conversation\" (média généraliste en ligne qui fédère, sous la forme d'une association à but non lucratif, les établissements d'enseignement supérieur et de recherche francophones. Il est issu d'une étroite collaboration entre journalistes, universitaires et chercheurs, et propose d'éclairer le débat public grâce à des analyses indépendantes sur des sujets d'actualité) de l'université regroupent des contenus relatifs au DD&RS",url:"https://reflexscience.univ-gustave-eiffel.fr/"},
+	{axe: "1.3.3",num:[4,11,17,9], titre:"Mise en œuvre du projet In Cities et autres contributions au programme Horizon Europe", description:" InCities est un projet issu du programme Horizon Europe : Widening participation and spreading excellence de la commission européenne. Lancé pour une période de trois ans (octobre 2022-septembre 2025) il vise à initier dans les établissements d'enseignement supérieur membres du projet et chez leurs partenaires sur les territoires des transformations centrées sur les besoins d'inclusion, de durabilité et de résilience des villes. Les équipes de l'Université Gustave Eiffel contribuent par ailleurs à d'autres projets du programme Horizon Europe",url:"https://www.univ-gustave-eiffel.fr/luniversite/nos-projets-transformants/incities"},
+	{axe: "1.3.3",num:[11], titre:"Coordination de l'alliance européenne PIONEER ", description:"L’Alliance PIONEER est un réseau européen d’universités sur les villes inclusives, sûres, résilientes et durables en lien avec l’objectif de développement durable 11. Coordonnée par l’Université Gustave Eiffel, elle est composée de 10 universités complémentaires dans le domaine des sciences sociales et des sciences de l'ingénieur, proposant toutes des formations liées aux villes de demain. L’ambition de l’alliance est de mettre en place des activités européennes de recherche et de formation interdisciplinaires, innovantes et générant un impact positif sur nos villes, nos écosystèmes urbains et au-delà. Elle vise en particulier à contribuer aux connaissances et à l’innovation de pointe via de nouveaux programmes dans sept domaines liés aux problématiques urbaines :- La Nature en ville - Vulnérabilité, inclusion et santé en ville - Mobilité - Energie - Transition digitale - Villes résilientes et durables - Les transitions urbaines en question.",url:"https://www.univ-gustave-eiffel.fr/luniversite/nos-projets-transformants/alliance-pioneer"},
+	{axe: "1.3.3",num:[17], titre:"Réalisation d'une étude d'impact socio-économique",description:"Principalement centrée sur le territoire d'implantation du campus de Marne-la-Vallée, cette étude propose une évaluation des effets sur l’emploi et sur l’activité économique de la présence de l’Université Gustave Eiffel sur ses différents territoires d’implantation en se focalisant sur l’impact des dépenses des personnels, des étudiant⸱e⸱s non-apprenti⸱e⸱s et des étudiant⸱e⸱s apprenti⸱e⸱s ainsi que des dépenses de l’université. Le rapport est joint en document d'appui."},
+	{axe: "2.1.1",num:[4], titre:"Adhésion à l'UVED",description:"L'Université Gustave Eiffel est membre associée de l'Université Virtuelle de l'Environnement et du Développement Durable, ce qui permet à ses parties prenantes internes d'accéder à l'intégralité des ressources pédagogiques proposées, ainsi que de mettre à disposition directement sur ses propres plateformes les cours, tests et vidéos proposées.",url:"https://www.uved.fr/"},
+	{axe: "2.2.1",num:[4], titre:"Mise en place d'Unités d'enseignement d'ouverture relatives aux enjeux DD&RS ", description:"Depuis la rentrée 2022/2023, quatre UEO optionnelles ont été progressivement ouvertes aux étudiant·e·s sur les thématiques des frontières planétaires, du changement climatique, des urgences environnementales et de l'apiculture.",url:"https://mission-ddrs.univ-gustave-eiffel.fr/ueo-1"},
+	{axe: "2.1.2",num:[11,4], titre:"Projet Apprendre pour les Villes Durables", description:"AVID est lauréat de l’appel à projets « Compétences et Métiers d’Avenir » de France 2030 qui vise à accélérer l’adaptation des formations aux besoins de compétences des nouvelles filières et des métiers d’avenir. Il a été lancé en 2023, et associe France Villes et Territoires Durables, le CFA Descartes et Efficacity. Le projet ambitionne tout particulièrement d’accompagner le développement des filières impliquées dans le déploiement de la ville durable, en adaptant la formation initiale des étudiant.e.s dès le premier cycle afin de répondre aux défis de la résilience, de la transition écologique, énergétique, sociale, comme aux attentes de la société et aux mutations économiques.",url:"https://www.univ-gustave-eiffel.fr/luniversite/nos-projets-transformants/avid"},
+	{axe: "2.1.2",num:[4], titre:"Analyse de l'intégration du DD&RS dans les formations ", description:"Sur la base d'une étude réalisée en 2022 à partir d'un questionnaire soumis aux responsables de formation et de l'étude des maquettes pédagogiques, un travail de recensement des formations et enseignements intégrant les enjeux DD&RS a été réalisé par la mission DD&RS. Un second travail étudiant l'intégration du DD&RS dans les formations a été réalisé en 2024, à partir des réponses indiquées par les composantes de formation dans leurs auto-évaluations HCERES. Les différents travaux réalisés sont consultables en document d'appui."},
+	{axe: "2.1.2",num:[4,11], titre:"Mise en œuvre du projet Formation Continue pour les Villes Durables", description:" ForcoVD est lauréat de l’appel à projet « accélération des stratégies de développement des établissements d’enseignement supérieur et de recherche » de France 2030.Mené en partenariat avec France Villes et Territoires Durables et Efficacity, le projet a été lancé au 1er septembre 2023 et s’étend jusqu’en août 2029.Il vise à sensibiliser, former et accompagner la montée en compétences des professionnels du monde socio-économique et des collectivités territoriales sur les enjeux de ville durable via la mise en œuvre d’une offre de formation adossée aux derniers résultats de la recherche. Les formations issues de ce programme prendront différentes formes : des conférences, stages cours, des certificats universitaires (CU) jusqu’aux diplômes universitaires (DU).",url:"https://www.univ-gustave-eiffel.fr/luniversite/nos-projets-transformants/forcovd"},
+	{axe: "2.1.2",num:[4], titre:"Intervention de la mission DD&RS en formation des néo-maîtres et maîtresses de conférence ", description:""},
+	{axe:"2.1.2",num:[4],titre:"Etude des remontées HCERES des formations - critère relatif à la formation à et par la recherche",description:"Une analyse succincte des remontées HCERES 2024 des formations et de leur réponse au critère R3-C1 du référentiel HCERES \"La formation intègre une formation à et par la recherche adaptée à sa finalité\" montre que les composantes se positionnent globalement correctement sur ces thématiques."},	
+	{axe: "2.1.2",num:[4], titre:"Recensement de la contribution des formations continues courtes aux objectifs de développement durable", description:"En 2024, le service formation continue a mené un premier travail de référencement de la contribution aux objectifs de développement durable des formations qu'il propose. L'objectif est de consolider la méthodologie et de l'étendre à l'ensemble des formations continues proposées par l'établissement et ses composantes."},
+	{axe: "2.1.2",num:[4], titre:"Organisation \" Journées de la pédagogie\" autour des enjeux DD&RS", description:"Le Centre d'Innovation Pédagogique et Numérique de l'université organise, en novembre 2024, une deuxième \"journée de la pédagogie\" autour des enjeux DD&RS. L'objectif est de donner des pistes aux enseignant⸱e⸱s pour intégrer le DD&RS dans leurs formations, en s'appuyant sur les retours d'expérience de chacun⸱e et sur les réflexions collectives. "},
+	{axe: "2.1.2",num:[4], titre:"Création d'une plateforme en ligne de partage de ressources et d'échange relative à l'intégration du DD&RS dans les formations ", description:"Le chargé de mission DD&RS dédié à l'enseignement et à la recherche construit et enrichit progressivement, avec le Centre d'Innovation Pédagogique et Numérique, une plateforme e-learning \"Composantes en transition\", regroupant les ressources UVED, un forum d'échange dédié aux enseignant⸱e⸱s et à l'intégration du DD&RS dans les formations. ",url:"https://elearning.univ-eiffel.fr/login/index.php"},
+	{axe: "2.2.2",num:[4], titre:"Organisation d'événements autour des enjeux DD&RS dans le cadre de l'accompagnement à l'entreprenariat étudiant ", description:"Le service entreprenariat étudiant propose régulièrement des événements (challenges, afterworks...) autour des thématiques DD&RS : mobilités, ESS..."},
+	{axe: "2.2.2",num:[4,7,11], titre:"Organisation d'un hackathon international annuel sur la thématique des mobilités de demain ", description:"",url:"https://www.univ-gustave-eiffel.fr/international/hackathon-europeen"},
+	{axe: "2.2.2",num:[4], titre:"Initiatives de pédagogie par projet dans les cours ou formations DD&RS", description:"Qu'il s'agisse des unités d'enseignement d'ouverture relatives aux enjeux DD&RS ou bien d'initiatives d'enseignant·e·s, la formation au DD&RS passe beaucoup par la pédagogie par projet à l'université, permettant aux apprenant·e·s d'acquérir des compétences tout en travaillant sur le sujet. Cette dynamique est à renforcer et à généraliser."},
+	{axe: "2.2.1",num:[4], titre:"Organisation de sessions de formation au DD&RS, adaptées au contexte associatif étudiant, par le RESES ", description:"Début 2024, trois sessions de formation aux enjeux DD&RS (\"RSO dans mon asso\", \"Transition sur mon campus\" et \"Evénementiel responsable\") ont été proposées. Ces sessions ont malheureusement rencontré peu de participation de la part des étudiant·e·s. Il est envisagé de systématiser une intervention (potentiellement construite avec le RESES) de la mission DD&RS auprès des responsables associatifs, pour espérer une meilleure prise en compte des enjeux de développement durable dans les projets étudiants."},
+	{axe: "2.2.1",num:[8,4], titre:"Mise en place d'un dispositif de reconnaissance et de soutien de l'engagement étudiant", description:"Ce dispositif englobe l'engagement en faveur des thématiques DD&RS, permettant d'encourager l'émergence d'initiatives DD&RS étudiantes. Il prend la forme d'un Diplôme Universitaire \"Engagement Etudiant\" et de la possibilité de suivre une Unité d'Enseignement d'Ouverture \"Valorisation de l'engagement associatif\"."},
+	{axe: "2.2.1",num:[4], titre:"Modification du dispositif FSDIE projets pour y intégrer les thématiques de développement durable ", description:"La fiche-projet du FSDIE a été récemment modifiée pour y intégrer un questionnement sur l'intégration des enjeux sociaux et environnementaux dans le projet déposé : l'objectif est avant tout pédagogique, en poussant l'étudiant·e à s'interroger sur l'impact de son projet sur ces enjeux et en l'incitant à faire appel à des achats de seconde main ou à du prêt entre associations."},
+	{axe: "2.2.1",num:[10,4], titre:"Partenariat avec l'Afev Seine-et-Marne", description:"L'Afev est une structure qui met en place un programme de mentorat éducatif pour des jeunes mentoré⸱e⸱s âgé⸱e⸱s de 5 à 18 ans, en difficulté scolaire et/ou sociale. Ces jeunes sont mis en contact avec un⋅e étudiant⋅e bénévole, avec lequelle/laquelle ils⸱elles passent 2 heures par semaine tout au long de l'année. En lien avec les besoins des jeunes, le mentorat tourne autour de la discussion, de l'accompagnement scolaire, des activités et sorties culturelles et sportives, tout en développant la confiance en soi du jeune."},
+	{axe:"2.2.3",num:[8], titre:"Mise en ligne du \"Career Center\" de l'université ",description:"Le Career Center est un espace où les structures ont la possibilité de déposer des offres d'emploi et de stage, accessibles aux étudiant·e·s de l'Université Gustave Eiffel."},
+	{axe: "3.1.1",num:[4,9,11], titre:"Mise en œuvre du programme CLEAR-Doc, visant à accueillir des doctorant⸱e⸱s pour travailler sur les villes de demain ", description:"Porté par l'Université Gustave Eiffel, le programme a pour objectif d'accueillir 30 jeunes chercheur⸱euse⸱s prometteur⸱euse⸱s pour travailler sur les thématiques de la ville durable. L'inter et la trans-disciplinarité y sont par ailleurs encouragées. ",url:"https://www.univ-gustave-eiffel.fr/luniversite/pages-speciales/vue-detaillee/clear-doc-un-programme-doctoral-international-a-luniversite-gustave-eiffel"},
+	{axe: "3.1.1",num:[8], titre:"Recensement de la contribution des thèses soutenues aux objectifs de développement durable", description:"La mission DD&RS a mené un travail de référencement de la contribution des thèses soutenues à l'Université Gustave Eiffel aux objectifs de développement durable à partir d'un échantillon (non exhaustif) des thèses répertoriées sur la plateforme HAL - en 2023, 76% d'entre elles contribuaient aux ODD."},
+	{axe: "3.1.1",num:[9], titre:"Participation du vice-président recherche au comité de pilotage DD&RS", description:"Depuis l'installation du comité de pilotage DD&RS en 2020, le vice-président recherche y siège, permettant de structurer progressivement la démarche d'intégration des enjeux DD&RS dans les activités de recherche."},
+	{axe: "3.1.1",num:[4], titre:"Recrutement d'une personne dédiée à 50% à l'accompagnement de l'intégration du DD&RS dans les travaux de recherche ", description:"En 2023, un chargé de mission dédié à la recherche et à l'enseignement a été recruté à la mission DD&RS. Il renforce progressivement l'accompagnement proposé aux unités pour la transition de leurs activités et mène des démarches de valorisation de la contribution des travaux de recherche aux objectifs de développement durable"},
+	{axe: "3.1.1",num:[9], titre:"Auto-évaluation annuelle de l'axe recherche depuis la création de l'établissement ", description:"Depuis 2020, l'université s'est attachée à auto-évaluer l'intégration des enjeux de développement durable dans sa stratégie de recherche via l'axe 3 du référentiel DD&RS."},
+	{axe: "3.1.1",num:[9], titre:"Mise en ligne d'une plateforme d'échange et de partage de ressources autour de la transition des activités de recherche ", description:"La mission DD&RS a mis en place, fin 2023, une plateforme e-learning destinée aux \"composantes en transition\". L'objectif est de proposer des ressources et un espace d'échanges inter-unités sur l'intégration des enjeux de développement durable dans les activités de recherche."},
+	{axe: "3.1.1",num:[9], titre:"Guichet unique de l'I-SITE Future ", description:"Dans l'objectif de concrétiser l'un des axes stratégiques de l'I-SITE Future, le dispositif de guichet unique, mis en place au sein de l'établissement, propose de soutenir les projets déposés, choisis sur des critères indispensables d'interdisciplinarité et de réponse aux enjeux sociétaux.",url:"https://www.univ-gustave-eiffel.fr/luniversite/nos-projets-transformants"},
+	{axe: "3.1.1",num:[11], titre:"Création de la Fondation Université Gustave Eiffel", description:"La Fondation Université Gustave Eiffel a été créée en 2022. Elle fait de l'axe \"Développer la recherche transdisciplinaire et l’innovation collaborative à fort impact sociétal pour relever les défis des villes et des territoires d’aujourd’hui et de demain\" une de ses cinq priorités pour la période 2022-2027.",url:"https://fondation.univ-gustave-eiffel.fr/"},
+	{axe: "3.1.2",num:[9],titre:"Intégration d'un critère appréciant l'intégration des enjeux de développement durable dans les projets déposés au dispositif \"Actions incitatives à la recherche\" ",description:"Le dispositif des AIR a récemment été modifié pour y intégrer une prise en compte de l'intégration du développement durable dans l'analyse des projets déposés et dans l'octroi d'un soutien. Ceci incite les porteurs et porteuses de projet à apprécier leur impact."},
+	{axe:"3.1.2",num:[9],titre:"Formalisation du fait que le DD&RS doit être le \"prérequis\" de tout projet, y compris scientifique, dans le SD PINS ",description:"Le Schéma Directeur Patrimoine, Immobilier, Numérique et Scientifique formule la nécessité d'intégrer les enjeux de développement durable et de responsabilité sociétale comme \"prérequis de tout projet\", y compris scientifique (deuxième axe transversal du schéma, page 10). L'impact d'un projet de recherche doit donc être apprécié."},
+	{axe:"3.1.2",num:[9],titre:"Recensement des initiatives de mesure d'impact DD&RS à l'échelle d'un projet de recherche ",description:"Les initiatives internes et externes de mesure d'impact DD&RS doivent être référencées, dans le but de construire une méthodologie générique et adaptable à proposer aux équipes de recherche."},
+	{axe:"3.1.2",num:[9],titre:"Construction d'une méthodologie générique et adaptable de mesure d'impact DD&RS d'un projet de recherche",description:"A partir des initiatives internes et externes recensées, il s'agira de proposer et diffuser une méthodologie de mesure d'impact DD&RS, à l'échelle d'un projet, aux équipes de recherche. Le groupe de travail travaillant sur les chartes de laboratoire sera interrogé sur le sujet."},
+	{axe:"3.1.2",num:[9],titre:"Constitution d'un guichet unique pour les bilans carbones des unités de recherche ",description:"La mission DD&RS propose aux unités de recherche un accompagnement à la réalisation de bilans carbones, via l'outil GES 1.5. Elle collecte notamment, en amont, un certain nombre de données à destination des unités de recherche, nécessaires à la réalisation d'un bilan d'émissions de gaz à effet de serre."},
+	{axe:"3.1.2",num:[9],titre:"Mise en ligne d'un espace de partage de ressources et d'échanges inter-unités de recherche ",description:"Mise en ligne d'un espace de partage de ressources et d'échanges inter-unités de recherche"},
+	{axe:"3.1.2",num:[9],titre:"Animation d'un groupe de travail pour la création d'une \"charte développement durable des laboratoires\" modulaire ",description:"Le chargé de mission dédié à la recherche et à l'enseignement anime un groupe de travail composé de personnels de recherche et d'enseignement engagé·e·s. Ensemble, ils et elles construisent un modèle de \"charte développement durable\" que les laboratoires auront la possibilité de s'approprier, en sélectionnant les thématiques et le niveau sur lesquels ils souhaitent s'engager."},
+	{axe:"3.1.2",num:[11,17,9],titre:"Accompagnement des transitions locales - programme CityFAB",description:"Monté en partenariat avec le CNRS, CityFAB a pour ambition d'accompagner les collectivités proches des différents campus de l’Université Gustave Eiffel dans leurs trajectoires de transitions par des recherches-actions « sur mesure », ainsi que par le développement de programmes de formation et de dispositifs de diffusion des savoirs. L'établissement s'engage ainsi à l'échelle locale pour une recherche en lien avec la transition des territoires.",url:"https://www.univ-gustave-eiffel.fr/luniversite/nos-projets-transformants/city-fab"},
+	{axe:"3.2.1",num:[9],titre:"Appel à projets I-SITE FUTURE \"Chercheur·e·s-Citoyen·ne·s\"",description:"Pour encourager les recherches participatives au sein de l’université, associant savoirs académiques et savoirs citoyens, l’I-SITE FUTURE a ouvert, en 2021, l'appel à projets \"Chercheur·e·s-Citoyen·ne·s\". 10 projets ont été mis en place en mobilisant huit laboratoires de l’université et des partenaires, telles que des associations loi 1901, une collectivité locale et un club de sport."},
+	{axe:"3.2.1",num:[9],titre:"Atelier \"Révèle ta science\" ",description:"L'atelier participatif \"Révèle ta science\" a été conçu avec des méthodes simples et efficaces, pour rendre accessible un sujet de recherche aux citoyen·ne·s de tout âge (8-99ans), pour activer leur imagination et les amener à faire des propositions en réponse à un défi scientifique. Il offre l’opportunité aux participant·e·s :- de partager leurs expériences et observations en tant que citoyen·ne·s - de découvrir un sujet scientifique - de contribuer à la recherche en imaginant des solutions à un défi réel. "},
+	{axe:"3.2.1",num:[9],titre:"Accompagnement des chercheur·euse·s souhaitant initier un projet participatif par le service DSOS ",description:"Outre les formats présentés, le service diffusion des savoirs et ouverture à la société (DSOS) propose un accompagnement aux équipes de recherche pour la mise en œuvre de projets participatifs."},
+	{axe:"3.2.1",num:[9],titre:"Dossiers \"Recherche en société\" ",description:"Au-delà de la valorisation des savoirs co-construits, ce format de dossier web met en lumière les différentes formes que peut prendre l'implication citoyenne dans un processus de recherche et les différents acteurs et actrices de la collaboration. Il est composé de plusieurs pages multimédia qui présentent les grandes lignes du projet, les coulisses de la recherche, l'interview croisée des partenaires, les résultats et les savoirs co-construits."},
+	{axe:"3.2.1",num:[9,11],titre:"Signature de la Charte de l'ouverture à la société des établissements publics de recherche, d’expertise et d’évaluation des risques sanitaires et environnementaux",description:"L’Anses, le BRGM, l’Ifremer, l’Ineris, INRAE, l’IRSN, l’Université Gustave Eiffel et Santé publique France ont signé une charte d’ouverture à la société avec l’objectif d’apporter une meilleure compréhension des risques ainsi que des moyens de les prévenir et de les réduire. En signant cette charte, ces établissements confirment leur volonté de poursuivre le processus d’ouverture et d’enrichir leurs travaux grâce à un dialogue renforcé avec la société. Pour ce faire, chaque organisme s’engage à déployer des dispositifs spécifiques et pérennes afin de mettre en œuvre un dialogue fructueux avec la société.",url:"https://www.irsn.fr/sites/default/files/documents/connaissances/nucleaire_et_societe/ouverture-transparence/ouverture/IRSN-Anses-Charte-Ouverture-a-la-societeVF.pdf"},
+	{axe:"3.2.1",num:[11],titre:"Membre de l'Alliance Science et sociétés – ALLISS ",description:"L’Université Gustave Eiffel, à travers le Laboratoire Interdisciplinaire Sciences Innovations Sociétés (LISIS) et le Laboratoire Techniques, Territoires et Sociétés (LATTS), s’engage, avec ALLISS, l’alliance sciences sociétés, pour la reconnaissance et l’ouverture du système français de recherche et d’innovation au tiers-secteur de la recherche, c’est-à-dire à la société et aux différentes parties-prenantes."},
+	{axe:"3.2.1",num:[11,9,7],titre:"Portage du programme de pré-maturation du projet Sci-ty",description:"Sci-Ty est lauréat de l’appel à projet « prématuration – maturation » de France 2030. Il vise à soutenir la création de produits et services innovants pour la ville durable et la mobilité. Il réunit 29 membres et partenaires, répartis sur le territoire national. Le projet Sci-ty a deux objectifs majeurs : « Accélérer la transformation des territoires avec pour horizon la neutralité carbone » et « Favoriser le transfert de l’innovation issue de la recherche vers le monde socio-économique ». L’atteinte de ces objectifs se fera via le développement et le renforcement du soutien à la création de produits et services innovants pour la ville et les mobilités durables, ainsi que via la création d’une communauté d’expert·e·s et d’innovateur·ice·s au niveau national et à l’échelle des territoires (expert·e·s, scientifiques, collectivités et habitant·e·s, acteurs socio-économiques)."},
+	{axe:"3.2.1",num:[11],titre:"Co-fondation du PUI SEVille",description:"Le projet SEVille, lancé en mars 2024, fait partie des 29 projets lauréats de l’appel à Projet Pôle Universitaire d’Innovation (PUI) de France 2030. À la croisée des thématiques Santé, Environnement et Ville",url:"https://www.univ-gustave-eiffel.fr/luniversite/nos-projets-transformants/pui-seville"},
+	{axe:"3.2.1",num:[17],titre:"Intégration des enjeux sociétaux dans la stratégie partenariale à formaliser de l'établissement",description:"L'objectif est de formaliser l'intégration des enjeux sociétaux dans la politique partenariale de l'établissement et d'intégrer la prise en compte des enjeux sociétaux dans les partenariats et accords-cadres. Le contenu de la politique partenariale est en cours de réflexion, celle-ci sera validée début 2025."},
+	{axe:"3.2.1",num:[4],titre:"Accompagnement par le service DSOS des actions de diffusion de la culture scientifique et technique ",description:"Le service diffusion des savoirs et ouverture à la société accompagne les équipes de recherche et met en place plusieurs dispositifs pour faire découvrir la science au grand public."},
+	{axe:"3.2.1",num:[4],titre:"Création d'un compte \"The Conversation\" pour l'établissement ",description:"The Conversation est un média généraliste en ligne qui fédère, sous la forme d'une association à but non lucratif, les établissements d'enseignement supérieur et de recherche francophones. Issu d'une étroite collaboration entre journalistes, universitaires et chercheurs, il propose d'éclairer le débat public grâce à des analyses indépendantes sur des sujets d'actualité.",url:"https://theconversation.com/institutions/universite-gustave-eiffel-4841"},
+	{axe:"3.2.1",num:[4],titre:"Mise en ligne du portail web Reflexscience",description:"Reflexscience est le portail web de découverte et de co-construction des savoirs de l’Université Gustave Eiffel, conçu pour favoriser le partage des savoirs et rendre la science accessible au plus grand nombre. Reflexscience regroupe des contenus multimédias en français et en anglais (articles, ouvrages, dossiers, vidéos, podcasts, films d’animation …) et présente différents événements science et société en lien avec les enseignements et les recherches de l’Université. Le portail a ouvert en octobre 2022."},
+	{axe:"3.2.1",num:[4],titre:"Mise en ligne de la plateforme Clap Eiffel et de la médiathèque de l'Université Gustave Eiffel ",description:"Clap Eiffel est la vidéothèque de l'université, regroupant de nombreux média valorisant les projets de recherche. La médiathèque rassemble quant à elle l’ensemble des photos de l’université"},
+	{axe:"3.2.1",num:[11],titre:"Mise en œuvre de partenariats locaux avec les acteurs du territoire des différents campus :",description:"Le service diffusion des savoirs et ouverture à la société tisse des partenariats avec des collectivités locales et/ou des associations de culture scientifique de chacun des territoires de ses campus pour déployer des actions de culture scientifique et technique localement, en particulier à l'occasion de la Fête de la Science."},
+	{axe:"3.2.1",num:[11],titre:"Création d'une vice-présidence appui aux politiques publiques pour soutenir la \"troisième mission sociétale\" que l'établissement se donne ",description:"Dès sa création, l'Université Gustave Eiffel affirme être porteuse, outre celles de formation et de recherche, d'une troisième mission articulée autour de la responsabilité sociétale et de l’appui aux politiques publiques. Pour répondre à ces ambitions, une vice-présidence \"appui aux politiques publiques\" s'est structurée."},
+	{axe:"3.2.1",num:[11,9],titre:"Accueil et co-organisation du colloque \"Recherche et action publique\" fin 2024 ",description:"L'établissement accueillera le colloque \"Recherche et action publique\" au second semestre 2024, témoin de son engagement sur ces thématiques"},
+	{axe:"3.2.1",num:[11,9],titre:"Publication annuelle des \"Regards sur l'appui aux politiques publiques\" ",description:"La vice-présidence appui aux politiques publiques édite annuellement un document visant à valoriser les contributions des équipes de recherche et de formation aux politiques publiques : le document est classé par thématique, et donne à voir un panel (non exhaustif) des projets réalisés."},
+	{axe:"3.3.1",num:[9],titre:"Nomination de référents intégrité scientifique et déontologie",description:"Ces référents, sur sollicitation, enquêtent et rendent un avis sur une situation porteuse d'un questionnement éthique. Dans les faits et malgré les nombreuses sensibilisations proposées à ce sujet, les problématiques remontées concernent souvent les données de la recherche."},
+	{axe:"3.3.1",num:[9],titre:"Installation d'un Comité d'Ethique, de Déontologie et d'Intégrité Scientifique ",description:"Prévu dans les statuts, le CEDIS a été officiellement installé en 2024. Adossé à un guichet unique éthique, il sera chargé de mener les réflexions éthiques de l'établissement."},
+	{axe:"3.3.1",num:[4,9],titre:"Organisation et labellisation d'un \"Atelier de la donnée\" ",description:"L’Université Gustave Eiffel a mis en place un « Atelier de la données » qui rassemble, au sein de l'établissement, un ensemble de compétences métiers (documentaire, juridique, informatique, archivistique, etc.) issues de différents services pour offrir aux équipes de recherche de l’université et des écoles associées un ensemble d'actions de sensibilisation, de conseil, de formation et d'accompagnement à la gestion des données et des logiciels de la recherche. Il inclut également un réseau d'ambassadrices et d'ambassadeurs DATA issu·e·s des composantes de recherche. L'atelier Data de l'Université Gustave Eiffel a été labellisé \"Atelier de la donnée\" en décembre 2022 par le Ministère de l'Enseignement Supérieur et de la Recherche. L’université, en tant qu’atelier de la donnée, est ainsi membre de l’écosystème Recherche Data Gouv."},
+	{axe:"3.3.1",num:[9],titre:"Edition d'une charte pour le libre accès aux publications",description:"L’Université Gustave Eiffel s’engage dans une démarche de science ouverte et définit sa politique d’ouverture des publications scientifiques via la rédaction et la signature d'une charte concernant le libre accès aux publications."},
+	{axe:"3.3.1",num:[9],titre:"Mise en place et administration de plateformes pour l'ouverture des publications, des données et des logiciels ",description:"L'université administre son espace sur HAL, qui rassemble les publications en accès ouvert des équipes de recherche de l'université. Afin de faciliter le partage et l'ouverture des données de la recherche, l'université a demandé l'ouverture de son espace institutionnel sur l'entrepôt national recherche data gouv. L'université a également mis en place une plateforme Gitlab, hébergée en interne, pour le développement et le partage de codes source et logiciels. En complément, l'université a ouvert une organisation institutionnelle pour rassembler les codes source et logiciels déposés sur Github."},
+	{axe:"4.2.1",num:[12], titre:"Mise en place de la plateforme Troc Eiffel",description:"Troc Eiffel est une plateforme facilitant l'échange de matériel entre personnels. Elle permet de donner une seconde vie à de nombreux objets (mobilier, équipements de laboratoire...) et d'éviter l'achat de produits neufs. Une newsletter est envoyée de manière trimestrielle aux personnels pour leur rappeler l'existence de cette plateforme. Un bilan des échanges est également diffusé.",url:"https://univ-eiffel.mytroc.pro/"},
+	{axe:"4.2.1",num:[12], titre:"Rédaction d'un SPASER",description:"La direction de la commande publique, créée début 2023, est lancée depuis début 2024 dans la formulation d'un schéma de promotion des achats socialement et écologiquement responsables. Un groupe de travail réunissant des personnes concernées par la thématique a été formé en ce sens. "},
+	{axe:"4.4.1",num:[7,9],titre:"Rédaction d'un Schéma Patrimoine Immobilier, Numérique et Scientifique ",description:"L'Université Gustave Eiffel, gestionnaire d'un patrimoine important et consommateur de ressources, a souhaité fixer ses grandes orientations en matière de gestion de ces aspects. La prise en compte du DD&RS est mentionnée comme le prérequis de toute action dans ce document. Ce schéma sera décliné annuellement en feuilles de route opérationnelles."},
+	{axe:"4.1.3",num:[7,11],titre:"Réalisation et suivi de plans de mobilités pour les campus de l'université ",description:"Différents plans de mobilités ont été établis pour la majorité des sites de l'université."},
+	{axe:"4.3.3",num:[7,11],titre:"Réalisation d'audits énergétiques et de travaux en conséquence",description:"L'objectif porté par la direction de la stratégie immobilière est de progressivement couvrir l'ensemble des bâtiments par un audit énergétique, pour identifier les travaux les plus adéquats à réaliser. Le raccordement à la géothermie de plusieurs bâtiments du campus de Marne la Vallée a par ailleurs permis de faire baisser significativement les émissions de gaz à effet de serre."},
+	{axe:"4.3.1",num:[7],titre:"Précision des données de consommation énergétique et établissement de trajectoires de réduction ",description:"La direction des stratégies immobilières mène un travail de consolidation des données de consommation énergétiques récoltées ces dernières années, sur l'ensemble des campus. L'objectif est d'avoir une vision claire des consommations pour identifier les possibilités de réduction, en lien avec l'occupation des bâtiments et/ou leurs performances énergétiques. L'installation progressive de sous-compteurs permet d'envisager l'obtention d'une vision plus précise de ces consommations, par bâtiment et usages."},
+	{axe:"4.3.4",num:[7],titre:"Raccordement progressif de 9 bâtiments au réseau de chaleur urbain ",description:"En 2024, 9 bâtiments gérés par l'université sur le campus de Marne-la-Vallée sont raccordés au réseau de chaleur urbain. L'ENSA Paris-Est et l'ENSG-Géomatique le sont également.",url:"https://www.engie-solutions.com/fr/presse/chantier-geothermie-geomarne"},
+	{axe:"4.3.1",num:[11],titre:"Etablissement d'un schéma pluriannuel de stratégie immobilière (SPSI)",description:"En cohérence avec le SDPINS et en se basant sur un diagnostic immobilier précis, la direction de la stratégie immobilière a établi un SPSI couvrant le périmètre des établissements fusionnés (sauf ENSG-Géomatique, EIVP et ENSA Paris-Est). Le document intègre les enjeux DD&RS, particulièrement de transition énergétique et sera soumis au Conseil d'Administration en décembre 2024."},
+	{axe:"4.3.2",num:[7],titre:"Participation de quatre bâtiments aux concours Cube et Cube ETAT ",description:"Les bâtiments Copernic, Bois de l'Etang, ESIEE Paris, Ada Lovelace, de l'ENSA Paris-Est et du campus de Lyon et de Lille se sont lancés dans les concours Cube et Cube ETAT en 2023 et 2024. L'objectif était de lancer une dynamique de sensibilisation des usager·e·s pour réduire les consommations énergétiques.",url:"https://cube-championnat.org/"},
+	{axe:"4.3.1",num:[7],titre:"Déploiement de sous-compteurs",description:"Dans l'objectif d'affiner l'analyse de nos consommations énergétiques pour identifier des leviers de réduction efficaces, les différents campus de l'établissement sont progressivement équipés de sous-compteurs."},
+	{axe:"4.3.1",num:[7],titre:"Réalisation d'un audit des salles serveurs du campus de Marne-la-Vallée ",description:"En 2023, les salles serveurs des bâtiments Alexandra David-Néel, Bienvenüe, Copernic et ESIEE Paris (campus de Marne-la-Vallée) ont été auditées : un plan d'actions pour optimiser leurs consommations énergétiques a été édité et doit désormais être mis en œuvre."},
+	{axe:"4.3.2",num:[7],titre:"Formalisation d'un plan d'économie d'énergie des campus dans le SPSI ",description:"Issu d'un diagnostic global du patrimoine immobilier de l'université, le schéma pluriannuel de stratégie immobilière comporte une partie mettant en lumière les différentes projections de réduction d'énergie possibles, pour chaque campus et les pistes pour y aboutir. Le SPSI sera soumis aux instances fin 2024."},
+	{axe:"4.5.1",num:[6],titre:"Mise en place d'un suivi global des consommations d'eau ",description:"Les consommations d'eau sont globalement suivies, via l'étude des factures, sur l'ensemble des campus. Les fuites sont ainsi rapidement repérées. Toutefois, il conviendrait d'affiner ce monitoring pour identifier précisément les pistes de réduction."},
+	{axe:"4.5.1",num:[6],titre:"Installation de mousseurs sur les robinets ",description:"Des mousseurs réducteurs de débit sont progressivement installés sur les robinets des sanitaires."},
+	{axe:"4.5.1",num:[15,6],titre:"Végétation adaptée au climat pour limiter l'arrosage ",description:"Le site de Salon-de-Provence (campus Méditerranée), soumis à un climat méditerranéen, a fait le choix d'une végétation d'ornement adaptée aux conditions climatiques pour assurer un besoin d'arrosage plus que limité. Cette bonne pratique doit être généralisée à l'ensemble des sites au vu des conditions climatiques changeantes."},
+	{axe:"4.5.1",num:[14],titre:"Raccordement de l'ensemble des bâtiments au réseau de traitement des eaux usées ",description:"Les eaux usées issues des éviers ou sanitaires sont traitées par la structure publique locale : aucun rejet n'est réalisé dans l'environnement sans traitement. De plus, le pôle prévention accompagne les laboratoires dans la collecte des liquides dangereux, en proposant des contenants, en organisant la collecte et en affichant de la sensibilisation."},
+	{axe:"5.1.1",num:[12],titre:"Réalisation d'un diagnostic des filières de tri proposées sur l'ensemble des campus",description:"Fin 2023, un questionnaire a été transmis aux pôles moyens généraux des différents campus, dans l'objectif de dégager une vision globale des solutions de tri proposées sur l'ensemble des sites de l'université. Le questionnaire interrogeait par ailleurs le respect des consignes de tri par les usager·e·s et la mise en oeuvre d'éventuelles bonnes pratiques à réaliser sur l'ensemble des sites. Cette enquête a révélé d'importantes disparités entre les différents campus. Il s'agira de mettre en place des actions adaptées aux contextes locaux."},
+	{axe:"5.1.3",num:[12],titre:"Renouvellement du marché multitechnique pour augmenter le tri des déchets proposé sur le campus de Marne-la-Vallée",description:"Le campus de Marne-la-Vallée, plus gros campus en termes d'effectif, renouvelle son marché relatif à la collecte des déchets. L'objectif est d'harmoniser, sur l'ensemble des bâtiments, les filières de tri proposées, pour permettre un tri adéquat partout"},
+	{axe:"5.1.3",num:[12],titre:"Mise en place d'un dispositif de collecte des déchets dangereux, pour l'ensemble des sites concernés",description:"Le pôle prévention, décliné en conseillers locaux sur les différents campus, organise la collecte des déchets dangereux pour les confier à une société spécialisée qui les élimine."},
+	{axe:"5.1.3",num:[12],titre:"Renouvellement du marché de collecte des déchets dangereux pour harmonisation des process",description:"Issu de la fusion de différents établissements, l'Université Gustave Eiffel passe encore par différents prestataires pour la prise en charge de ses déchets dangereux. Le renouvellement du marché, visant à une harmonisation de ces pratiques, est en cours (mise en place courant 2025)."},
+	{axe:"5.1.3",num:[12],titre:"Suivi des bordereaux de suivi des déchets sur l'application Trackdéchets",description:"Les différents campus de l'établissement utilisent Trackdéchets, service numérique de l'Etat, pour gérer les différents bordereaux de suivi."},
+	{axe:"5.1.3",num:[12],titre:"Mise en place d'un dispositif de \"seconde vie\" des équipements informatiques sur plusieurs campus",description:"Les campus de Nantes et Lyon ainsi que l'EIVP et l'ESIEE Paris ont mis en place une solution de reconditionnement des équipements informatiques mis au rebut : les DEEE sont ainsi confiés à une entreprise d'insertion, chargée de remettre en état les équipements pour leur offrir une seconde vie. Le dispositif est à généraliser sur l'ensemble des campus."},
+	{axe:"5.1.3",num:[12],titre:"Réduction des déchets informatiques : établissement de règles relatives à l'achat d'équipements",description:"Une note de service, rédigée par la direction de l'informatique et du numérique, sera prochainement diffusée dans l'établissement. Celle-ci vise à rationaliser l'achat de matériels informatiques (aujourd'hui en quantités importantes), en limitant le nombre d'équipements par agent·e, en accompagnant les agent·e·s pour allonger la durée de vie de leurs équipements, en restreignant strictement l'achat au marché en cours (Matinfo 5), porteur d'impératifs environnementaux adéquats,..."},
+	{axe:"5.2.1",num:[3,11],titre:"Installation de capteurs de qualité de l'air intérieur ",description:"Les sites concentrant les effectifs les plus importants (Marne-la-Vallée, Lyon, Nantes) ont vu leurs bâtiments équipés de capteurs (CO2, hygrométrie température) alertant en cas de dépassement de seuil."},
+	{axe:"5.2.1",num:[3,11],titre:"Réalisation de campagnes de mesure volontaires de qualité de l'air intérieur",description:"Le campus de Marne-la-Vallée, campus concentrant l'effectif le plus important, fait l'objet de campagnes de mesures annuelles de qualité de l'air intérieur pour les caractéristiques suivantes : CO2, Formaldéhyde, Benzène, CO, PM10, PM2,5, Flore fongique. Aucune non-conformité n'a à ce jour été repérée."},
+	{axe:"5.3.1",num:[15],titre:"Réalisation d'inventaires biodiversité sur les campus ",description:"Les campus de Lyon, Nantes, Marne-la-Vallée et Méditerranée (site de Salon-de-Provence) ont, à ce jour, bénéficié d'inventaires visant à mettre en lumière tout ou partie de la biodiversité présente sur les sites. Seul le campus de Lille ne dispose pas d'inventaire biodiversité. Il sera réalisé en 2025. Les campus de Versailles ne dispose pas d'une surface significativement importante d'espaces verts. L'EIVP (campus de Paris) prend en charge la thématique biodiversité et des inventaires ont été réalisés sur ses espaces verts (très petite surface en milieu urbain). Les documents justificatifs sont joints en documents d'appui."},
+	{axe:"5.3.1",num:[15],titre:"Mise en place de pratiques de gestion favorables à la biodiversité ",description:"A la suite des inventaires réalisés et des préconisations de gestion formulées, la démarche d'adaptation des cahiers des charges des prestations de gestion des espaces verts est progressive. Celle de Lyon a déjà été récompensée par l'obtention du label Eco Jardin. Nantes travaille avec des associations naturalistes pour améliorer la gestion de ses espaces. Toutefois, ces bonnes pratiques sont à généraliser sur l'ensemble des sites. Les documents justificatifs sont joints en documents d'appui.",url:"https://www.label-ecojardin.fr/fr/sites-labellises/universite-gustave-eiffel"},
+	{axe:"5.3.2",num:[15],titre:"Sensibilisation des parties prenantes internes ",description:"Dans leurs démarches d'inventaires biodiversité et de définition de préconisations de gestion, les campus de Nantes et Lyon travaillent avec, et soutiennent ainsi les associations naturalistes œuvrant en faveur de la préservation de la biodiversité : Ligue de Protection des Oiseaux, Bretagne Vivante, Les mycologues de l'Ouest."},
+	{axe:"5.3.2",num:[15,11],titre:"Conférences et ateliers à destination du grand public - enjeux biodiversité et nature en ville ",description:"L'Université Gustave Eiffel et l’Agglomération Paris-Vallée de la Marne se sont associées pour co-construire et proposer un riche programme de conférences et d’ateliers, intitulé la Fabrique des savoirs. Cette initiative sciences et société, qui s'appuie sur les communes de l'agglomération et le tissu associatif local, favorise les rencontres entre habitantes et habitants de l’est parisien et scientifiques de l’Université Gustave Eiffel. Dans ce contexte, une conférence ayant pour thématique \"Comment la nature réinvestit la ville ?\" a notamment été organisée à Chelles. - Organisation d'un atelier \"1 classe 1 scientifique 1 heure\" ayant pour thématique \"Quelle nature au bord des routes ?\" 2- Deux dossiers \"Petit Campus\", intitulés \"Ce que nos rapports animaux disent de nous\" et \"La route des abeilles sauvages\" sont mis à disposition du grand public sur Reflexscience. ",url:"https://reflexscience.univ-gustave-eiffel.fr/participer/conferences-debats/la-fabrique-des-savoirs"},
+	{axe:"5.3.2",num:[15],titre:"Travaux du groupe transversal \"Natures urbaines\", ayant pour thème \"La Nature et la Cité Descartes\" ",description:"Constituant un exemple de travaux de recherche portant sur les thématiques de biodiversité et de nature, portés sur l'un des territoires sur lequel est implanté l'Université Gustave Eiffel, les travaux du groupe transversal natures urbaines réalisent un état des lieux de la nature en ville nouvelle, à travers l'exemple de la Cité Descartes."},
+	{axe:"5.4.1",num:[2],titre:"Rencontres avec les gestionnaires de restaurants pour nourrir un état des lieux",description:"La mission DD&RS cherche à consolider les échanges avec les gestionnaires des sites de restauration, pour envisager un plan d'actions."},
+	{axe:"5.4.1",num:[2],titre:"Intégration des thématiques alimentation responsable dans les cahiers des charges ",description:"Dans le cas de prestations externes gérées par l'établissement pour la restauration collective, une démarche d'intégration des enjeux DD&RS, au fur et à mesure du renouvellement des marchés, est menée."},
+	{axe:"5.4.3",num:[4],titre:"Sensibilisations ponctuelles des parties prenantes internes",description:"La mission DD&RS, mais également certaines composantes via des projets étudiants, mènent des démarches de sensibilisation (affichages, ateliers) aux thématiques d'alimentation responsable. Celles-ci sont à renforcer."},
+	{axe:"5.4.2",num:[2],titre:"Participation, via la Fabrique des savoirs, à l'événement \"Alim ton agglo\" de Communauté d'Aglomération PVM",description:"Alim ton Agglo est une journée festive dédiée à l'alimentation locale organisée par la Communauté d'Agglomération Paris Vallée de la Marne (territoire sur lequel est implanté le campus de Marne-la-Vallée). Le dispositif \"La Fabrique des savoirs\", co-porté par l'Université Gustave Eiffel et la CAPVM, tient chaque année un stand sur l'événement.",url:"https://www.agglo-pvm.fr/actualites-agenda/actualites/alim-ton-agglo-ensemble-pour-mieux-manger-13385"},
+	{axe:"5.4.2",num:[2],titre:"Soutien, par le master IESS, du projet de création d'une \"Brasserie apprenante\"",description:"Le master IESS a soutenu le projet de création d'une \"Brasserie apprenante\", issue d'ingrédients locaux et brassée localement. Cette initiative met en lien divers partenaires du territoire du campus de Marne-la-Vallée.",url:"https://chaire-ess.univ-gustave-eiffel.fr/toutes-les-actualites/actualite-detail/la-biere-etudiante-la-coopine"},
+	{axe:"5.4.2",num:[2,1],titre:"Soutien de l'association étudiante \"Epifree\" et de l'Epicerie solidaire campésienne ",description:": Epifree et l'Epicerie solidaire campésienne sont deux structures relatives à la solidarité alimentaire, dont le projet est soutenu par l'université.",url:"https://mission-ddrs.univ-gustave-eiffel.fr/agissons-ensemble/projets-etudiants/epifree"},
+	{axe:"5.4.3",num:[2,4],titre:"Projets de jardins partagés autour de l'université",description:"En lien avec une association du territoire (M2IE), la chaire ESS, le CROUS et l'Epicerie Solidaire Campésienne, l'Université Gustave Eiffel est engagée dans un projet de jardin partagé, dont les denrées bénéficieront à l'épicerie solidaire, sur une parcelle située sur le campus de Marne-la-Vallée."},
+	{axe:"6.1.1",num:[1,5],titre:"Dispositif de lutte contre la précarité menstruelle ",description:"L'établissement met en place diverses actions pour lutter contre la précarité menstruelle : installation de distributeurs de protections périodiques, distribution de culottes menstruelles aux personnels et étudiant·e·s... Ce panel doit être renforcé par les réflexions en cours d'un groupe de travail regroupant divers services et la mission DD&RS."},
+	{axe:"6.1.1",num:[5,10],titre:"Existence d'une mission Egalité",description:"La mission égalité effectue un travail d’accompagnement, de prévention, de formation et de communication. Au-delà des enjeux d'égalité entre les femmes et les hommes, la mission Égalité élargit progressivement son périmètre pour agir contre les autres formes de discrimination, en sensibilisant ou mettant en place divers dispositifs.",url:"https://mission-egalite.univ-gustave-eiffel.fr/"},
+	{axe:"6.1.1",num:[5,10],titre:"Rédaction de plans pour l'égalité ",description:"Conformément aux obligations légales, l'université s'est dotée d'un plan pour l'égalité 2021-2023. Ce plan est en cours de renouvellement pour la prochaine période (2024-2026). Toutefois, le plan ne se limite pas aux questions d'égalité professionnelle imposées par la loi mais propose également des actions pour mettre en place une culture de l’égalité dans l’organisation de l’établissement, tout en s'engageant à la faire exister dans toutes les missions de l’université.",url:"https://mission-egalite.univ-gustave-eiffel.fr/agir-ensemble-pour-legalite/nos-engagements-et-nos-actions"},
+	{axe:"6.1.1",num:[5],titre:"Travaux de recherche portant sur l'égalité entre les femmes et les hommes, à l'interne et en externe",description:"En sus d'un travail concernant l'égalité professionnelle en interne, les équipes de recherche de l'université s'engagent également pour interroger les thématiques d'égalité à une échelle plus large. La mission Egalité référence certains de ces travaux sur son site internet."},
+	{axe:"6.1.2",num:[10],titre:"Recrutement d'une référente handicap dédiée à l'accompagnement des agent·e·s",description:"La référente handicap de l'établissement accompagne les agent·e·s dans l'adaptation de leur poste à leur situation de handicap"},
+	{axe:"6.1.2",num:[10,4],titre:"Formations au handicap",description:"Le service formation propose, en lien avec la référente handicap, un parcours de formation au handicap : accueil et management des agent·e·s, webinaires dédiés..."},
+	{axe:"6.1.1",num:[10],titre:"Établissement de documents-cadres pour assurer une équité de traitement pour toutes et tous ",description:"L'université, dans l'objectif de proposer un cadre clair et équitable à l'ensemble de ses agent·e·s, a édité plusieurs documents cadrant les processus de promotion, recrutement, rémunération... Le nouveau règlement intérieur, diffusé fin 2023, propose par ailleurs divers dispositifs (semaine à 4,5 jours, télétravail, horaires...) favorisant la qualité de vie au travail mais permettant également de mieux accompagner la diversité des situations dans lesquelles peuvent se trouver les personnels."},
+	{axe:"6.2.1",num:[4,12],titre:"Organisation de sessions de formation \"Achat responsable\" ",description:"Dans le cadre de l'élaboration du Schéma de Promotion des Achats Socialement et Ecologiquement Responsables (SPASER), la direction de la commande publique ainsi que plusieurs \"acheteur·euse·s\" ont participé aux deux sessions de formation \"Achats responsables\" organisées en interne à l'université sur le premier semestre 2024."},
+	{axe:"6.2.2",num:[4],titre:"Organisation d'une formation à la communication responsable",description:"L'ensemble de la direction de la communication de l'université, les équipes communication des quatre écoles, certains membres de la mission DD&RS ainsi que des référent·e·s volontaires ont bénéficié, en mai 2024, d'une formation à la communication responsable animée en interne. L'objectif était d'aborder les notions théoriques de ce type de démarche, puis d'avoir un temps en commun pour mettre en application aux projets et au contexte de l'établissement."},
+	{axe:"6.2.1",num:[4],titre:"Interventions de la mission DD&RS en séminaires d'équipe ",description:"Pour lancer une dynamique de formation et d'appropriation des enjeux DD&RS par leurs équipes, de plus en plus de services ou directions font le choix du suivi, en équipe, d'un atelier d'intelligence collective ou d'un module de sensibilisation aux enjeux de développement durable (direction de l'informatique et du numérique, direction de l'immobilier et de la logistique, agence comptable, Centre d'Innovation Pédagogique et Numérique, Présidence, Vice-Présidence Formation, Vice-Présidence Partenariats, etc.). Un temps de réflexion sur l'appropriation de ces enjeux dans le cadre des activités quotidiennes suit l'atelier, permettant d'enclencher sur des actions."},
+	{axe:"6.2.1",num:[4,10,3],titre:"Formations aux thématiques du handicap, de l'égalité et de la qualité de vie au travail et autres aspects du DD&RS ",description:"Le handicap, l'égalité et la qualité de vie au travail sont trois aspects des enjeux DD&RS faisant déjà l'objet d'une rubrique dans le Plan de formation 2022-2024 et le catalogue. Des formations sur ces thématiques sont ainsi régulièrement proposées. Une rubrique \"Développement Durable & Responsabilité Sociétale\" regroupe, à ce stade, d'autres formations souvent plus axées sur les enjeux environnementaux."},
+	{axe:"6.2.1",num:[4],titre:"Adhésion à l'UVED et diffusion des ressources d'auto-formation ",description:"Le personnel de formation et de recherche a la possibilité de s'auto-former via les ressources proposées par l'UVED, mais ces démarches doivent être davantage encouragées."},
+	{axe:"6.2.1",num:[4],titre:"Accès au panel de formations DD&RS proposé à l'ensemble des personnels ",description:"Le personnel de formation et de recherche a la possibilité de participer aux formations proposées par l'établissement sur les thématiques DD&RS et décrites dans les variables précédentes : formation à l'animation d'ateliers d'intelligence collective, égalité, qualité de vie au travail, handicap..."},
+	{axe:"6.2.2",num:[4],titre:"Organisation d'une journée d'échanges autour de l'intégration des enjeux DD&RS dans les enseignements",description:"Le Centre d'Innovation Pédagogique et Numérique organise, pour le 28/11/24, une Journée de la pédagogie dont la thématique est \"Enjeux écologiques et pratiques enseignantes : quelles sont les clefs pour une pédagogie durable ?\". L'objectif est de favoriser les échanges entre enseignant⸱e⸱s, de proposer des témoignages et de partager des ressources."},
+	{axe:"6.3.1",num:[3],titre:"Existence d'une cellule de veille sociale",description:"La cellule de veille sociale vise à accompagner les personnels en difficulté et à établir des préconisations pour éviter que les situations vécues ne se reproduisent. Le point est fait avec chacun des campus tous les 2 à 3 mois sur les situations individuelles et collectives rencontrées : le directeur, le Secrétaire Général Délégué du campus, le responsable du pôle RH, la psychologue du travail et l’assistante sociale y participent."},
+	{axe:"6.3.1",num:[3],titre:"Mise en place du dispositif Pros-Consulte ",description:"Le dispositif Pros-Consulte permet aux agent·e·s qui en ressentent le besoin de consulter un psychologue par téléphone, à tout moment (24h/24 et 7jours/7).",url:"https://www.pros-consulte.com/"},
+	{axe:"6.3.1",num:[4,3],titre:"Formations relatives à la santé et la sécurité au travail ",description:"Le catalogue de formations propose, dans les rubriques \"Hygiène et sécurité - Prévention des risques professionnels\" et \"Qualité de vie au travail\" diverses sessions aux agent·e·s. On cite par exemple \"Postures et étirements comment prévenir les douleurs\" et \"Gestes et postures - spécial télétravail\", \"Sensibilisation au risque chimique\"..."},
+	{axe:"6.3.1",num:[3],titre:"Organisation de journées \"show-room\" de matériel ergonomique ",description:"Le référent ergonomie du pôle prévention organise annuellement des journées au cours desquelles sont présentés différents matériels ergonomiques, dans l'objectif de sensibiliser les personnels aux risques de troubles musculo-squelettiques au travail et en télétravail."},
+	{axe:"6.3.2",num:[3],titre:"Existence d'un Parlement Etudiant et d'une Vice-Présidence Etudiante ",description:"Le Parlement Etudiant constitue le troisième conseil de l'université. Il réunit des étudiant·e·s élu·e·s dans les composantes."},
+	{axe:"6.3.2",num:[3],titre:"Nombreuses actions de prévention et de soin menées par le service de santé universitaire ",description:"En sus des consultations assurées par le SSU (3 médecins, 4 psychologues, 3 infirmières, une assistante, une secrétaire et une référente handicap) auprès de la communauté étudiante, le service organise des actions de prévention individuelles et collectives : santé mentale, conduites addictives...",url:"https://intranet-edu.univ-eiffel.fr/ressources/sante-handicap-et-social/pole-medical"},
+	{axe:"6.3.2",num:[3],titre:"Dispositif Universanté",description:"Au travers d'étudiant·e·s ambassadeur·ice·s, le dispositif Universanté mène des actions de prévention \"de pair à pair\" auprès de la communauté étudiante.",url:"https://intranet-edu.univ-eiffel.fr/ressources/sante-handicap-et-social/dispositifs-daide-et-de-soutien/action-de-prevention-des-ambassadeurs-universante?sword_list[0]=universant%C3%A9&no_cache=1"},
+	{axe:"6.3.2",num:[3],titre:"Dispositif \"Nightline\" ",description:"Le dispositif \"Nightline\", avec lequel l'établissement a contractualisé, consiste en une ligne d'écoute gratuite par et pour les étudiant·e·s. Confidentielle et anonyme, elle est accessible tous les jours de 21h à 2h30.",url:"https://www.nightline.fr/ces-etablissements-nous-soutiennent"},
+	{axe:"6.3.2",num:[3],titre:"Existence d'un dispositif de signalement des violences et harcèlement ",description:"Destiné aux personnels et aux étudiant·e·s, ce dispositif prend la forme d'une adresse mail générique dont les messages sont reçus par une cellule dédiée. Des préconisations sur des mesures pour faire cesser les violences subies ou dont on a été témoin sont proposées, ainsi qu'une orientation vers un accompagnement médico-social et juridique.",url:"https://mission-egalite.univ-gustave-eiffel.fr/dispositif-de-signalement/dispositif-de-signalement"},
+	{axe:"6.3.2",num:[3],titre:"Rédaction d'un Plan d'Amélioration de la Vie Etudiante ",description:"Le PAVE a vocation à définir les orientations concernant les démarches d'amélioration de la vie étudiante. Après une année d'enquêtes (focus groupe et consultation) et d’étude des pratiques de la vie étudiante à l’université auprès des étudiantes et étudiants, des services et directions qui sont acteurs de la vie étudiante, la rédaction du plan a pris la forme d’un recueil présentant l’université et son écosystème (incluant l’organisation territoriale et acteurs externes) et de fiches actions. La rédaction du PAVÉ ne doit pas être une fin en soi mais doit permettre d’enclencher une dynamique autour de la vie étudiante en stabilisant les actions existantes et en en proposant de nouvelles grâce à un comité de suivi dont la création fait l’objet de la 1ère fiche. Une trentaine d’actions ont ainsi été élaborées en identifiant les acteurs concernés, le contexte, les objectifs, la temporalité et les moyens humains et financiers ainsi que les facteurs d’évaluations de réussite et de validations pour une bonne mise en pratique."},
+	{axe:"6.3.2",num:[3],titre:"Existence d'une Maison de l'Etudiant sur le campus de Marne-la-Vallée ",description:"La MDE est un bâtiment d'une surface importante, situé au cœur du campus de Marne-la-Vallée (Cité Descartes). Elle regroupe un espace de convivialité, un foyer étudiant géré par le BDE Eiffel, une salle de danse, ainsi que différents locaux alloués à des associations étudiantes et aux services liés aux étudiant·e·s (vie étudiante, international, service d'action sociale). Un parvis végétalisé, avec espaces de restauration, complète l'équipement.",url:"https://campus-marne.univ-gustave-eiffel.fr/liste-des-lieux/06-maison-de-letudiant-mde"},
+	{axe:"6.3.2",num:[3],titre:"Existence d'un service Vie Etudiante et d'une vice-présidence Vie Etudiante ",description:"Le service Vie Etudiante mène de nombreuses actions en faveur du bien-être des étudiant·e·s (événement de rentrée, accompagnement de la vie associative, accompagnement au logement, de la promotion de l'emploi étudiant...)"},
+	{axe:"6.3.2",num:[4],titre:"Existence de l'Observatoire des Formations et des Insertions Professionnelles ",description:"L'OFIPE, service de l'université, produit des statistiques sur les étudiant·e·s et les formations : analyse de la réussite et des parcours d'études, analyse de l'insertion professionnelle, analyse des conditions de vie et d'études. Il permet de faire remonter des besoins identifiés par les étudiant·e·s. ",url:"https://ofipe.univ-gustave-eiffel.fr/"},
+	{axe:"6.3.2",num:[4,17],titre:"Existence d'une Mission Arts & Culture ",description:"La mission Arts & Culture coordonne l'action culturelle à l'université. Elle vise à encourager la pratique artistique de tous⸱tes les usager⸱e⸱s, valorise la création artistique sur les campus... Elle organise ainsi divers ateliers (dessin, éloquence, ateliers d'écriture, improvisation théâtrale, photographie), concerts, festivals ou concours (Cin'et campus, Lettres vives, Bulles dessinées).",url:"https://culture.univ-gustave-eiffel.fr/"},
+	{axe:"6.3.2",num:[8,1],titre:"Accompagnement et promotion de l'emploi étudiant",description:"L'université accompagne et promeut l'emploi étudiant. Les objectifs sont de développer des compétences, se créer un réseau, favoriser le contact humain et proposer une première expérience professionnelle. Le service de la vie étudiante gère ainsi de nombreux contrats étudiants proposés en interne à l'université."},
+	{axe:"6.3.2",num:[4,3],titre:"Existence d'un service universitaire des activités physiques et sportives (SUAPS)",description:"Le SUAPS propose des activités physiques, sportives et artistiques pour l'ensemble des étudiant⸱e⸱s et des personnels du campus de Marne-la-Vallée. Les personnels situés sur les autres campus bénéficient de séances ou équipements sportifs, souvent proposées par les associations des personnels.",url:"https://sports.univ-gustave-eiffel.fr/"},
+	{axe:"6.3.2",num:[3],titre:"Existence d'un dispositif de lutte contre les violences ",description:"Destiné aux personnels et aux étudiant·e·s, ce dispositif prend la forme d'une adresse mail générique dont les messages sont reçus par une cellule dédiée. Des préconisations sur des mesures pour faire cesser les violences subies ou dont on a été témoin sont proposées, ainsi qu'une orientation vers un accompagnement médico-social et juridique."},
+	{axe:"6.3.1",num:[3,8],titre:"Possibilité de télétravail",description:"Encadré par une charte, le télétravail est possible pour les activités le permettant à raison de deux jours par semaines (trois pour situation particulière)."},
+	{axe:"6.3.1",num:[3,8],titre:"Horaires flexibles sous réserve d'une présence sur site dans une certaine tranche horaire",description:"En accord avec le responsable hiérarchique et l'organisation du service, l'agent·e a la possibilité de commencer et terminer sa journée de travail aux horaires qu'il souhaite, sous réserve d'entrer dans une certaine plage horaire et/ou d'effectuer un nombre d'heures minimum par jour."},
+	{axe:"6.3.1",num:[3,8],titre:"Possibilité de semaine de 4,5 jours pour une partie des personnels ",description:"Certain·e·s agent·e·s (MESR) ont la possibilité d'organiser leurs semaines pour travailler sur 4,5 jours. Le dispositif sera étendu à l'ensemble des personnels de l'université au 1er septembre 2025."},
+	{axe:"6.3.1",num:[3,8],titre:"Droit à 4 demi-journées d'indisposition",description:"Le nouveau règlement intérieur, entré en application en décembre 2023, donne droit au personnel à 4 demi-journées d'indisposition annuelles."},
+	{axe:"6.3.1",num:[3,8],titre:"Droit à la déconnexion ",description:"Le droit à la déconnexion est formalisé dans le règlement intérieur."},
+	{axe:"6.3.1",num:[3,8],titre:"Autorisations spéciales d'absence et facilités d'horaires ",description:"Pour aider les agent·e·s à faire face aux situations particulières qu'ils et elles peuvent rencontrer, des autorisations spéciales d'absence sont accordées. Certaines sont autorisées par des textes de loi nationaux, mais d'autres résultent d'une autorisation interne."},
+	{axe:"6.3.1",num:[3],titre:"Existence d'un comité d'action sociale ",description:"Depuis juin 2021, le comité d'action sociale est chargé de contribuer à la définition de la politique d'action sociale à mener en faveur des agent·e·s actif·ve·s et retraité·e·s de l'université."},
+	{axe:"6.3.1",num:[4],titre:"Existence d'une plateforme d'intelligence collective ",description:"La plateforme https://jeparticipe.univ-eiffel.fr/ est utilisée pour recueillir l'avis des personnels (et étudiant·e·s) concernant différents projets."},
+	{axe:"6.3.1",num:[3,8],titre:"Existence d'un coach et d'un conseiller mobilités-carrière, affectés à la DGDRH ",description:"La DGDRH met à disposition des agent·e·s un accompagnement de type coaching pour permettre leur épanouissement au sein de l'université."},
+	{axe:"6.3.1",num:[3],titre:"Existence d'un accompagnement individuel pour les agent·e·s rencontrant des difficultés ",description:"Un suivi régulier est assuré par la DGDRH via un rendez-vous ou un appel téléphonique (tous les 1,5 puis tous les 3 mois) pour accompagner les agent·e·s rencontrant des difficultés dans leur travail."},
+	{axe:"6.3.1",num:[3],titre:"Existence d'un dispositif de médiation ",description:"L’Université Gustave Eiffel propose, depuis son origine, aux personnels et aux structures le dispositif de médiation pour répondre aux situations de conflits notamment. La médiation se définit comme étant un processus structuré reposant sur la responsabilité et l’autonomie des participant·e·s qui, volontairement, avec l’aide d’un tiers neutre, impartial, indépendant et sans pouvoir décisionnel ou consultatif, favorise par des entretiens confidentiels, l’établissement et/ou le rétablissement des liens, la prévention, le règlement des conflits. L’objectif d’une médiation est d’aider les personnes en conflits aussi appelées médiant·e·s à construire une solution à une situation conflictuelle. Le principe de la médiation est de favoriser l’expression, pour chaque médiant·e, de son vécu d’une situation et de ses attentes propres –appelées aussi ses besoins – afin d’être entendu·e par l’autre médian·te. Un médiateur est ainsi disponible pour accompagner les agent⸱e⸱s"},
+	{axe:"6.3.1",num:[3],titre:"Existence d'un dispositif d'accompagnement des encadrant⸱e⸱s",description:"Un dispositif d’accompagnement des nouveaux responsables de service et chefs de service qui le souhaitent ou rencontrent des difficultés est mis en place. Ces rendez-vous permettent de conseiller sur le management à adapter aux situations rencontrées et de co-construire un fonctionnement d’équipe. En parallèle, la DRH propose un séminaire annuel destiné aux encadrant⸱e⸱s, dont l'objectif est de pouvoir présenter à l’ensemble des encadrant⸱e⸱s de l’université les différente⸱s interlocuteur⸱trice⸱s à leur disposition, selon les sujets et situations pour lesquels ils⸱elles auraient besoin d’appui. Des ateliers de co-développement sont également proposés : les encadrant⸱e⸱s ont ainsi la possibilité d'échanger sur leurs difficultés et de réfléchir collectivement, avec leurs pairs, à la résolution de situations problématiques rencontrées."},
+	{axe:"6.4.1",num:[4],titre:"Organisation de journées de rencontres avec les lycées, dans leurs établissements et à l'université",description:"Organisation avec les lycées de cycles de conférences, visites, rencontres, speed-meeting"},
+	{axe:"6.4.1",num:[4],titre:"Dispositif \"Université à l'essai\"",description:"Le dispositif \"Université à l'essai\" consiste à proposer aux lycéen·ne·s de tester des cours à l'université, pour se rendre compte de leur fonctionnement."},
+	{axe:"6.4.1",num:[4],titre:"Accompagnement à la réorientation ",description:"Chaque année en première année de licence, les conseiller·e·s d’orientation du SIOIP assurent une présentation de 2 heures dans l’ensemble des TD de L1 de toutes les composantes de l’université, dans l’objectif d’informer des possibilités d’orientation et de réorientation qui sont offertes. Les étudiant·e·s intéressé·e·s peuvent, par la suite, bénéficier d’un accompagnement personnalisé au SIOIP par les deux conseiller·e·s en orientation. Le SIOIP travaille également avec les composantes pour identifier et accompagner les étudiant·e·s en difficulté pour une éventuelle réorientation, via des sessions individuelles et collectives.",url:"https://intranet-edu.univ-eiffel.fr/ressources/formation/orientation-insertion-professionnelle-et-entrepreneuriat"},
+	{axe:"6.4.1",num:[4],titre:"Diplôme universitaire \"Digital U\" ",description:"Le DU Digital U est une formation ouverte à toute personne sortie du système éducatif, qu'elle soit diplômée du secondaire ou du supérieur, sans condition d'âge.",url:"https://formations.univ-gustave-eiffel.fr/?type=10&pdfId=384"},
+	{axe:"6.4.1",num:[4],titre:"Diplôme universitaire \"Prepa BUT\" ",description:"Le DU Prepa BUT permet aux apprenant.e.s de se \"remettre à niveau\" avant d'intégrer une formation.",url:"https://formations.univ-gustave-eiffel.fr/diplome-universitaire-ou-inter-universitaire/detail/prepabut-passerelle-courte-109"},
+	{axe:"6.4.1",num:[4],titre:"Diplôme universitaire \"Prepareo\" ",description:"Le DU « Prepareo » propose un suivi individualisé et collectif permettant aux étudiant·e·s de renforcer leurs réussites par une redéfinition de leurs projets professionnels. Il est accessible aux bachelier·e·s, et surtout destiné aux personnes qui n’ont eu aucune affectation sur Parcoursup.",url:"https://formations.univ-gustave-eiffel.fr/diplome-universitaire-ou-inter-universitaire/detail/prepareo-preparation-pour-reussir-et-sorienter-107"},
+	{axe:"6.4.1",num:[4],titre:"Existence d'une page internet dédiée aux futur·e·s étudiant·e·s",description:"Regroupant l'ensemble des ressources (formations, modalités de candidature, logement, accueil des étudiants internationaux), une page internet dédiée aux futur·e·s étudiant·e·s est en ligne.",url:"https://www.univ-gustave-eiffel.fr/luniversite/futurs-etudiants"},
+	{axe:"6.4.1",num:[4],titre:"Mise en œuvre du projet NCU D.Clic ",description:"Le projet D.Clic \"Une licence pour chacun⸱e, des réussites pour tout⸱es\" vise à mettre en place différentes actions relatives à l'attractivité des licences, à la mise en place de dispositifs de pré-rentrée ou de remédiation pour les nouveaux et nouvelles étudiant⸱e⸱s, ainsi qu'au renforcement du lien avec les lycées (voir bilan à 4 ans du programme D.Clic en document d'appui).",url:"https://www.univ-gustave-eiffel.fr/luniversite/nos-projets-transformants/dclic"},
+	{axe:"6.1.2",num:[4,10],titre:"Existence d'une référente handicap étudiant",description:"Une référente handicap étudiant est affectée au service de santé universitaire et accompagne les étudiant·e·s en situation de handicap et les composantes dans les aménagements qu'il est nécessaire de mettre en place. Elle réalise également des actions de sensibilisation."},
+	{axe:"6.2.1",num:[4],titre:"Développement d'un module de formation sur l'accessibilité numérique",description:"Le Centre d'Innovation Pédagogique et Numérique (CIPEN) développe un module de formation, destiné aux enseignant·e·s, sur la thématique de l'accessibilité numérique, dans l'objectif de donner les clés pour proposer des cours en ligne accessibles aux étudiant·e·s en situation de handicap."},
+	{axe:"6.1.2",num:[10],titre:"Réalisation des travaux d'accessibilité pour l'ensemble des campus",description:"Les travaux d'accessibilité prévus au calendrier Ad'AP du campus de Marne-la-Vallée (établissement recevant du public) sont terminés. Les autres campus qui n'accueillent pas d'activité de formation à ce jour, sauf des doctorant⸱e⸱s, sont également accessibles aux personnes en situation de handicap."},
+	{axe:"6.4.1",num:[4], titre:"Existence d'un service dédié aux étudiant·e·s internationaux ",description:"Les missions principales du service \"Relations Internationales\", en collaboration avec la VP International, sont d'internationaliser les formations et leur contenu, accompagner au développement",url:"https://www.univ-gustave-eiffel.fr/international/etudiants-internationaux"},
+	{axe:"6.4.1",num:[4], titre:"Obtention du label \"Bienvenue en France\"",description:"L'université a obtenu le label Bienvenue en France, qui vise à valoriser des actions concrètes, directement en contact avec la réalité des étudiant·e·s internationaux. Le niveau obtenu est de 2 étoiles sur 3."},
+	{axe:"6.4.1",num:[4], titre:"Organisation de cours Français langue étrangère labellisés pour leur qualité ",description:"Depuis juin 2023, l'Université Gustave Eiffel est labellisée Qualité Français Langue Etrangère. Résultat d’une démarche d’assurance qualité engagée par le ministère de l’Enseignement supérieur et de la Recherche, le ministère de la Culture et le ministère de l'Europe et des Affaires étrangères, le label Qualité FLE vise à identifier, reconnaître et promouvoir les centres de français langue étrangère (FLE) dont l'offre linguistique et les services présentent des garanties de qualité."},
+	{axe:"6.4.1",num:[4], titre:"Organisation d'un \"Welcome Day\" ",description:"Un \"Welcome Day\" est organisé annuellement à destination des étudiant·e·s internationaux pour les accueillir. Des événements sont organisés tout au long de l'année à destination de ce public dans les écoles."},
+	{axe:"6.4.1",num:[4], titre:"Existence d'un système de parrainage entre étudiant·e·s internationaux",description:"Le Buddy programme vise à une meilleure intégration des étudiant·e·s internationaux, par un accompagnement \"de pair à pair\" dans leur installation à l'université. Ce dispositif de parrainage fait l'objet d'une valorisation (crédits ECTS, emploi étudiant)."},
+	{axe:"6.4.1",num:[4], titre:"Proposition d'une assistance numérique",description:"Près de 80% des étudiant·e·s internationaux se voient prêter un ordinateur portable par l'université."},
+	{axe:"6.4.1",num:[4], titre:"Qualité et accessibilité de l'offre de formation, accompagnement",description:"Des cours de langue et de culture française sont proposés à l'université, dès septembre. Les enseignements en anglais sont petit à petit développés dans les composantes avec l'aide du CIPEN. L'internationalisation progressive des cours est assurée via la plateforme UBICAST (traduction de vidéos)."},
+	{axe:"6.4.1",num:[4], titre:"Logement et qualité de vie de campus",description:"Dans chaque composante de formation, un service d'accueil est dédié aux étudiant·e·s internationaux (2 référent·e·s dans chaque composante). Le détail des démarches à entreprendre est indiqué dans le mail d'admission et les référent·e·s accompagnent ensuite les étudiant·e·s dans leurs démarches, administratives ou autres, tout au long de leur séjour. Il existe des conventions avec le CROUS et d'autres bailleurs privés pour loger les étudiant·e·s internationaux. Un logement solidaire est d'ailleurs proposé par le CROUS aux étudiant·e·s internationaux, en lien avec l'assistante sociale de l'université. Un dispositif d'aide pour les dossiers (CAF assuré par l'assistance sociale) est par ailleurs en place. Le service de santé universitaire assure un accueil en anglais, de même que le service d'action sociale."},
+	{axe:"6.4.1",num:[2,1], titre:"Mise à disposition d'un local aux Restos du Cœur pour distributions alimentaires",description:"Les bénévoles des Restaurants du Cœur réalisent deux distributions alimentaires par semaine dans les locaux de l'université (Maison de l'Etudiant).",url:"https://intranet-edu.univ-eiffel.fr/ressources/sante-handicap-et-social/dispositifs-daide-et-de-soutien/aides-sociales-et-psychologiques?sword_list[0]=restos&sword_list[1]=du&sword_list[2]=coeur&no_cache=1"},
+	{axe:"6.4.1",num:[2], titre:"Partenariat avec l'Epicerie solidaire Campésienne ",description:"L'Epicerie solidaire Campésienne, située sur la Cité Descartes, propose des produits alimentaires à bas prix, à destination des étudiant·e·s boursiers.",url:"https://www.epicerie-etudiante-gustave-eiffel.fr/etudiant"},
+	{axe:"6.4.1",num:[1], titre:"Partenariat avec la boutique \"Noisy Liens\" ",description:"Pour les étudiant·e·s précaires, des bons de vêture sont distribués par le service d'action sociale. La boutique est également invitée à des événements organisés à l'université, permettant aux étudiant·e·s de bénéficier de vêtements et fournitures à bas prix.",url:"https://noisyliens.fr/"},
+	{axe:"6.4.1",num:[5], titre:"Permanences du Centre d'Information sur les droits des femmes et des familles ",description:"Une fois par mois, le CIDFF est présent à l'université et propose des informations sur les droits des étrangers, droit administratif, droit des familles...",url:"https://mission-egalite.univ-gustave-eiffel.fr/dispositif-de-signalement/permanences-juridiques"},
+	{axe:"6.4.1",num:[4], titre:"Existence d'un service d'information, orientation et insertion professionnelle",description:"Le SIOIP propose différents services pour accompagner les étudiant·e·s dans leur insertion professionnelle",url:"https://intranet-edu.univ-eiffel.fr/ressources/formation/orientation-insertion-professionnelle-et-entrepreneuriat"},
+	{axe:"6.4.1",num:[9], titre:"Intégration dans le dispositif Pépite 3EF ",description:"Pépite 3EF – Entrepreneuriat Étudiant dans l’Est francilien - est le Pépite de Paris-Est Sup. Porté par la ComUE, il coordonne l’entrepreneuriat étudiant en collaboration avec les établissements suivants : l'École des Ponts ParisTech, l’École spéciale des travaux publics, de l’industrie et du bâtiment, l’École nationale supérieure d’architecture de Paris-Belleville, l’Université Paris-Est Créteil et l’Université Gustave Eiffel et ses établissements composantes - l’école d’architecture de la ville et des territoires Paris-Est, ESIEE Paris, l’EIVP et l’ENSG-Géomatique.L e dispositif Pépite 3EF permet de développer et valoriser l’entreprenariat étudiant (53 porteurs de projets sont accompagnés par ce dispositif au 1er avril 2024).",url:"https://www.pepite3ef.fr/"},
+	{axe:"6.4.1",num:[3,2,1],titre:"Existence d'un service d'action sociale",description:"Le service d'action sociale accompagne les étudiant·e·s et les personnels en situation difficile. Il travaille étroitement avec le SVE et le SSU pour les étudiant⸱e⸱s et avec la DGDRH pour les personnels",url:"https://intranet-edu.univ-eiffel.fr/ressources/sante-handicap-et-social/action-sociale"},	
+	{axe:"6.4.1",num:[9], titre:"Existence d'un service entreprenariat étudiant",description:"Une personne rattachée au SIOIP et à la vice-présidence Partenariats & Professionnalisation travaille à l'accompagnement des étudiant·e·s entrepreneur·e·s.",url:"https://mission-ddrs.univ-gustave-eiffel.fr/"}
+  ];
   
-    // 7) initialisation
-    update();
-    return svg.node();
+	const indicators = [
+	  { axe: "1.1.1", titre: "Etablissement labelisé", cible:"Obtention du label en 2025 pour 4 ans", respecte: true},
+	  { axe: "1.1.1", titre: "Renouvellement labellisation", cible:"garantie du renouvellement du label", respecte: false},
+	  { axe: "1.1.2", titre: "Création et diffusion d'une charte sur la communication responsable", cible:"OUI en 2024", respecte: false},
+	  { axe: "1.1.2", titre: "Existence d'un plan de communication DD&RS annuel", cible:"OUI en 2024", respecte: true},
+	  { axe: "1.1.2", titre: "Nombre d'événements", cible:"10 en 2030", respecte: false},
+	  { axe: "1.1.3", titre: "Taux de directions et composantes ayant des objectifs DD&RS, dans leurs feuilles de route", cible:"50% en 2025 et 100% en 2027", respecte: true},
+	  { axe: "1.1.3", titre: "Création d'un modèle de charte modulaire", cible: "OUI en 2024", respecte: false },
+	  { axe: "1.1.3", titre: "Taux d'entités où les chartes DD&RS sont déployées", cible: "50% en 2027", respecte: true },
+	  { axe: "1.2.1", titre: "Nombre de référent.e.s DD&RS et contrats étudiants DD&RS", cible:"80 en 2027 et 100 en 2030", respecte: false},
+	  { axe: "1.2.1", titre: "Taux de personnels ayant des objectifs DD&RS dans leur fiche de poste", cible:"50% en 2027 et 100% en 2030", respecte: true},
+	  { axe: "1.2.2", titre: "Evolution du budget en lien avec le DD&RS", cible:"+100% en 2030", respecte: false},
+	  { axe: "1.2.3", titre: "Mise en place d'un volet spécifique DD&RS dans le système d'informations décisionnel", cible:"OUI en 2027", respecte: true},
+	  { axe: "1.3.1", titre: "Création d'un outil de partage de ressources et d'expériences", cible:"OUI en 2024", respecte: true},
+	  { axe: "1.3.2", titre: "Nombre de campagnes de sensibilisation DD&RS", cible:"2 campagnes annuelles", respecte: false},
+	  { axe: "1.3.2", titre: "Nombre d'outils de sensibilisation", cible:"5 outils d'ici 2030", respecte: false},
+	  { axe: "1.3.3", titre: "Nombre de projets d'accompagnement des territoires", cible:"10 projets en 2030", respecte: false},
+	  { axe: "1.3.4", titre: "Mise en place d'une grille d'évaluation des partenaires au regard de leur engagement en faveur de la transition socio-économique", cible: "OUI en 2027", respecte: true },
+	  { axe: "1.3.4", titre: "Proportion des partenaires (soumis à un accord-cadre) ayant un bon niveau d'engagement en faveur de la transition socio-écologique", cible:"", respecte: false},
+	  { axe: "2.1.1", titre: "Définition d'un socle de connaissance", cible: "OUI en 2025", respecte: false },
+	  { axe: "2.1.1", titre: "Existence d'une cellule d'accompagnement", cible:"OUI en 2024", respecte: true},
+	  { axe: "2.1.1", titre: "Part des étudiant.e.s recevant un enseignement socle de la TEDs", cible:"100% en 2028", respecte: true},
+	  { axe: "2.1.1", titre: "Définition d'un socle commun de compétences", cible:"OUI en 2025", respecte: false},
+	  { axe: "2.1.2", titre: "Taux de formations intégrant le DD&RS en lien direct avec les sujets enseignés", cible:"50% en 2026 et 100% en 2028", respecte: false},
+	  { axe: "2.1.2", titre: "Taux de formations continues courtes intégrant le DD&RS", cible:"50% en 2026 et 80% en 2028", respecte: true},
+	  { axe: "2.1.3", titre: "Création du test de positionnement", cible:"OUI en 2025", respecte: true},
+	  { axe: "2.2.1", titre: "Existence d'une organisation qui oriente les initiatives étudiantes vers l'intégration des enjeux DD&RS", cible:"OUI en 2025", respecte: true},
+	  { axe: "2.2.1", titre: "Formalisation d'une procédure de valorisation de l'engagement étudiant", cible:"OUI en 2026", respecte: false},
+	  { axe: "2.2.2", titre: "Mise en place d'une organisation pour accompagner les étudiant.e.s vers des missions, en entreprise, tounéers vers les enjeux DD&RS", cible:"OUI en 2026", respecte: false},
+	  { axe: "2.2.2", titre: "Proportion de formations intégrant une considération DD&RS dans les stages, missions en entreprise et projets", cible:"50% en 2027 et 100% en 2030", respecte: true},
+	  { axe: "2.2.3", titre: "Organisation d'un événement annuel", cible:"OUI à compter de 2024", respecte: true},
+	  { axe: "2.2.3", titre: "Mise en place d'un process permettant de développer les offres d'emploi DD&RS", cible:"OUI à compter de 2025", respecte: false},
+	  { axe: "3.1.1", titre: "Existence d'une méthodologie permettant de mesurer la contribution aux ODD des publications", cible:"OUI en 2025", respecte: true},
+	  { axe: "3.1.1", titre: "Nombre de projets en lien avec le DD&RS", cible:"60% en 2030", respecte: false},
+	  { axe: "3.1.2", titre: "Proportion de composantes de recherche engagées dans une démarche DD&RS", cible:"50% en 2025 et 100% en 2028", respecte: true},
+	  { axe: "3.2.1", titre: "Obtention de la labellisation SAPS", cible:"OUI en 2025", respecte: false},
+	  { axe: "3.3.1", titre: "Intégration des enjeux DD&RS dans les travaux du comité d'éthique", cible:"OUI en 2028", respecte: false},
+	  { axe: "4.1.1", titre: "Analyse des déplacements en avion", cible:"OUI en 2024", respecte: true},
+	  { axe: "4.1.1", titre: "Réalisation d'une étude impact", cible:"OUI en 2026", respecte: true},
+	  { axe: "4.1.1", titre: "Réalisation d'une enquête mobilité auprès des étudiants", cible:"OUI en 2026", respecte: false},
+	  { axe: "4.1.2", titre: "Création d'un simulateur de déplacement", cible:"OUI en 2025", respecte: true},
+	  { axe: "4.1.2", titre: "Intégrer le simulateur dans les demandes de mission", cible:"OUI en 2026", respecte: false},
+	  { axe: "4.1.3", titre: "Présence d'un atelier de réparation", cible:"OUI en 2025", respecte: true},
+	  { axe: "4.1.3", titre: "Mise à disposition de vélos pour le personnel et les étudiant.e.s", cible:"OUI en 2025 pour les campus de MLV et Nantes", respecte: false},
+	  { axe: "4.1.3", titre: "Part de véhicules électrique de petite taille dans le parc automobile", cible:"30% en 2027 et 50% en 2030", respecte: false},
+	  { axe: "4.1.4", titre: "Diffusion de la note", cible:"OUI en 2024", respecte: true},
+	  { axe: "4.1.4", titre: "Réduction du poids carbone des trajets aériens depuis 2023", cible:"30% de réduction en 2027 et 50% en 2030", respecte: false},
+	  { axe: "4.1.5", titre: "Plateforme de covoiturage", cible:"OUI en 2025", respecte: true},
+	  { axe: "4.2.1", titre: "Réalisation du SPASER", cible:"OUI en 2025", respecte: true},
+	  { axe: "4.2.2", titre: "Réalisation et diffusion du baromètre carbone sur les achats", cible:"OUI en 2025", respecte: false},
+	  { axe: "4.2.2", titre: "Création d'un dispositif d'alerte", cible:"OUI en 2025", respecte: false},
+	  { axe: "4.2.3", titre: "Bilan annuel des plateformes de dons", cible:"OUI en 2024", respecte: true},
+	  { axe: "4.2.3", titre: "Taux du matériel de labo de seconde main", cible:"50% en 2030", respecte: false},
+	  { axe: "4.2.3", titre: "Taux du matériel informatique de seconde main", cible:"25% en 2027", respecte: false},
+	  { axe: "4.3.1", titre: "Taux de bâtiments ayant bénéficié d'un audit énergétique (ou DPE)", cible:"100% en 2026", respecte: false},
+	  { axe: "4.3.1", titre: "Taux de bâtiment monitorés", cible:"100% en 2027", respecte: false},
+	  { axe: "4.3.2", titre: "Réduction de la consommation d'énergie", cible:"-25%  en 2025 et -40% en 2030", respecte: true},
+	  { axe: "4.3.2", titre: "Part des bâtiments avec une consigne de chauffage à 19°C", cible:"100% en 2025", respecte: true},
+	  { axe: "4.3.2", titre: "Part des bâtiments climatisés avec une consigne de refroidissement à 26°C", cible:"100% en 2025", respecte: true},
+	  { axe: "4.3.3", titre: "Budget consacré à la rénovation", cible:"A définir en lien avec le SPSI et le plan pluriannuel d'investissement", respecte: false},
+	  { axe: "4.3.4", titre: "Taux de bâtiments consommant du gaz", cible:"20% en 2027 et 15% en 2030", respecte: false},
+	  { axe: "4.4.1", titre: "Bilan carbone du numérique", cible:"OUI en 2026", respecte: false},
+	  { axe: "4.4.1", titre: "Formalisation d'une politique numérique éco-responsable", cible:"OUI en 2026", respecte: false},
+	  { axe: "4.4.2", titre: "Réalisatisation d'un diagnostic des outils numériques", cible:"OUI en 2026", respecte: false}, 
+	  { axe: "4.4.3", titre: "Diffusion de la note d'optimisation et de rationalisation des équipements", cible:"OUI en 2025", respecte: true},
+	  { axe: "4.4.3", titre: "Elargissement de l'utilisation de la plateforme TROC EIFFEL", cible:"OUI en 2025", respecte: true},
+	  { axe: "4.4.4", titre: "Mise en oeuvre des actions demandées dans le cadre des audits", cible:"100% en 2025", respecte: false},
+	  { axe: "4.4.4", titre: "Formalisation d'une politique sur la migration des serveurs", cible:"OUI en 2026", respecte: false},
+	  { axe: "4.4.4", titre: "Migrer progressivement les serveurs vers une solution moins énergivore", cible:"50% en 2030", respecte: false},
+	  { axe: "4.5.1", titre: "Existence d'un bilan général annuel", cible:"OUI", respecte: true},
+	  { axe: "4.5.1", titre: "Taux de réduction de la consommation d'eau potable", cible:"2027 : -15% de la consommation d'eau potable par rapport à 2022", respecte: false},
+	  { axe: "5.1.1", titre: "Formalisation d'une politique de réduction des déchets", cible:"OUI en 2025", respecte: true},
+	  { axe: "5.1.2", titre: "Mise en place d'une campagne de communication bi-annuelle ou annuelle sur les bénéfices du reconditionnement", cible:"OUI en 2025", respecte: true},
+	  { axe: "5.1.3", titre: "Réalisation d'un diagnostic sur les pratiques de tri des déchets", cible:"OUI en 2024", respecte: true},
+	  { axe: "5.1.3", titre: "Part des campus/écoles respectant l'obligation de tri 8 flux", cible:"100% en 2026", respecte: false},
+	  { axe: "5.1.3", titre: "Part des campus/écoles pour lesquels un affichage clair avec consignes de tri est mis en place", cible:"100% en 2026", respecte: false},
+	  { axe: "5.2.1", titre: "Suivi des mesures de l'air intérieur", cible:"OUI en 2025", respecte: true},
+	  { axe: "5.2.1", titre: "Suivi des mesures d'exposition professionelles", cible:"OUI en 2025", respecte: true},
+	  { axe: "5.2.2", titre: "Formalisation d'une procédure de non-rejet des produits à l'évier", cible:"OUI en 2025", respecte: true},
+	  { axe: "5.2.2", titre: "Définition d'un plan d'action", cible:"OUI en 2027", respecte: false},
+	  { axe: "5.3.1", titre: "Part des surfaces d'espaces verts ayant fait l'objet d'un inventaire biodiversité", cible:"90% en 2025", respecte: true},
+	  { axe: "5.3.1", titre: "Part d'espaces verts gérés de manière durable", cible:"90% en 2025", respecte: true},
+	  { axe: "5.3.2", titre: "Existence d'une trajectoire de limitation de l'artificialisation des sols", cible:"OUI en 2025", respecte: true},
+	  { axe: "5.4.1", titre: "Respect de la loi EGALIM au sein de nos restaurants", cible:"100% en 2026", respecte: true},
+	  { axe: "5.4.2", titre: "Part de distributeurs alimentaires équipés d'une proposition \"alimentation durable\"", cible:"", respecte: false},
+	  { axe: "5.4.2", titre: "Part de traiteurs proposant une prestation éco-responsable", cible:"100% en 2025", respecte: false},
+	  { axe: "5.4.3", titre: "Nombre d'actions de sensibilisation en faveur de l'alimentation durable", cible:"A minima deux par an", respecte: false},
+	  { axe: "6.1.1", titre: "Réalisation du Plan Egalité 2024-2024", cible:"OUI en 2024", respecte: true},
+	  { axe: "6.1.2", titre: "Finalisation du Schéma Directeur Handicap", cible:"OUI en 2025", respecte: true},
+	  { axe: "6.2.1", titre: "Proportion de nouveaux arrivants formés aux enjeux du DD&RS", cible:"100% en 2025", respecte: true},
+	  { axe: "6.2.1", titre: "Existence de ressources pédagogiques sur les enjeux DD&RS accessibles aux personnels", cible:"OUI en 2025", respecte: true},
+	  { axe: "6.2.1", titre: "Mise en oeuvre d'une procédure de valorisation des compétences", cible:"OUI en 2026", respecte: false},
+	  { axe: "6.2.2", titre: "Identification des contributions de chaque métier au DD&RS", cible:"OUI en 2025", respecte: true},
+	  { axe: "6.2.2", titre: "Intégration des thématiques DD&RS dans la stratégie GPEEC", cible:"OUI en 2024", respecte: false},
+	  { axe: "6.3.1", titre: "Formalisation d'une politique de qualité de vie au travail", cible:"OUI en 2024", respecte: true},
+	  { axe: "6.3.1", titre: "Création et diffusion d'une charte sur l'usage numérique", cible:"OUI en 2025", respecte: true},
+	  { axe: "6.3.1", titre: "Création et diffusion d'une charte sur l'équilibre vie personnelle/vie professionnelle", cible:"OUI en 2025", respecte: false},
+	  { axe: "6.3.2", titre: "Finalisation du PAVE", cible:"OUI en 2024", respecte: true},
+	  { axe: "6.3.2", titre: "Création d'une ressourcerie pérenne", cible:"OUI en 2026", respecte: false},
+	  { axe: "6.4.1", titre: "Formalisation d'une politique d'égalité des chances", cible:"OUI en 2024", respecte: true}
+	];
+	let currentAxe = null; // null → global
+
+  const sdgColors = [
+	  "#E5243B", // 1
+	  "#DDA63A", // 2
+	  "#4C9F38", // 3
+	  "#C5192D", // 4
+	  "#FF3A21", // 5
+	  "#26BDE2", // 6
+	  "#FCC30B", // 7
+	  "#A21942", // 8
+	  "#FD6925", // 9
+	  "#DD1367", // 10
+	  "#FD9D24", // 11
+	  "#BF8B2E", // 12
+	  "#3F7E44", // 13
+	  "#0A97D9", // 14
+	  "#56C02B", // 15
+	  "#00689D", // 16
+	  "#19486A"  // 17
+  ];
+  const sdgNames = [
+	  "Pas de pauvreté",
+	  "Faim « zéro »",
+	  "Bonne santé et bien-être",
+	  "Éducation de qualité",
+	  "Égalité entre les sexes",
+	  "Eau propre et assainissement",
+	  "Énergie propre et d’un coût abordable",
+	  "Travail décent et croissance économique",
+	  "Industrie, innovation et infrastructure",
+	  "Inégalités réduites",
+	  "Villes et communautés durables",
+	  "Consommation et production responsables",
+	  "Mesures relatives à la lutte contre les changements climatiques",
+	  "Vie aquatique",
+	  "Vie terrestre",
+	  "Paix, justice et institutions efficaces",
+	  "Partenariats pour la réalisation des objectifs"
+	];
+	
+	const bar = d3.select("#number-bar");
+	for (let i = 1; i <= 17; i++) {
+	  bar.append("button")
+		 .text(i)
+		 .style("background-color", sdgColors[i - 1])
+		 .style("border",        `1px solid ${sdgColors[i - 1]}`)
+		 .style("color",         "#fff")
+		 .on("click", () => {
+		   const list  = actions.filter(a => a.num.includes(i));
+		   const title = `${i}. ${sdgNames[i - 1]}`;
+		   openModal(list, title);
+		 });
+	}
+
+  // ----- Modal -----
+	const overlay = d3.select("#modal-overlay");
+	const modal   = d3.select("#modal");
+	function openModal(list, title) {
+		  modal.html("");             // on vide
+
+		  // si un titre existe, on l'affiche
+		  if (title) {
+			modal.append("h3").text(title);
+		  }
+
+		  // puis le contenu
+		  if (list.length === 0) {
+			modal.append("p").text("Aucune action trouvée.");
+		  } else {
+			list.forEach(a => {
+				  const blk = modal.append("div").attr("class","action");
+
+				  // 1) on crée le <h4> et on le stocke dans une variable
+				  const h4 = blk.append("h4")
+					.text(`${a.axe} – ${a.titre}`)
+					.on("click", function() {
+					  const p = d3.select(this.parentNode).select("p");
+					  p.style("display", p.style("display")==="none" ? "block" : "none");
+					});
+
+				  // 2) on remplit le h4 en fonction de la présence d’une url
+				  let htmlDesc = a.description;
+				  if (a.url) {
+					htmlDesc +=
+						` <a href="${a.url}" target="_blank" rel="noopener noreferrer">
+						En savoir plus
+						</a>`;
+					}
+
+				   blk.append("p")
+					.style("display","none")
+					.html(htmlDesc);
+				   });
+		  }
+
+		  overlay.style("display","flex");
+	}
+
+	
+  overlay.on("click", e => {
+    if (e.target.id === "modal-overlay")
+      overlay.style("display","none");
+  });
+
+  // ----- Paramètres D3 -----
+  const PARAM = { margin: 80, circleRadii: [14,10,6], textWidth: 250, lineHeight: 1 };
+  const COLORS = { root: "#2d2d7b", axes: ["#8b4a96","#d21f3b","#ee7c04","#92c56d","#00936d","#1dafd1"] };
+
+  function wrap(text, width = PARAM.textWidth) {
+    text.each(function() {
+      const t = d3.select(this);
+      const words = t.text().split(/\s+/).reverse();
+      let line = [], lineNumber = 0;
+      let tspan = t.text(null)
+        .append("tspan").attr("x", t.attr("x")).attr("y", t.attr("y")).attr("dy","0em");
+      while (words.length) {
+        line.push(words.pop());
+        tspan.text(line.join(" "));
+        if (tspan.node().getComputedTextLength() > width) {
+          line.pop(); tspan.text(line.join(" "));
+          line = [words.pop()];
+          tspan = t.append("tspan")
+                  .attr("x", t.attr("x"))
+                  .attr("y", t.attr("y"))
+                  .attr("dy", ++lineNumber * PARAM.lineHeight + "em")
+                  .text(line[0]);
+        }
+      }
+    });
   }
 
+  function collapseAll(node) {
+    if (node.children) {
+      node._children = node.children;
+      node._children.forEach(collapseAll);
+      node.children = null;
+    }
+  }
 
-    // 8) rendu + resize
+  function applyColors(root) {
+    root.color = COLORS.root;
+    if (root.children) {
+      root.children.forEach((d,i) => d.color = COLORS.axes[i % COLORS.axes.length]);
+    }
+    root.each(d => {
+      if (d.depth > 1) {
+        let anc = d; while (anc.depth > 1) anc = anc.parent;
+        const factor = 0.7 + 0.3*(d.depth-1);
+        d.color = d3.color(anc.color).brighter(factor).formatHex();
+      }
+    });
+  }
+
+  let tree, rootHierarchy, linkG, nodeG;
   const container = document.getElementById("chart");
+
+  function chart() {
+	  // 1) Dimensions du conteneur
+	  const W = window.innerWidth;
+	  const H = window.innerHeight;
+
+	  // 2) Calcul du rayon en tenant compte de la marge
+	  const radius = Math.min(W, H) / 2 - PARAM.margin;
+
+	  // 3) Configuration du tree layout et de la hiérarchie
+	  tree = d3.tree().size([2 * Math.PI, radius]);
+	  rootHierarchy = d3.hierarchy(data);
+	  let id = 0;
+	  rootHierarchy.each(d => {
+		d.id = id++;
+		d._children = d.children;
+	  });
+	  if (rootHierarchy.children) {
+		rootHierarchy.children.forEach(collapseAll);
+	  }
+	  applyColors(rootHierarchy);
+	  tree(rootHierarchy);
+
+	  // 4) Création du SVG avec viewBox centré et marge tampon
+	  const M = PARAM.margin + 20;      // 20px de buffer supplémentaire
+	  const svg = d3.create("svg")
+		.attr(
+		  "viewBox",
+		  [
+			-W / 2 - M,
+			-H / 2 - M,
+			 W   + 2 * M,
+			 H   + 2 * M
+		  ]
+		)
+		.style("overflow", "visible")
+		.style("user-select", "none")
+		.style("font", "12px sans-serif");
+
+	  // 5) Groupes pour les liens et les nœuds (pas de translate !)
+	  linkG = svg.append("g").attr("class", "links");
+	  nodeG = svg.append("g").attr("class", "nodes");
+
+	  // 6) Premier rendu
+	  update();
+
+	  return svg.node();
+	}
+
+  function update() {
+	  tree(rootHierarchy);
+	  applyColors(rootHierarchy);
+
+	  // 1) Liens inchangés
+	  const diag = d3.linkRadial().angle(d=>d.x).radius(d=>d.y);
+	  linkG.selectAll("path.link")
+		.data(rootHierarchy.links(), d=>d.target.id)
+		.join(
+		  enter => enter.append("path")
+						.attr("class","link")
+						.attr("fill","none")
+						.attr("stroke","#999")
+						.attr("d", diag),
+		  upd   => upd.transition().duration(300).attr("d", diag),
+		  exit  => exit.transition().duration(300).remove()
+		);
+
+	  // 2) Nœuds : bind data → enter/merge/exit sur <g>
+	  const nodeSel = nodeG.selectAll("g.node")
+		.data(rootHierarchy.descendants(), d => d.id);
+
+	  // ENTER : créer <g>, <circle> et <text>
+	  const enterSel = nodeSel.enter()
+		.append("g")
+		  .attr("class","node");
+
+	  enterSel.append("circle")
+		.attr("r", d=>PARAM.circleRadii[Math.min(d.depth,2)])
+		.attr("fill", d=>d.color)
+		.attr("stroke","#333");
+
+	  enterSel.append("text")
+		.attr("dx", d => d.depth === 0
+			? 0
+			: (d.x < Math.PI ? 8 : -8)
+			)
+		.attr("dy", d => d.depth === 0
+			? "-0.6em"
+			: "0.31em"
+			)
+		.attr("text-anchor", d => d.depth === 0
+			? "middle"
+			: (d.x < Math.PI ? "start" : "end")
+			)
+		.style("font-weight", d=> d.depth<=1 ? "bold":"normal")
+		.style("font-size", d=> d.depth===0?"30px": d.depth===1?"14px":"10px")
+		.style("fill", d=>d.color)
+		.call(wrap);
+
+	  // MERGE : selection complète <g> (enter + update)
+	  const allSel = enterSel.merge(nodeSel);
+
+	  // Met à jour le texte pour tous
+	  allSel.select("text")
+		.text(d => d.data.name);
+
+	  // 3) Binder le clic sur tous les <g>
+	  allSel.on("click", (ev, d) => {
+	  
+		if (d.depth === 0) {
+		  currentAxe = null;
+		  if (rootHierarchy.children) {
+			rootHierarchy.children.forEach(collapseAll);
+		  }
+		  update()
+		  updateGauge();
+		  return;		  
+	    }
+		
+		if (d.depth === 1) {
+		  const code = d.data.name.split(".")[0];
+		  currentAxe = currentAxe === code ? null : code;
+		  updateGauge();
+		}
+		if (d.children) collapseAll(d);
+		else if (d._children) {
+		  const p = d.parent;
+		  if (p && p.children) p.children.forEach(sib => { if (sib !== d) collapseAll(sib); });
+		  d.children = d._children;
+		}
+		update();
+		if (!d.children && !d._children) {
+		  const code = d.data.name.split(" ")[0];
+		  openModal(actions.filter(a=>a.axe===code), d.data.name);
+		}
+	  });
+
+	  // 4) EXIT
+	  nodeSel.exit().remove();
+
+	  // 5) POSITIONNE
+	  nodeG.selectAll("g.node")
+		.transition().duration(300)
+		.attr("transform", d => {
+		  const a = d.x - Math.PI/2;
+		  return `translate(${d.y*Math.cos(a)},${d.y*Math.sin(a)})`;
+		});
+	}
+
   function render() {
     container.innerHTML = "";
     container.appendChild(chart());
+    update();
   }
+
   window.addEventListener("resize", render);
   render();
-});
+	  function computeRatio() {
+	  let subset;
+	  if (currentAxe === null) {
+		subset = indicators;
+	  } else {
+		const prefix = currentAxe + ".";
+		subset = indicators.filter(ind => ind.axe.startsWith(prefix));
+	  }
+	  const total  = subset.length;
+	  const passed = subset.filter(ind => ind.respecte).length;
+	  return total === 0 ? 0 : passed / total;
+	}
+
+	function updateGauge() {
+	  const ratio = computeRatio();
+	  d3.select("#gauge-fill")
+		.style("height", (ratio * 100) + "%");
+	}
+
+	// ouverture modal des indicateurs
+	function openIndicatorsModal() {
+	  const m     = d3.select("#modal").html("");
+	  const title = currentAxe === null
+		? "Indicateurs globaux"
+		: `Indicateurs axe ${currentAxe}`;
+	  m.append("h3").text(title);
+
+	  const list = currentAxe === null
+		? indicators
+		: indicators.filter(ind => ind.axe.startsWith(currentAxe + "."));
+
+	  if (!list.length) {
+		m.append("p").text("Aucun indicateur trouvé.");
+	  } else {
+		list.forEach(ind => {
+		  const row = m.append("div").attr("class","action");
+		  row.append("h4").text(`${ind.axe} – ${ind.titre}`)
+			 .on("click", () => {
+			   const p = row.select("p");
+			   p.style("display", p.style("display")==="none"?"block":"none");
+			 });
+		  row.append("p")
+			 .style("display","none")
+			 .text(`Cible : ${ind.cible}    Respecté : ${ind.respecte?"OUI":"NON"}`);
+		});
+	  }
+	  d3.select("#modal-overlay").style("display","flex");
+	}
+
+	// bouton jauge
+	d3.select("#indicator-btn").on("click", openIndicatorsModal);
+
+	// déclencher la mise à jour au chargement
+	updateGauge();
+
+	// Mettre à jour currentAxe et jauge à chaque clic d’axe
+	function onAxeSelected(code) {
+	  currentAxe = code;   
+	  updateGauge();
+	}
   </script>
 </body>
 </html>
