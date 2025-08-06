@@ -12,20 +12,20 @@
     "num": [
       16
     ],
-    "titre": "Formalisation d'un schéma directeur DD&RS pour la période 2024-30",
+    "titre": "Formalisation d'un schéma directeur DD&RS pour la période 2024-2030",
     "description": "Le document fixe les grandes orientations de la stratégie DD&RS de l'université jusqu'à 2030, s'inscrivant dans la dynamique des objectifs de développement durable définis par l'ONU. Ces grandes orientations seront précisées annuellement par des feuilles de route opérationnelles. Chacune des orientations citées rejoint un ou plusieurs des 17 objectifs de développement durable.",
     "url": "https://mission-ddrs.univ-gustave-eiffel.fr/politique-ddrs/schema-directeur-ddrs"
   },
   {
-    "axe": "1.1.2",
+    "axe": "1.1.4",
     "num": [
-      4
+      16
     ],
     "titre": "Etablissement d'une charte de la communication responsable ",
     "description": "A la suite de la formation relative aux thématiques de communication responsable suivie en 2024, un document cadre listant les principes que l'université souhaite désormais suivre a été rédigé."
   },
   {
-    "axe": "1.1.2",
+    "axe": "4.1.1.",
     "num": [
       13
     ],
@@ -1681,4 +1681,5 @@
     "description": "Une personne rattachée au SIOIP et à la vice-présidence Partenariats & Professionnalisation travaille à l'accompagnement des étudiant·e·s entrepreneur·e·s.",
     "url": "https://mission-ddrs.univ-gustave-eiffel.fr/"
   }
+
 ]
