@@ -1,0 +1,596 @@
+[
+  {
+    "axe": "1.1.1",
+    "titre": "Etablissement labelisé",
+    "cible": "Obtention du label en 2025 pour 4 ans",
+    "respecte": true
+  },
+  {
+    "axe": "1.1.1",
+    "titre": "Renouvellement labellisation",
+    "cible": "garantie du renouvellement du label",
+    "respecte": false
+  },
+  {
+    "axe": "1.1.2",
+    "titre": "Création et diffusion d'une charte sur la communication responsable",
+    "cible": "OUI en 2024",
+    "respecte": false
+  },
+  {
+    "axe": "1.1.2",
+    "titre": "Existence d'un plan de communication DD&RS annuel",
+    "cible": "OUI en 2024",
+    "respecte": true
+  },
+  {
+    "axe": "1.1.2",
+    "titre": "Nombre d'événements",
+    "cible": "10 en 2030",
+    "respecte": false
+  },
+  {
+    "axe": "1.1.3",
+    "titre": "Taux de directions et composantes ayant des objectifs DD&RS, dans leurs feuilles de route",
+    "cible": "50% en 2025 et 100% en 2027",
+    "respecte": true
+  },
+  {
+    "axe": "1.1.3",
+    "titre": "Création d'un modèle de charte modulaire",
+    "cible": "OUI en 2024",
+    "respecte": false
+  },
+  {
+    "axe": "1.1.3",
+    "titre": "Taux d'entités où les chartes DD&RS sont déployées",
+    "cible": "50% en 2027",
+    "respecte": true
+  },
+  {
+    "axe": "1.2.1",
+    "titre": "Nombre de référent.e.s DD&RS et contrats étudiants DD&RS",
+    "cible": "80 en 2027 et 100 en 2030",
+    "respecte": false
+  },
+  {
+    "axe": "1.2.1",
+    "titre": "Taux de personnels ayant des objectifs DD&RS dans leur fiche de poste",
+    "cible": "50% en 2027 et 100% en 2030",
+    "respecte": true
+  },
+  {
+    "axe": "1.2.2",
+    "titre": "Evolution du budget en lien avec le DD&RS",
+    "cible": "+100% en 2030",
+    "respecte": false
+  },
+  {
+    "axe": "1.2.3",
+    "titre": "Mise en place d'un volet spécifique DD&RS dans le système d'informations décisionnel",
+    "cible": "OUI en 2027",
+    "respecte": true
+  },
+  {
+    "axe": "1.3.1",
+    "titre": "Création d'un outil de partage de ressources et d'expériences",
+    "cible": "OUI en 2024",
+    "respecte": true
+  },
+  {
+    "axe": "1.3.2",
+    "titre": "Nombre de campagnes de sensibilisation DD&RS",
+    "cible": "2 campagnes annuelles",
+    "respecte": false
+  },
+  {
+    "axe": "1.3.2",
+    "titre": "Nombre d'outils de sensibilisation",
+    "cible": "5 outils d'ici 2030",
+    "respecte": false
+  },
+  {
+    "axe": "1.3.3",
+    "titre": "Nombre de projets d'accompagnement des territoires",
+    "cible": "10 projets en 2030",
+    "respecte": false
+  },
+  {
+    "axe": "1.3.4",
+    "titre": "Mise en place d'une grille d'évaluation des partenaires au regard de leur engagement en faveur de la transition socio-économique",
+    "cible": "OUI en 2027",
+    "respecte": true
+  },
+  {
+    "axe": "1.3.4",
+    "titre": "Proportion des partenaires (soumis à un accord-cadre) ayant un bon niveau d'engagement en faveur de la transition socio-écologique",
+    "cible": "",
+    "respecte": false
+  },
+  {
+    "axe": "2.1.1",
+    "titre": "Définition d'un socle de connaissance",
+    "cible": "OUI en 2025",
+    "respecte": false
+  },
+  {
+    "axe": "2.1.1",
+    "titre": "Existence d'une cellule d'accompagnement",
+    "cible": "OUI en 2024",
+    "respecte": true
+  },
+  {
+    "axe": "2.1.1",
+    "titre": "Part des étudiant.e.s recevant un enseignement socle de la TEDs",
+    "cible": "100% en 2028",
+    "respecte": true
+  },
+  {
+    "axe": "2.1.1",
+    "titre": "Définition d'un socle commun de compétences",
+    "cible": "OUI en 2025",
+    "respecte": false
+  },
+  {
+    "axe": "2.1.2",
+    "titre": "Taux de formations intégrant le DD&RS en lien direct avec les sujets enseignés",
+    "cible": "50% en 2026 et 100% en 2028",
+    "respecte": false
+  },
+  {
+    "axe": "2.1.2",
+    "titre": "Taux de formations continues courtes intégrant le DD&RS",
+    "cible": "50% en 2026 et 80% en 2028",
+    "respecte": true
+  },
+  {
+    "axe": "2.1.3",
+    "titre": "Création du test de positionnement",
+    "cible": "OUI en 2025",
+    "respecte": true
+  },
+  {
+    "axe": "2.2.1",
+    "titre": "Existence d'une organisation qui oriente les initiatives étudiantes vers l'intégration des enjeux DD&RS",
+    "cible": "OUI en 2025",
+    "respecte": true
+  },
+  {
+    "axe": "2.2.1",
+    "titre": "Formalisation d'une procédure de valorisation de l'engagement étudiant",
+    "cible": "OUI en 2026",
+    "respecte": false
+  },
+  {
+    "axe": "2.2.2",
+    "titre": "Mise en place d'une organisation pour accompagner les étudiant.e.s vers des missions, en entreprise, tounéers vers les enjeux DD&RS",
+    "cible": "OUI en 2026",
+    "respecte": false
+  },
+  {
+    "axe": "2.2.2",
+    "titre": "Proportion de formations intégrant une considération DD&RS dans les stages, missions en entreprise et projets",
+    "cible": "50% en 2027 et 100% en 2030",
+    "respecte": true
+  },
+  {
+    "axe": "2.2.3",
+    "titre": "Organisation d'un événement annuel",
+    "cible": "OUI à compter de 2024",
+    "respecte": true
+  },
+  {
+    "axe": "2.2.3",
+    "titre": "Mise en place d'un process permettant de développer les offres d'emploi DD&RS",
+    "cible": "OUI à compter de 2025",
+    "respecte": false
+  },
+  {
+    "axe": "3.1.1",
+    "titre": "Existence d'une méthodologie permettant de mesurer la contribution aux ODD des publications",
+    "cible": "OUI en 2025",
+    "respecte": true
+  },
+  {
+    "axe": "3.1.1",
+    "titre": "Nombre de projets en lien avec le DD&RS",
+    "cible": "60% en 2030",
+    "respecte": false
+  },
+  {
+    "axe": "3.1.2",
+    "titre": "Proportion de composantes de recherche engagées dans une démarche DD&RS",
+    "cible": "50% en 2025 et 100% en 2028",
+    "respecte": true
+  },
+  {
+    "axe": "3.2.1",
+    "titre": "Obtention de la labellisation SAPS",
+    "cible": "OUI en 2025",
+    "respecte": false
+  },
+  {
+    "axe": "3.3.1",
+    "titre": "Intégration des enjeux DD&RS dans les travaux du comité d'éthique",
+    "cible": "OUI en 2028",
+    "respecte": false
+  },
+  {
+    "axe": "4.1.1",
+    "titre": "Analyse des déplacements en avion",
+    "cible": "OUI en 2024",
+    "respecte": true
+  },
+  {
+    "axe": "4.1.1",
+    "titre": "Réalisation d'une étude impact",
+    "cible": "OUI en 2026",
+    "respecte": true
+  },
+  {
+    "axe": "4.1.1",
+    "titre": "Réalisation d'une enquête mobilité auprès des étudiants",
+    "cible": "OUI en 2026",
+    "respecte": false
+  },
+  {
+    "axe": "4.1.2",
+    "titre": "Création d'un simulateur de déplacement",
+    "cible": "OUI en 2025",
+    "respecte": true
+  },
+  {
+    "axe": "4.1.2",
+    "titre": "Intégrer le simulateur dans les demandes de mission",
+    "cible": "OUI en 2026",
+    "respecte": false
+  },
+  {
+    "axe": "4.1.3",
+    "titre": "Présence d'un atelier de réparation",
+    "cible": "OUI en 2025",
+    "respecte": true
+  },
+  {
+    "axe": "4.1.3",
+    "titre": "Mise à disposition de vélos pour le personnel et les étudiant.e.s",
+    "cible": "OUI en 2025 pour les campus de MLV et Nantes",
+    "respecte": false
+  },
+  {
+    "axe": "4.1.3",
+    "titre": "Part de véhicules électrique de petite taille dans le parc automobile",
+    "cible": "30% en 2027 et 50% en 2030",
+    "respecte": false
+  },
+  {
+    "axe": "4.1.4",
+    "titre": "Diffusion de la note",
+    "cible": "OUI en 2024",
+    "respecte": true
+  },
+  {
+    "axe": "4.1.4",
+    "titre": "Réduction du poids carbone des trajets aériens depuis 2023",
+    "cible": "30% de réduction en 2027 et 50% en 2030",
+    "respecte": false
+  },
+  {
+    "axe": "4.1.5",
+    "titre": "Plateforme de covoiturage",
+    "cible": "OUI en 2025",
+    "respecte": true
+  },
+  {
+    "axe": "4.2.1",
+    "titre": "Réalisation du SPASER",
+    "cible": "OUI en 2025",
+    "respecte": true
+  },
+  {
+    "axe": "4.2.2",
+    "titre": "Réalisation et diffusion du baromètre carbone sur les achats",
+    "cible": "OUI en 2025",
+    "respecte": false
+  },
+  {
+    "axe": "4.2.2",
+    "titre": "Création d'un dispositif d'alerte",
+    "cible": "OUI en 2025",
+    "respecte": false
+  },
+  {
+    "axe": "4.2.3",
+    "titre": "Bilan annuel des plateformes de dons",
+    "cible": "OUI en 2024",
+    "respecte": true
+  },
+  {
+    "axe": "4.2.3",
+    "titre": "Taux du matériel de labo de seconde main",
+    "cible": "50% en 2030",
+    "respecte": false
+  },
+  {
+    "axe": "4.2.3",
+    "titre": "Taux du matériel informatique de seconde main",
+    "cible": "25% en 2027",
+    "respecte": false
+  },
+  {
+    "axe": "4.3.1",
+    "titre": "Taux de bâtiments ayant bénéficié d'un audit énergétique (ou DPE)",
+    "cible": "100% en 2026",
+    "respecte": false
+  },
+  {
+    "axe": "4.3.1",
+    "titre": "Taux de bâtiment monitorés",
+    "cible": "100% en 2027",
+    "respecte": false
+  },
+  {
+    "axe": "4.3.2",
+    "titre": "Réduction de la consommation d'énergie",
+    "cible": "-25%  en 2025 et -40% en 2030",
+    "respecte": true
+  },
+  {
+    "axe": "4.3.2",
+    "titre": "Part des bâtiments avec une consigne de chauffage à 19°C",
+    "cible": "100% en 2025",
+    "respecte": true
+  },
+  {
+    "axe": "4.3.2",
+    "titre": "Part des bâtiments climatisés avec une consigne de refroidissement à 26°C",
+    "cible": "100% en 2025",
+    "respecte": true
+  },
+  {
+    "axe": "4.3.3",
+    "titre": "Budget consacré à la rénovation",
+    "cible": "A définir en lien avec le SPSI et le plan pluriannuel d'investissement",
+    "respecte": false
+  },
+  {
+    "axe": "4.3.4",
+    "titre": "Taux de bâtiments consommant du gaz",
+    "cible": "20% en 2027 et 15% en 2030",
+    "respecte": false
+  },
+  {
+    "axe": "4.4.1",
+    "titre": "Bilan carbone du numérique",
+    "cible": "OUI en 2026",
+    "respecte": false
+  },
+  {
+    "axe": "4.4.1",
+    "titre": "Formalisation d'une politique numérique éco-responsable",
+    "cible": "OUI en 2026",
+    "respecte": false
+  },
+  {
+    "axe": "4.4.2",
+    "titre": "Réalisatisation d'un diagnostic des outils numériques",
+    "cible": "OUI en 2026",
+    "respecte": false
+  },
+  {
+    "axe": "4.4.3",
+    "titre": "Diffusion de la note d'optimisation et de rationalisation des équipements",
+    "cible": "OUI en 2025",
+    "respecte": true
+  },
+  {
+    "axe": "4.4.3",
+    "titre": "Elargissement de l'utilisation de la plateforme TROC EIFFEL",
+    "cible": "OUI en 2025",
+    "respecte": true
+  },
+  {
+    "axe": "4.4.4",
+    "titre": "Mise en oeuvre des actions demandées dans le cadre des audits",
+    "cible": "100% en 2025",
+    "respecte": false
+  },
+  {
+    "axe": "4.4.4",
+    "titre": "Formalisation d'une politique sur la migration des serveurs",
+    "cible": "OUI en 2026",
+    "respecte": false
+  },
+  {
+    "axe": "4.4.4",
+    "titre": "Migrer progressivement les serveurs vers une solution moins énergivore",
+    "cible": "50% en 2030",
+    "respecte": false
+  },
+  {
+    "axe": "4.5.1",
+    "titre": "Existence d'un bilan général annuel",
+    "cible": "OUI",
+    "respecte": true
+  },
+  {
+    "axe": "4.5.1",
+    "titre": "Taux de réduction de la consommation d'eau potable",
+    "cible": "2027 : -15% de la consommation d'eau potable par rapport à 2022",
+    "respecte": false
+  },
+  {
+    "axe": "5.1.1",
+    "titre": "Formalisation d'une politique de réduction des déchets",
+    "cible": "OUI en 2025",
+    "respecte": true
+  },
+  {
+    "axe": "5.1.2",
+    "titre": "Mise en place d'une campagne de communication bi-annuelle ou annuelle sur les bénéfices du reconditionnement",
+    "cible": "OUI en 2025",
+    "respecte": true
+  },
+  {
+    "axe": "5.1.3",
+    "titre": "Réalisation d'un diagnostic sur les pratiques de tri des déchets",
+    "cible": "OUI en 2024",
+    "respecte": true
+  },
+  {
+    "axe": "5.1.3",
+    "titre": "Part des campus/écoles respectant l'obligation de tri 8 flux",
+    "cible": "100% en 2026",
+    "respecte": false
+  },
+  {
+    "axe": "5.1.3",
+    "titre": "Part des campus/écoles pour lesquels un affichage clair avec consignes de tri est mis en place",
+    "cible": "100% en 2026",
+    "respecte": false
+  },
+  {
+    "axe": "5.2.1",
+    "titre": "Suivi des mesures de l'air intérieur",
+    "cible": "OUI en 2025",
+    "respecte": true
+  },
+  {
+    "axe": "5.2.1",
+    "titre": "Suivi des mesures d'exposition professionelles",
+    "cible": "OUI en 2025",
+    "respecte": true
+  },
+  {
+    "axe": "5.2.2",
+    "titre": "Formalisation d'une procédure de non-rejet des produits à l'évier",
+    "cible": "OUI en 2025",
+    "respecte": true
+  },
+  {
+    "axe": "5.2.2",
+    "titre": "Définition d'un plan d'action",
+    "cible": "OUI en 2027",
+    "respecte": false
+  },
+  {
+    "axe": "5.3.1",
+    "titre": "Part des surfaces d'espaces verts ayant fait l'objet d'un inventaire biodiversité",
+    "cible": "90% en 2025",
+    "respecte": true
+  },
+  {
+    "axe": "5.3.1",
+    "titre": "Part d'espaces verts gérés de manière durable",
+    "cible": "90% en 2025",
+    "respecte": true
+  },
+  {
+    "axe": "5.3.2",
+    "titre": "Existence d'une trajectoire de limitation de l'artificialisation des sols",
+    "cible": "OUI en 2025",
+    "respecte": true
+  },
+  {
+    "axe": "5.4.1",
+    "titre": "Respect de la loi EGALIM au sein de nos restaurants",
+    "cible": "100% en 2026",
+    "respecte": true
+  },
+  {
+    "axe": "5.4.2",
+    "titre": "Part de distributeurs alimentaires équipés d'une proposition \"alimentation durable\"",
+    "cible": "",
+    "respecte": false
+  },
+  {
+    "axe": "5.4.2",
+    "titre": "Part de traiteurs proposant une prestation éco-responsable",
+    "cible": "100% en 2025",
+    "respecte": false
+  },
+  {
+    "axe": "5.4.3",
+    "titre": "Nombre d'actions de sensibilisation en faveur de l'alimentation durable",
+    "cible": "A minima deux par an",
+    "respecte": false
+  },
+  {
+    "axe": "6.1.1",
+    "titre": "Réalisation du Plan Egalité 2024-2024",
+    "cible": "OUI en 2024",
+    "respecte": true
+  },
+  {
+    "axe": "6.1.2",
+    "titre": "Finalisation du Schéma Directeur Handicap",
+    "cible": "OUI en 2025",
+    "respecte": true
+  },
+  {
+    "axe": "6.2.1",
+    "titre": "Proportion de nouveaux arrivants formés aux enjeux du DD&RS",
+    "cible": "100% en 2025",
+    "respecte": true
+  },
+  {
+    "axe": "6.2.1",
+    "titre": "Existence de ressources pédagogiques sur les enjeux DD&RS accessibles aux personnels",
+    "cible": "OUI en 2025",
+    "respecte": true
+  },
+  {
+    "axe": "6.2.1",
+    "titre": "Mise en oeuvre d'une procédure de valorisation des compétences",
+    "cible": "OUI en 2026",
+    "respecte": false
+  },
+  {
+    "axe": "6.2.2",
+    "titre": "Identification des contributions de chaque métier au DD&RS",
+    "cible": "OUI en 2025",
+    "respecte": true
+  },
+  {
+    "axe": "6.2.2",
+    "titre": "Intégration des thématiques DD&RS dans la stratégie GPEEC",
+    "cible": "OUI en 2024",
+    "respecte": false
+  },
+  {
+    "axe": "6.3.1",
+    "titre": "Formalisation d'une politique de qualité de vie au travail",
+    "cible": "OUI en 2024",
+    "respecte": true
+  },
+  {
+    "axe": "6.3.1",
+    "titre": "Création et diffusion d'une charte sur l'usage numérique",
+    "cible": "OUI en 2025",
+    "respecte": true
+  },
+  {
+    "axe": "6.3.1",
+    "titre": "Création et diffusion d'une charte sur l'équilibre vie personnelle/vie professionnelle",
+    "cible": "OUI en 2025",
+    "respecte": false
+  },
+  {
+    "axe": "6.3.2",
+    "titre": "Finalisation du PAVE",
+    "cible": "OUI en 2024",
+    "respecte": true
+  },
+  {
+    "axe": "6.3.2",
+    "titre": "Création d'une ressourcerie pérenne",
+    "cible": "OUI en 2026",
+    "respecte": false
+  },
+  {
+    "axe": "6.4.1",
+    "titre": "Formalisation d'une politique d'égalité des chances",
+    "cible": "OUI en 2024",
+    "respecte": true
+  }
+]

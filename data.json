@@ -1,0 +1,302 @@
+  {
+    "name": "SCHEMA DIRECTEUR DD&RS",
+    "children": [
+      {
+        "name": "1. POLITIQUE DD&RS",
+        "children": [
+          {
+            "name": "1.1 Formaliser notre politique DD&RS et la déployer à toute l'activité de l'université",
+            "children": [
+              {
+                "name": "1.1.1 Obtenir et maintenir la labellisation DD&RS et s'en servir comme outil d'amélioration continue"
+              },
+              {
+                "name": "1.1.2 Communiquer de manière responsable"
+              },
+              {
+                "name": "1.1.3 Intégrer les enjeux sociaux et environnementaux au sein de chaque entité"
+              }
+            ]
+          },
+          {
+            "name": "1.2 Déployer et piloter la stratégie DD&RS au sein de l'établissement en affectant les moyens humains, techniques et financiers",
+            "children": [
+              {
+                "name": "1.2.1 Déployer des moyens humains pour accélérer l'intégration du DD&RS au sein de l'établissement"
+              },
+              {
+                "name": "1.2.2 Déployer des moyens financiers pour accélérer l’intégration du DD&RS au sein de l’établissement"
+              },
+              {
+                "name": "1.2.3 Faciliter et organiser la collecte des données DD&RS"
+              }
+            ]
+          },
+          {
+            "name": "1.3 Contribuer avec l'ensemble des parties prenantes à la construction d'une société responsable conciliant les dimensions économique, sociale et environnementale",
+            "children": [
+              {
+                "name": "1.3.1 Accompagner et mobiliser les personnels et les étudiant·e·s qui s’engagent en faveur de la transition socio-écologique"
+              },
+              {
+                "name": "1.3.2 Sensibiliser les personnels et les étudiant·e·s via des formats variés"
+              },
+              {
+                "name": "1.3.3 Agir sur nos territoires"
+              },
+              {
+                "name": "1.3.4 Adopter une politique partenariale en cohérence avec nos engagements"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "2. ENSEIGNEMENT & FORMATION",
+        "children": [
+          {
+            "name": "2.1 Intégrer les problématiques de DD&RS dans les programmes et enseignements",
+            "children": [
+              {
+                "name": "2.1.1 Former l’ensemble des étudiant·e·s de premier cycle à la TEDs"
+              },
+              {
+                "name": "2.1.2 Former l’ensemble des étudiant·e·s à la transition socio-écologique, en tenant compte de leurs spécificités et leurs futurs métiers"
+              },
+              {
+                "name": "2.1.3 Evaluer et attester des connaissances en DD&RS des étudiant·e·s"
+              }
+            ]
+          },
+          {
+            "name": "2.2 Favoriser et accompagner le développement des compétences en DD&RS dans les apprenant·e·s",
+            "children": [
+              {
+                "name": "2.2.1 Valoriser l'engagement DD&RS étudiant"
+              },
+              {
+                "name": "2.2.2 Renforcer les enjeux DD&RS dans les stages, alternances et projets étudiants"
+              },
+              {
+                "name": "2.2.3 Mettre en lien les apprenant·e·s avec des structures engagées dans la transition socio-écologique"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "3. RECHERCHE & INNOVATION",
+        "children": [
+          {
+            "name": "3.1 Intégrer le DD&RS dans la stratégie de recherche et d'innovation de l'établissement",
+            "children": [
+              {
+                "name": "3.1.1 Valoriser et accompagner l’intégration des enjeux DD&RS dans les travaux de recherche"
+              },
+              {
+                "name": "3.1.2 Prendre en compte les impacts socio-écologiques liés aux activités de la recherche"
+              }
+            ]
+          },
+          {
+            "name": "3.2 Développer et valoriser les interactions science société pour répondre aux enjeux du DD&RS",
+            "children": [
+              {
+                "name": "3.2.1 Développer et valoriser les interactions science société pour répondre aux enjeux du DD&RS"
+              }
+            ]
+          },
+          {
+            "name": "3.3 Promouvoir et favoriser un dispositif de réflexion éthique au regard de l'exercice de la responsabilité de la recherche et de l'innovation",
+            "children": [
+              {
+                "name": "3.3.1 Promouvoir et favoriser un dispositif de réflexion éthique au regard de l'exercice de la responsabilité de la recherche et de l'innovation"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "4. ACTIVITÉ & GAZ À EFFET DE SERRE",
+        "children": [
+          {
+            "name": "4.1 Réduire l'impact environnemental de nos déplacements",
+            "children": [
+              {
+                "name": "4.1.1 Réaliser un état des lieux des pratiques de mobilités au sein de l'université"
+              },
+              {
+                "name": "4.1.2 Sensibiliser nos parties prenantes à l'impact environnemental des déplacements"
+              },
+              {
+                "name": "4.1.3 Favoriser l'usage de mobilités moins carbonées"
+              },
+              {
+                "name": "4.1.4 Réduire nos déplacements en avion en proposant des alternatives"
+              },
+              {
+                "name": "4.1.5 Faciliter la mise en œuvre du covoiturage"
+              }
+            ]
+          },
+          {
+            "name": "4.2 Acheter de manière responsable",
+            "children": [
+              {
+                "name": "4.2.1 Formaliser et mettre en œuvre une politique d’achats responsables"
+              },
+              {
+                "name": "4.2.2 Questionner le besoin d'acheter"
+              },
+              {
+                "name": "4.2.3 Faire durer nos équipements"
+              }
+            ]
+          },
+          {
+            "name": "4.3 Réduire l'impact environnemental de nos consommations d'énergie",
+            "children": [
+              {
+                "name": "4.3.1 Analyser, de manière précise, les consommations d'énergie et sensibiliser les usagers"
+              },
+              {
+                "name": "4.3.2 Réduire notre consommation d’énergie"
+              },
+              {
+                "name": "4.3.3 Poursuivre la rénovation thermique de nos bâtiments"
+              },
+              {
+                "name": "4.3.4 Privilégier le recours aux énergies peu carbonées"
+              }
+            ]
+          },
+          {
+            "name": "4.4 Mettre en œuvre une politique numérique éco-responsable",
+            "children": [
+              {
+                "name": "4.4.1 Évaluer les impacts pour formaliser un plan d'actions et sensibiliser pour accompagner sa mise en œuvre"
+              },
+              {
+                "name": "4.4.2 Éco-concevoir les outils numériques"
+              },
+              {
+                "name": "4.4.3 Optimiser et rationaliser les équipements en fonction du besoin"
+              },
+              {
+                "name": "4.4.4 Réduire la consommation énergétique du numérique"
+              }
+            ]
+          },
+          {
+            "name": "4.5 Préserver notre ressource en eau",
+            "children": [
+              {
+                "name": "4.5.1 Préserver notre ressource en eau"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "5. POLLUTION & SANTÉ",
+        "children": [
+          {
+            "name": "5.1 Mettre en œuvre une politique de prévention et de réduction des déchets",
+            "children": [
+              {
+                "name": "5.1.1 Définir et formaliser une politique de réduction des déchets"
+              },
+              {
+                "name": "5.1.2 Reconditionner les équipements usagés, plutôt que de les recycler"
+              },
+              {
+                "name": "5.1.3 Optimiser et généraliser le système de tri des déchets"
+              }
+            ]
+          },
+          {
+            "name": "5.2 Améliorer la qualité de l'air et de l'eau",
+            "children": [
+              {
+                "name": "5.2.1 Préserver la qualité de l'air intérieur de nos bâtiments"
+              },
+              {
+                "name": "5.2.2 Mesurer, en sortie d’effluents, les eaux usées"
+              }
+            ]
+          },
+          {
+            "name": "5.3 Développer une politique en faveur de la biodiversité",
+            "children": [
+              {
+                "name": "5.3.1 Gérer, de manière durable, nos espaces verts"
+              },
+              {
+                "name": "5.3.2 Agir pour la végétalisation des campus"
+              }
+            ]
+          },
+          {
+            "name": "5.4 Promouvoir une alimentation responsable accessible au plus grand nombre",
+            "children": [
+              {
+                "name": "5.4.1 Faire appliquer la loi EGALIM au sein de l’université"
+              },
+              {
+                "name": "5.4.2 Généraliser les pratiques d’alimentation durable"
+              },
+              {
+                "name": "5.4.3 Sensibiliser les parties prenantes à l’alimentation durable"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "6. POLITIQUE SOCIALE",
+        "children": [
+          {
+            "name": "6.1 Favoriser une politique humaine et sociale d'égalité et de diversité au sein des personnels",
+            "children": [
+              {
+                "name": "6.1.1 Mettre en œuvre le plan Egalité 2024-26"
+              },
+              {
+                "name": "6.1.2 Rédiger et mettre en œuvre le Schéma Directeur Handicap"
+              }
+            ]
+          },
+          {
+            "name": "6.2 Favoriser et accompagner le développement des compétences, dont les compétences DD&RS, dans l'évolution des métiers",
+            "children": [
+              {
+                "name": "6.2.1 Former tous les personnels à la transition socio-écologique et valoriser les compétences acquises"
+              },
+              {
+                "name": "6.2.2 Intégrer les enjeux DD&RS dans le GPEEC"
+              }
+            ]
+          },
+          {
+            "name": "6.3 Développer une politique de qualité de vie dans l'établissement",
+            "children": [
+              {
+                "name": "6.3.1 Formaliser une politique de qualité de vie au travail"
+              },
+              {
+                "name": "6.3.2 Mettre en œuvre le Plan d'Action pour la qualité de la Vie Étudiante (PAVE)"
+              }
+            ]
+          },
+          {
+            "name": "6.4 Formaliser une égalité des chances pour les étudiantes et étudiants",
+            "children": [
+              {
+                "name": "6.4.1 Formaliser une égalité des chances pour les étudiantes et étudiants"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
