@@ -17,15 +17,15 @@
     "url": "https://mission-ddrs.univ-gustave-eiffel.fr/politique-ddrs/schema-directeur-ddrs"
   },
   {
-    "axe": "1.1.4",
+    "axe": "1.1.2",
     "num": [
       16
     ],
     "titre": "Etablissement d'une charte de la communication responsable ",
-    "description": "A la suite de la formation relative aux thématiques de communication responsable suivie en 2024, un document cadre listant les principes que l'université souhaite désormais suivre a été rédigé."
+    "description": "A la suite de la formation relative aux thématiques de communication responsable suivie par les équipes de la direction de la communication en 2024, un document cadre listant les principes que l'université souhaite désormais suivre a été rédigé."
   },
   {
-    "axe": "4.1.1.",
+    "axe": "4.1",
     "num": [
       13
     ],
@@ -50,7 +50,7 @@
     "description": "Dès 2020, un COPIL DD&RS composé de vice-présidences (y compris étudiante) et directeur·ice·s de service a été créé. Celui-ci a pour objectifs d'échanger et valider les actions proposées sur chacune des thématiques mais également de diffuser la culture DD&RS dans leurs équipes respectives."
   },
   {
-    "axe": "1.1.2",
+    "axe": "4.1",
     "num": [
       13
     ],
@@ -75,7 +75,7 @@
     "url": "https://zei-world.com/pro/1481"
   },
   {
-    "axe": "1.3.2",
+    "axe": "1.1.2",
     "num": [
       12
     ],
@@ -83,7 +83,7 @@
     "description": "L'organisation d'événements à l'université a de nombreux impacts en termes d'utilisation de ressources, de transport et de production de déchets. L'établissement a ainsi souhaité guider les organisateur·ice·s d'événements vers une meilleure prise en compte de ces enjeux."
   },
   {
-    "axe": "1.3.2",
+    "axe": "1.1.2",
     "num": [
       4
     ],
@@ -149,7 +149,7 @@
       17
     ],
     "titre": "Création d'un groupe de travail autour de l'Accord de Grenoble",
-    "description": "Un groupe de travail regroupant étudiant⸱e⸱s, personnels administratifs et enseignant⸱e⸱s/chercheur⸱euse⸱s a récemment été relancé à l'échelle de l'université. L'objectif est de faire dialoguer davantage les parties prenantes internes, fédérer, créer du lien et envisager la création de nouvelles initiatives.",
+    "description": "Un groupe de travail regroupant étudiant⸱e⸱s, personnels administratifs et enseignant⸱e⸱s/chercheur⸱euse⸱s a été relancé à l'échelle de l'université. L'objectif est de faire dialoguer davantage les parties prenantes internes, fédérer, créer du lien et envisager la création de nouvelles initiatives. Il prend désormais le nom de Collectif Eco Campus.",
     "url": "https://mission-ddrs.univ-gustave-eiffel.fr/politique-ddrs/accords-de-grenoble"
   },
   {
@@ -182,7 +182,7 @@
     "num": [
       17
     ],
-    "titre": "Partage de pratiques : interventions de l'université en webinaires thématiques ",
+    "titre": "Partage de pratiques : interventions de l'université en webinaires thématiques DD&RS ",
     "description": "On citera par exemple l'intervention de Clémence Garnier, responsable de la mission DD&RS, dans un webinaire du Club DDEP portant sur les thématiques biodiversité, ou encore le témoignage lié au réseau de référent⸱e⸱s DD&RS dans un webinaire thématique du CIRSES."
   },
   {
@@ -200,7 +200,7 @@
       17
     ],
     "titre": "Mise en oeuvre du programme CityFab",
-    "description": "CityFAB est un projet d’établissement lauréat de l'appel à projet \"ExcellencES sous toutes ses formes\", un programme de France 2030 ayant vocation à financer le développement de projets \"signatures\" des universités lauréates. Dans la continuité du projet scientifique de l'I-SITE sur les villes et les territoires durables et en lien avec les autres projets financés par France 2030 (Avid et Forco-VD notamment), City-FAB contribue à renforcer l'université dans ses missions d’appui aux politiques publiques et à valoriser la dimension nationale de l’établissement. Monté en partenariat avec le CNRS, CityFAB a pour ambition d'accompagner les collectivités proches des différents campus de l’Université Gustave Eiffel dans leurs trajectoires de transitions par des recherches-actions « sur mesure » et le développement de programmes de formation et de dispositifs de diffusion des savoirs. A ce jour, 4 projets ont été lancés et 6 autres doivent suivre.",
+    "description": "CityFAB est un projet d’établissement lauréat de l'appel à projet \"ExcellencES sous toutes ses formes\", un programme de France 2030 ayant vocation à financer le développement de projets \"signatures\" des universités lauréates. Dans la continuité du projet scientifique de l'I-SITE sur les villes et les territoires durables et en lien avec les autres projets financés par France 2030 (Avid et Forco-VD notamment), City-FAB contribue à renforcer l'université dans ses missions d’appui aux politiques publiques et à valoriser la dimension nationale de l’établissement. Monté en partenariat avec le CNRS, CityFAB a pour ambition d'accompagner les collectivités proches des différents campus de l’Université Gustave Eiffel dans leurs trajectoires de transitions par des recherches-actions « sur mesure » et le développement de programmes de formation et de dispositifs de diffusion des savoirs. A ce jour, 10 projets ont été lancés.",
     "url": "https://www.univ-gustave-eiffel.fr/luniversite/nos-projets-transformants/city-fab"
   },
   {
@@ -209,11 +209,11 @@
       4
     ],
     "titre": "Production de supports pédagogiques autour des enjeux DD&RS, à destination de parties prenantes internes et externes ",
-    "description": "Le MOOC Demain ma rue (décrit succinctement en document d'appui), l'escape-game objectifs développement durable constituent des exemples de supports pédagogiques autour des enjeux DD&RS réalisés par les équipes de l'Université Gustave Eiffel.",
+    "description": "Le MOOC Demain ma rue, l'escape-game objectifs développement durable constituent des exemples de supports pédagogiques autour des enjeux DD&RS réalisés par les équipes de l'Université Gustave Eiffel.",
     "url": "https://cipen.univ-gustave-eiffel.fr/actualites/numerique-et-medias/mooc-demain-ma-rue"
   },
   {
-    "axe": "1.3.2",
+    "axe": "1.3.3",
     "num": [
       4
     ],
@@ -221,7 +221,7 @@
     "description": "Ateliers, conférences et expositions sont organisés à destination des établissements scolaires, des collectivités ou du public local, et portent bien souvent sur les enjeux DD&RS. "
   },
   {
-    "axe": "1.3.2",
+    "axe": "1.3.3",
     "num": [
       4
     ],
@@ -256,10 +256,11 @@
       17
     ],
     "titre": "Réalisation d'une étude d'impact socio-économique",
-    "description": "Principalement centrée sur le territoire d'implantation du campus de Marne-la-Vallée, cette étude propose une évaluation des effets sur l’emploi et sur l’activité économique de la présence de l’Université Gustave Eiffel sur ses différents territoires d’implantation en se focalisant sur l’impact des dépenses des personnels, des étudiant⸱e⸱s non-apprenti⸱e⸱s et des étudiant⸱e⸱s apprenti⸱e⸱s ainsi que des dépenses de l’université. Le rapport est joint en document d'appui."
+    "description": "Principalement centrée sur le territoire d'implantation du campus de Marne-la-Vallée, cette étude propose une évaluation des effets sur l’emploi et sur l’activité économique de la présence de l’Université Gustave Eiffel sur ses différents territoires d’implantation en se focalisant sur l’impact des dépenses des personnels, des étudiant⸱e⸱s non-apprenti⸱e⸱s et des étudiant⸱e⸱s apprenti⸱e⸱s ainsi que des dépenses de l’université.",
+    "url": "https://www.univ-gustave-eiffel.fr/luniversite/pages-speciales/vue-detaillee/limpact-socio-economique-de-luniversite-gustave-eiffel-sur-lagglomeration-paris-vallee-de-la-marne-un-atout-incontestable-pour-le-territoire"
   },
   {
-    "axe": "2.1.1",
+    "axe": "6.2.1",
     "num": [
       4
     ],
@@ -268,12 +269,12 @@
     "url": "https://www.uved.fr/"
   },
   {
-    "axe": "2.2.1",
+    "axe": "2.1.1",
     "num": [
       4
     ],
     "titre": "Mise en place d'Unités d'enseignement d'ouverture relatives aux enjeux DD&RS ",
-    "description": "Depuis la rentrée 2022/2023, quatre UEO optionnelles ont été progressivement ouvertes aux étudiant·e·s sur les thématiques des frontières planétaires, du changement climatique, des urgences environnementales et de l'apiculture.",
+    "description": "Depuis la rentrée 2022/2023, quatre UEO optionnelles ont été progressivement ouvertes aux étudiant·e·s sur les thématiques des frontières planétaires, du changement climatique, des cultures du changement climatique et de l'apiculture.",
     "url": "https://mission-ddrs.univ-gustave-eiffel.fr/ueo-1"
   },
   {
@@ -292,7 +293,7 @@
       4
     ],
     "titre": "Analyse de l'intégration du DD&RS dans les formations ",
-    "description": "Sur la base d'une étude réalisée en 2022 à partir d'un questionnaire soumis aux responsables de formation et de l'étude des maquettes pédagogiques, un travail de recensement des formations et enseignements intégrant les enjeux DD&RS a été réalisé par la mission DD&RS. Un second travail étudiant l'intégration du DD&RS dans les formations a été réalisé en 2024, à partir des réponses indiquées par les composantes de formation dans leurs auto-évaluations HCERES. Les différents travaux réalisés sont consultables en document d'appui."
+    "description": "Sur la base d'une étude réalisée en 2022 à partir d'un questionnaire soumis aux responsables de formation et de l'étude des maquettes pédagogiques, un travail de recensement des formations et enseignements intégrant les enjeux DD&RS a été réalisé par la mission DD&RS. Un second travail étudiant l'intégration du DD&RS dans les formations a été réalisé en 2024, à partir des réponses indiquées par les composantes de formation dans leurs auto-évaluations HCERES."
   },
   {
     "axe": "2.1.2",
@@ -319,8 +320,6 @@
     ],
     "titre": "Etude des remontées HCERES des formations - critère relatif à la formation à et par la recherche",
     "description": "Une analyse succincte des remontées HCERES 2024 des formations et de leur réponse au critère R3-C1 du référentiel HCERES \"La formation intègre une formation à et par la recherche adaptée à sa finalité\" montre que les composantes se positionnent globalement correctement sur ces thématiques.",
-    "url": "https://www.hceres.fr/sites/default/files/media/publications/rapports_evaluations/pdf/D2025-EV-0772894C-DEE-ETAB250025477-RD.pdf"
-  },
   {
     "axe": "2.1.2",
     "num": [
@@ -401,16 +400,6 @@
     "description": "La fiche-projet du FSDIE a été récemment modifiée pour y intégrer un questionnement sur l'intégration des enjeux sociaux et environnementaux dans le projet déposé : l'objectif est avant tout pédagogique, en poussant l'étudiant·e à s'interroger sur l'impact de son projet sur ces enjeux et en l'incitant à faire appel à des achats de seconde main ou à du prêt entre associations."
   },
   {
-    "axe": "2.2.1",
-    "num": [
-      10,
-      4
-    ],
-    "titre": "Partenariat avec l'Afev Seine-et-Marne",
-    "description": "L'Afev est une structure qui met en place un programme de mentorat éducatif pour des jeunes mentoré⸱e⸱s âgé⸱e⸱s de 5 à 18 ans, en difficulté scolaire et/ou sociale. Ces jeunes sont mis en contact avec un⋅e étudiant⋅e bénévole, avec lequelle/laquelle ils⸱elles passent 2 heures par semaine tout au long de l'année. En lien avec les besoins des jeunes, le mentorat tourne autour de la discussion, de l'accompagnement scolaire, des activités et sorties culturelles et sportives, tout en développant la confiance en soi du jeune.",
-    "url": "https://modele3.univ-gustave-eiffel.fr/actualite/actualites-details/toi-aussi-deviens-mentor"
-  },
-  {
     "axe": "2.2.3",
     "num": [
       8
@@ -463,7 +452,7 @@
     "description": "Depuis 2020, l'université s'est attachée à auto-évaluer l'intégration des enjeux de développement durable dans sa stratégie de recherche via l'axe 3 du référentiel DD&RS."
   },
   {
-    "axe": "3.1.1",
+    "axe": "3.1.2",
     "num": [
       9
     ],
@@ -502,23 +491,7 @@
       9
     ],
     "titre": "Formalisation du fait que le DD&RS doit être le \"prérequis\" de tout projet, y compris scientifique, dans le SD PINS ",
-    "description": "Le Schéma Directeur Patrimoine, Immobilier, Numérique et Scientifique formule la nécessité d'intégrer les enjeux de développement durable et de responsabilité sociétale comme \"prérequis de tout projet\", y compris scientifique (deuxième axe transversal du schéma, page 10). L'impact d'un projet de recherche doit donc être apprécié."
-  },
-  {
-    "axe": "3.1.2",
-    "num": [
-      9
-    ],
-    "titre": "Recensement des initiatives de mesure d'impact DD&RS à l'échelle d'un projet de recherche ",
-    "description": "Les initiatives internes et externes de mesure d'impact DD&RS doivent être référencées, dans le but de construire une méthodologie générique et adaptable à proposer aux équipes de recherche."
-  },
-  {
-    "axe": "3.1.2",
-    "num": [
-      9
-    ],
-    "titre": "Construction d'une méthodologie générique et adaptable de mesure d'impact DD&RS d'un projet de recherche",
-    "description": "A partir des initiatives internes et externes recensées, il s'agira de proposer et diffuser une méthodologie de mesure d'impact DD&RS, à l'échelle d'un projet, aux équipes de recherche. Le groupe de travail travaillant sur les chartes de laboratoire sera interrogé sur le sujet."
+    "description": "Le Schéma Directeur Patrimoine, Immobilier, Numérique et Scientifique formule la nécessité d'intégrer les enjeux de développement durable et de responsabilité sociétale comme \"prérequis de tout projet\", y compris scientifique. L'impact d'un projet de recherche doit donc être apprécié."
   },
   {
     "axe": "3.1.2",
@@ -527,14 +500,6 @@
     ],
     "titre": "Constitution d'un guichet unique pour les bilans carbones des unités de recherche ",
     "description": "La mission DD&RS propose aux unités de recherche un accompagnement à la réalisation de bilans carbones, via l'outil GES 1.5. Elle collecte notamment, en amont, un certain nombre de données à destination des unités de recherche, nécessaires à la réalisation d'un bilan d'émissions de gaz à effet de serre."
-  },
-  {
-    "axe": "3.1.2",
-    "num": [
-      9
-    ],
-    "titre": "Mise en ligne d'un espace de partage de ressources et d'échanges inter-unités de recherche ",
-    "description": "Mise en ligne d'un espace de partage de ressources et d'échanges inter-unités de recherche"
   },
   {
     "axe": "3.1.2",
@@ -565,7 +530,7 @@
     "url": "https://rapportactivite2021.univ-gustave-eiffel.fr/partenariats/chercheures-citoyenes-11-projets-de-recherche-participative-selectionnes"
   },
   {
-    "axe": "3.2.1",
+    "axe": "3.2",
     "num": [
       9
     ],
@@ -574,7 +539,7 @@
     "url": "https://reflexscience.univ-gustave-eiffel.fr/participer/ateliers-participatifs/revele-ta-science"
   },
   {
-    "axe": "3.2.1",
+    "axe": "3.2",
     "num": [
       9
     ],
@@ -582,7 +547,7 @@
     "description": "Outre les formats présentés, le service diffusion des savoirs et ouverture à la société (DSOS) propose un accompagnement aux équipes de recherche pour la mise en œuvre de projets participatifs."
   },
   {
-    "axe": "3.2.1",
+    "axe": "3.2",
     "num": [
       9
     ],
@@ -591,7 +556,7 @@
     "url": "https://www.univ-gustave-eiffel.fr/luniversite/pages-speciales/vue-detaillee/recherches-en-societe-une-nouvelle-collection-de-dossiers-sur-reflexscience"
   },
   {
-    "axe": "3.2.1",
+    "axe": "3.2",
     "num": [
       9,
       11
@@ -601,7 +566,7 @@
     "url": "https://www.irsn.fr/sites/default/files/documents/connaissances/nucleaire_et_societe/ouverture-transparence/ouverture/IRSN-Anses-Charte-Ouverture-a-la-societeVF.pdf"
   },
   {
-    "axe": "3.2.1",
+    "axe": "3.2",
     "num": [
       11
     ],
@@ -630,15 +595,7 @@
     "url": "https://www.univ-gustave-eiffel.fr/luniversite/nos-projets-transformants/pui-seville"
   },
   {
-    "axe": "3.2.1",
-    "num": [
-      17
-    ],
-    "titre": "Intégration des enjeux sociétaux dans la stratégie partenariale à formaliser de l'établissement",
-    "description": "L'objectif est de formaliser l'intégration des enjeux sociétaux dans la politique partenariale de l'établissement et d'intégrer la prise en compte des enjeux sociétaux dans les partenariats et accords-cadres. Le contenu de la politique partenariale est en cours de réflexion, celle-ci sera validée début 2025."
-  },
-  {
-    "axe": "3.2.1",
+    "axe": "3.2",
     "num": [
       4
     ],
@@ -646,7 +603,7 @@
     "description": "Le service diffusion des savoirs et ouverture à la société accompagne les équipes de recherche et met en place plusieurs dispositifs pour faire découvrir la science au grand public."
   },
   {
-    "axe": "3.2.1",
+    "axe": "3.2",
     "num": [
       4
     ],
@@ -655,7 +612,7 @@
     "url": "https://theconversation.com/institutions/universite-gustave-eiffel-4841"
   },
   {
-    "axe": "3.2.1",
+    "axe": "3.2",
     "num": [
       4
     ],
@@ -664,7 +621,7 @@
     "url": "https://reflexscience.univ-gustave-eiffel.fr/"
   },
   {
-    "axe": "3.2.1",
+    "axe": "3.2",
     "num": [
       4
     ],
@@ -673,7 +630,7 @@
     "url": "https://clap.univ-eiffel.fr/"
   },
   {
-    "axe": "3.2.1",
+    "axe": "3.2",
     "num": [
       11
     ],
@@ -681,7 +638,7 @@
     "description": "Le service diffusion des savoirs et ouverture à la société tisse des partenariats avec des collectivités locales et/ou des associations de culture scientifique de chacun des territoires de ses campus pour déployer des actions de culture scientifique et technique localement, en particulier à l'occasion de la Fête de la Science."
   },
   {
-    "axe": "3.2.1",
+    "axe": "3.2",
     "num": [
       11
     ],
@@ -689,17 +646,17 @@
     "description": "Dès sa création, l'Université Gustave Eiffel affirme être porteuse, outre celles de formation et de recherche, d'une troisième mission articulée autour de la responsabilité sociétale et de l’appui aux politiques publiques. Pour répondre à ces ambitions, une vice-présidence \"appui aux politiques publiques\" s'est structurée."
   },
   {
-    "axe": "3.2.1",
+    "axe": "3.2",
     "num": [
       11,
       9
     ],
     "titre": "Accueil et co-organisation du colloque \"Recherche et action publique\" fin 2024 ",
-    "description": "L'établissement accueillera le colloque \"Recherche et action publique\" au second semestre 2024, témoin de son engagement sur ces thématiques",
+    "description": "L'établissement a accueilli le colloque \"Recherche et action publique\" au second semestre 2024, témoin de son engagement sur ces thématiques",
     "url": "https://www.univ-gustave-eiffel.fr/fileadmin/UniversiteGustaveEiffel/Communique_de_presse/CP_R_AP_24.pdf"
   },
   {
-    "axe": "3.2.1",
+    "axe": "3.2",
     "num": [
       11,
       9
@@ -709,7 +666,7 @@
     "url": "https://www.univ-gustave-eiffel.fr/luniversite/partenariats-appui-aux-politiques-publiques/appui-aux-politiques-publiques/nos-productions"
   },
   {
-    "axe": "3.3.1",
+    "axe": "3.3",
     "num": [
       9
     ],
@@ -751,7 +708,7 @@
     "description": "L'université administre son espace sur HAL, qui rassemble les publications en accès ouvert des équipes de recherche de l'université. Afin de faciliter le partage et l'ouverture des données de la recherche, l'université a demandé l'ouverture de son espace institutionnel sur l'entrepôt national recherche data gouv. L'université a également mis en place une plateforme Gitlab, hébergée en interne, pour le développement et le partage de codes source et logiciels. En complément, l'université a ouvert une organisation institutionnelle pour rassembler les codes source et logiciels déposés sur Github."
   },
   {
-    "axe": "4.2.1",
+    "axe": "4.2.3",
     "num": [
       12
     ],
@@ -837,7 +794,7 @@
     "description": "Dans l'objectif d'affiner l'analyse de nos consommations énergétiques pour identifier des leviers de réduction efficaces, les différents campus de l'établissement sont progressivement équipés de sous-compteurs."
   },
   {
-    "axe": "4.3.1",
+    "axe": "4.4.4.",
     "num": [
       7
     ],
@@ -850,10 +807,10 @@
       7
     ],
     "titre": "Formalisation d'un plan d'économie d'énergie des campus dans le SPSI ",
-    "description": "Issu d'un diagnostic global du patrimoine immobilier de l'université, le schéma pluriannuel de stratégie immobilière comporte une partie mettant en lumière les différentes projections de réduction d'énergie possibles, pour chaque campus et les pistes pour y aboutir. Le SPSI sera soumis aux instances fin 2024."
+    "description": "Issu d'un diagnostic global du patrimoine immobilier de l'université, le schéma pluriannuel de stratégie immobilière comporte une partie mettant en lumière les différentes projections de réduction d'énergie possibles, pour chaque campus et les pistes pour y aboutir."
   },
   {
-    "axe": "4.5.1",
+    "axe": "4.5",
     "num": [
       6
     ],
@@ -861,7 +818,7 @@
     "description": "Les consommations d'eau sont globalement suivies, via l'étude des factures, sur l'ensemble des campus. Les fuites sont ainsi rapidement repérées. Toutefois, il conviendrait d'affiner ce monitoring pour identifier précisément les pistes de réduction."
   },
   {
-    "axe": "4.5.1",
+    "axe": "4.5",
     "num": [
       6
     ],
@@ -869,7 +826,7 @@
     "description": "Des mousseurs réducteurs de débit sont progressivement installés sur les robinets des sanitaires."
   },
   {
-    "axe": "4.5.1",
+    "axe": "4.5",
     "num": [
       15,
       6
@@ -878,7 +835,7 @@
     "description": "Le site de Salon-de-Provence (campus Méditerranée), soumis à un climat méditerranéen, a fait le choix d'une végétation d'ornement adaptée aux conditions climatiques pour assurer un besoin d'arrosage plus que limité. Cette bonne pratique doit être généralisée à l'ensemble des sites au vu des conditions climatiques changeantes."
   },
   {
-    "axe": "4.5.1",
+    "axe": "5.2.2",
     "num": [
       14
     ],
@@ -1683,3 +1640,4 @@
   }
 
 ]
+
