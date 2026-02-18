@@ -69,7 +69,7 @@
             ]
           },
           {
-            "name": "2.2 Favoriser et accompagner le développement des compétences en DD&RS dans les apprenant·e·s",
+            "name": "2.2 Favoriser et accompagner le développement des compétences en DD&RS des apprenant·e·s",
             "children": [
               {
                 "name": "2.2.1 Valoriser l'engagement DD&RS étudiant"
@@ -99,10 +99,10 @@
             ]
           },
           {
-            "name": "3.2 Développer et valoriser les interactions science société pour répondre aux enjeux du DD&RS",
+            "name": "3.2 Développer et valoriser les interactions science-société pour répondre aux enjeux du DD&RS",
             "children": [
               {
-                "name": "3.2.1 Développer et valoriser les interactions science société pour répondre aux enjeux du DD&RS"
+                "name": "3.2.1 Développer et valoriser les interactions science-société pour répondre aux enjeux du DD&RS"
               }
             ]
           },
@@ -117,7 +117,7 @@
         ]
       },
       {
-        "name": "4. ACTIVITÉ & GAZ À EFFET DE SERRE",
+        "name": "4. RESSOURCES & GAZ À EFFET DE SERRE",
         "children": [
           {
             "name": "4.1 Réduire l'impact environnemental de nos déplacements",
@@ -289,14 +289,15 @@
             ]
           },
           {
-            "name": "6.4 Formaliser une égalité des chances pour les étudiantes et étudiants",
+            "name": "6.4 Formaliser une politique d'égalité des chances pour les étudiant·e·s",
             "children": [
               {
-                "name": "6.4.1 Formaliser une égalité des chances pour les étudiantes et étudiants"
+                "name": "6.4.1 Formaliser une égalité des chances pour les étudiant·e·s"
               }
             ]
           }
         ]
       }
     ]
+
   }
