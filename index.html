@@ -320,7 +320,7 @@ let currentAxe = null; // null → global
       if (d.depth > 1) {
         let anc = d; while (anc.depth > 1) anc = anc.parent;
         const factor = 0.8 + 0.2*(d.depth-1);
-        d.color = d3.color(anc.color).brighter(factor).formatHex();
+        d.color = d3.color(anc.color).brighter(0).formatHex();
       }
     });
   }
@@ -551,4 +551,5 @@ let currentAxe = null; // null → global
 </body>
 
 </html>
+
 
