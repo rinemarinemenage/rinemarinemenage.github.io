@@ -79,13 +79,13 @@
   },
   {
     "axe": "1.3.2",
-    "titre": "Nombre de campagnes de sensibilisation au DD&RS",
+    "titre": "Mise en oeuvre de campagnes de sensibilisation au DD&RS",
     "cible": "2 campagnes annuelles",
     "respecte": true
   },
   {
     "axe": "1.3.2",
-    "titre": "Nombre d'outils de sensibilisation au DD&RS mis à disposition",
+    "titre": "Mise à disposition d'outils de sensibilisation au DD&RS",
     "cible": "5 outils d'ici 2030",
     "respecte": false
   },
@@ -159,7 +159,7 @@
     "axe": "2.2.2.",
     "titre": "Formalisation d'une procédure de valorisation de l'engagement étudiant",
     "cible": "OUI en 2026",
-    "respecte": false
+    "respecte": true
   },
   {
     "axe": "2.2.2",
@@ -333,7 +333,7 @@
     "axe": "4.3.2",
     "titre": "Réduction de la consommation d'énergie",
     "cible": "-25%  en 2025 et -40% en 2030",
-    "respecte": false
+    "respecte": true
   },
   {
     "axe": "4.3.2",
@@ -345,7 +345,7 @@
     "axe": "4.3.2",
     "titre": "Part des bâtiments climatisés avec une consigne de refroidissement à 26°C",
     "cible": "100% en 2025",
-    "respecte": true
+    "respecte": false
   },
   {
     "axe": "4.3.3",
@@ -357,7 +357,7 @@
     "axe": "4.3.4",
     "titre": "Taux de bâtiments consommant du gaz comme source de chauffage principale",
     "cible": "20% en 2027 et 15% en 2030",
-    "respecte": false
+    "respecte": true
   },
   {
     "axe": "4.4.1",
@@ -391,7 +391,7 @@
   },
   {
     "axe": "4.4.4",
-    "titre": "Mise en oeuvre des actions demandées dans le cadre des audits",
+    "titre": "Mise en oeuvre des actions demandées dans le cadre des audits des salles-serveurs",
     "cible": "100% en 2025",
     "respecte": false
   },
@@ -429,7 +429,7 @@
     "axe": "5.1.2",
     "titre": "Mise en place d'une campagne de communication bi-annuelle ou annuelle sur les bénéfices du reconditionnement",
     "cible": "OUI en 2025",
-    "respecte": false
+    "respecte": true
   },
   {
     "axe": "5.1.3",
@@ -441,13 +441,13 @@
     "axe": "5.1.3",
     "titre": "Part des campus/écoles respectant l'obligation de tri 8 flux",
     "cible": "100% en 2026",
-    "respecte": false
+    "respecte": true
   },
   {
     "axe": "5.1.3",
     "titre": "Part des campus/écoles pour lesquels un affichage clair avec consignes de tri est mis en place",
     "cible": "100% en 2026",
-    "respecte": false
+    "respecte": true
   },
   {
     "axe": "5.2.1",
@@ -561,7 +561,7 @@
     "axe": "6.3.1",
     "titre": "Formalisation d'une politique de qualité de vie au travail",
     "cible": "OUI en 2027",
-    "respecte": true
+    "respecte": false
   },
   {
     "axe": "6.3.1",
@@ -591,7 +591,7 @@
     "axe": "6.4.1",
     "titre": "Formalisation d'une politique d'égalité des chances pour les étudiant.es",
     "cible": "OUI en 2024",
-    "respecte": true
+    "respecte": false
   }
 
 ]
