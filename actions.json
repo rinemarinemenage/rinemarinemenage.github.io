@@ -857,7 +857,7 @@
       12
     ],
     "titre": "Renouvellement du marché multitechnique pour augmenter le tri des déchets proposé sur le campus de Marne-la-Vallée",
-    "description": "Le campus de Marne-la-Vallée, plus gros campus en termes d'effectif, renouvelle son marché relatif à la collecte des déchets. L'objectif est d'harmoniser, sur l'ensemble des bâtiments, les filières de tri proposées, pour permettre un tri adéquat partout"
+    "description": "Le campus de Marne-la-Vallée, plus gros campus en termes d'effectif, renouvelle son marché relatif à la collecte des déchets. L'objectif est d'harmoniser, sur l'ensemble des bâtiments, les filières de tri proposées, et permettre une collecte et un recyclage efficaces. Des poubelles ont été installées début 2026 dans les bâtiments."
   },
   {
     "axe": "5.1.3",
@@ -872,16 +872,8 @@
     "num": [
       12
     ],
-    "titre": "Renouvellement du marché de collecte des déchets dangereux pour harmonisation des process",
-    "description": "Issu de la fusion de différents établissements, l'Université Gustave Eiffel passe encore par différents prestataires pour la prise en charge de ses déchets dangereux. Le renouvellement du marché, visant à une harmonisation de ces pratiques, est en cours (mise en place courant 2025)."
-  },
-  {
-    "axe": "5.1.3",
-    "num": [
-      12
-    ],
-    "titre": "Suivi des bordereaux de suivi des déchets sur l'application Trackdéchets",
-    "description": "Les différents campus de l'établissement utilisent Trackdéchets, service numérique de l'Etat, pour gérer les différents bordereaux de suivi.",
+    "titre": "Bordereaux de suivi des déchets sur l'application Trackdéchets",
+    "description": "Les différents campus de l'établissement utilisent Trackdéchets, service numérique de l'Etat, pour gérer les différents bordereaux de collecte et suivre les déchets dangereux produits.",
     "url": "https://trackdechets.beta.gouv.fr/"
   },
   {
@@ -890,7 +882,7 @@
       12
     ],
     "titre": "Mise en place d'un dispositif de \"seconde vie\" des équipements informatiques sur plusieurs campus",
-    "description": "Les campus de Nantes et Lyon ainsi que l'EIVP et l'ESIEE Paris ont mis en place une solution de reconditionnement des équipements informatiques mis au rebut : les DEEE sont ainsi confiés à une entreprise d'insertion, chargée de remettre en état les équipements pour leur offrir une seconde vie. Le dispositif est à généraliser sur l'ensemble des campus."
+    "description": "Les campus de Nantes et Lyon ainsi que l'EIVP et l'ESIEE Paris ont mis en place une solution de reconditionnement des équipements informatiques mis au rebut : les DEEE sont ainsi confiés à une structure d'insertion, chargée de remettre en état les équipements pour leur offrir une seconde vie. Le dispositif est à généraliser sur l'ensemble des campus."
   },
   {
     "axe": "5.1.3",
@@ -898,7 +890,7 @@
       12
     ],
     "titre": "Réduction des déchets informatiques : établissement de règles relatives à l'achat d'équipements",
-    "description": "Une note de service, rédigée par la direction de l'informatique et du numérique, sera prochainement diffusée dans l'établissement. Celle-ci vise à rationaliser l'achat de matériels informatiques (aujourd'hui en quantités importantes), en limitant le nombre d'équipements par agent·e, en accompagnant les agent·e·s pour allonger la durée de vie de leurs équipements, en restreignant strictement l'achat au marché en cours (Matinfo 5), porteur d'impératifs environnementaux adéquats,..."
+    "description": "Une note de service, rédigée par la direction de l'informatique et du numérique, a été diffusée dans l'établissement. Celle-ci vise à rationaliser l'achat de matériels informatiques, en limitant le nombre d'équipements par agent·e, en accompagnant les agent·e·s pour allonger la durée de vie de leurs équipements, et en restreignant strictement l'achat au marché en cours (Matinfo), porteur d'impératifs environnementaux adéquats."
   },
   {
     "axe": "5.2.1",
@@ -918,13 +910,22 @@
     "titre": "Réalisation de campagnes de mesure volontaires de qualité de l'air intérieur",
     "description": "Le campus de Marne-la-Vallée, campus concentrant l'effectif le plus important, fait l'objet de campagnes de mesures annuelles de qualité de l'air intérieur pour les caractéristiques suivantes : CO2, Formaldéhyde, Benzène, CO, PM10, PM2,5, Flore fongique. Aucune non-conformité n'a à ce jour été repérée."
   },
+   {
+    "axe": "5.2.1",
+    "num": [
+      3,
+      11
+    ],
+    "titre": "Lancement d'un groupe de travail "ambiance thermique",
+    "description": "L'université souhaite prendre des mesures pour assurer le confort thermique des usagers des bâtiments : un groupe de travail, piloté par le service prévention, est lancé pour recenser les besoins et réfléchir à la mise en place d'actions."
+  },
   {
     "axe": "5.3.1",
     "num": [
       15
     ],
     "titre": "Réalisation d'inventaires biodiversité sur les campus ",
-    "description": "Les campus de Lyon, Nantes, Marne-la-Vallée et Méditerranée (site de Salon-de-Provence) ont, à ce jour, bénéficié d'inventaires visant à mettre en lumière tout ou partie de la biodiversité présente sur les sites. Seul le campus de Lille ne dispose pas d'inventaire biodiversité. Il sera réalisé en 2025. Les campus de Versailles ne dispose pas d'une surface significativement importante d'espaces verts. L'EIVP (campus de Paris) prend en charge la thématique biodiversité et des inventaires ont été réalisés sur ses espaces verts (très petite surface en milieu urbain). Les documents justificatifs sont joints en documents d'appui."
+    "description": "Les campus de Lyon, Nantes, Marne-la-Vallée et Méditerranée (site de Salon-de-Provence) ont, à ce jour, bénéficié d'inventaires visant à mettre en lumière tout ou partie de la biodiversité présente sur les sites."
   },
   {
     "axe": "5.3.1",
@@ -932,16 +933,8 @@
       15
     ],
     "titre": "Mise en place de pratiques de gestion favorables à la biodiversité ",
-    "description": "A la suite des inventaires réalisés et des préconisations de gestion formulées, la démarche d'adaptation des cahiers des charges des prestations de gestion des espaces verts est progressive. Celle de Lyon a déjà été récompensée par l'obtention du label Eco Jardin. Nantes travaille avec des associations naturalistes pour améliorer la gestion de ses espaces. Toutefois, ces bonnes pratiques sont à généraliser sur l'ensemble des sites. Les documents justificatifs sont joints en documents d'appui.",
+    "description": "A la suite des inventaires réalisés et des préconisations de gestion formulées, la démarche d'adaptation des cahiers des charges des prestations de gestion des espaces verts est progressive. Celle de Lyon a déjà été récompensée par l'obtention du label Eco Jardin. Nantes travaille avec des associations naturalistes pour améliorer la gestion de ses espaces. Toutefois, ces bonnes pratiques sont à généraliser sur l'ensemble des sites.",
     "url": "https://www.label-ecojardin.fr/fr/sites-labellises/universite-gustave-eiffel"
-  },
-  {
-    "axe": "5.3.2",
-    "num": [
-      15
-    ],
-    "titre": "Sensibilisation des parties prenantes internes ",
-    "description": "Dans leurs démarches d'inventaires biodiversité et de définition de préconisations de gestion, les campus de Nantes et Lyon travaillent avec, et soutiennent ainsi les associations naturalistes œuvrant en faveur de la préservation de la biodiversité : Ligue de Protection des Oiseaux, Bretagne Vivante, Les mycologues de l'Ouest."
   },
   {
     "axe": "5.3.2",
@@ -967,24 +960,8 @@
     "num": [
       2
     ],
-    "titre": "Rencontres avec les gestionnaires de restaurants pour nourrir un état des lieux",
-    "description": "La mission DD&RS cherche à consolider les échanges avec les gestionnaires des sites de restauration, pour envisager un plan d'actions."
-  },
-  {
-    "axe": "5.4.1",
-    "num": [
-      2
-    ],
-    "titre": "Intégration des thématiques alimentation responsable dans les cahiers des charges ",
-    "description": "Dans le cas de prestations externes gérées par l'établissement pour la restauration collective, une démarche d'intégration des enjeux DD&RS, au fur et à mesure du renouvellement des marchés, est menée."
-  },
-  {
-    "axe": "5.4.3",
-    "num": [
-      4
-    ],
-    "titre": "Sensibilisations ponctuelles des parties prenantes internes",
-    "description": "La mission DD&RS, mais également certaines composantes via des projets étudiants, mènent des démarches de sensibilisation (affichages, ateliers) aux thématiques d'alimentation responsable. Celles-ci sont à renforcer."
+    "titre": "Rencontres avec les gestionnaires de restaurants pour nourrir un état des lieux de l'alimentation durable à l'université",
+    "description": "La mission DD&RS cherche à consolider les échanges avec les gestionnaires des sites de restauration, afin de densifier les actions déjà mises en oeuvre."
   },
   {
     "axe": "5.4.2",
@@ -1020,8 +997,8 @@
       2,
       4
     ],
-    "titre": "Projets de jardins partagés autour de l'université",
-    "description": "En lien avec une association du territoire (M2IE), la chaire ESS, le CROUS et l'Epicerie Solidaire Campésienne, l'Université Gustave Eiffel est engagée dans un projet de jardin partagé, dont les denrées bénéficieront à l'épicerie solidaire, sur une parcelle située sur le campus de Marne-la-Vallée."
+    "titre": "Jardin partagé devant le bâtiment Copernic, sur le campus de Marne-la-Vallée,
+    "description": "En lien avec le Pôle Territorial de Coopération Economique Paris-Vallée-de-la-Marne, l'Université Gustave Eiffel accueille un jardin partagé situé devant le bâtiment Copernic (campus de Marne-la-Vallée). Les légumes produits sont distribués à l'Epicerie Solidaire Campésienne."
   },
   {
     "axe": "6.1.1",
@@ -1030,7 +1007,7 @@
       5
     ],
     "titre": "Dispositif de lutte contre la précarité menstruelle ",
-    "description": "L'établissement met en place diverses actions pour lutter contre la précarité menstruelle : installation de distributeurs de protections périodiques, distribution de culottes menstruelles aux personnels et étudiant·e·s... Ce panel doit être renforcé par les réflexions en cours d'un groupe de travail regroupant divers services et la mission DD&RS.",
+    "description": "L'établissement met en place diverses actions pour lutter contre la précarité menstruelle : installation de distributeurs de protections périodiques, distribution de culottes menstruelles aux personnels et étudiant·e·s...",
     "url": "https://lcs.univ-gustave-eiffel.fr/vie-etudiante/vie-de-campus/service-sante-universitaire-ssu/titre-par-defaut"
   },
   {
@@ -1050,7 +1027,7 @@
       10
     ],
     "titre": "Rédaction de plans pour l'égalité ",
-    "description": "Conformément aux obligations légales, l'université s'est dotée d'un plan pour l'égalité 2021-2023. Ce plan est en cours de renouvellement pour la prochaine période (2024-2026). Toutefois, le plan ne se limite pas aux questions d'égalité professionnelle imposées par la loi mais propose également des actions pour mettre en place une culture de l’égalité dans l’organisation de l’établissement, tout en s'engageant à la faire exister dans toutes les missions de l’université.",
+    "description": "Conformément aux obligations légales, l'université s'est dotée d'un plan pour l'égalité. Toutefois, le plan ne se limite pas aux questions d'égalité professionnelle imposées par la loi mais propose également des actions pour mettre en place une culture de l’égalité dans l’organisation de l’établissement, tout en s'engageant à la faire exister dans toutes les missions de l’université.",
     "url": "https://mission-egalite.univ-gustave-eiffel.fr/agir-ensemble-pour-legalite/nos-engagements-et-nos-actions"
   },
   {
@@ -1119,7 +1096,7 @@
       3
     ],
     "titre": "Formations aux thématiques du handicap, de l'égalité et de la qualité de vie au travail et autres aspects du DD&RS ",
-    "description": "Le handicap, l'égalité et la qualité de vie au travail sont trois aspects des enjeux DD&RS faisant déjà l'objet d'une rubrique dans le Plan de formation 2022-2024 et le catalogue. Des formations sur ces thématiques sont ainsi régulièrement proposées. Une rubrique \"Développement Durable & Responsabilité Sociétale\" regroupe, à ce stade, d'autres formations souvent plus axées sur les enjeux environnementaux."
+    "description": "Le handicap, l'égalité et la qualité de vie au travail sont trois aspects des enjeux DD&RS faisant déjà l'objet d'une rubrique dans le Plan de formation. Des formations sur ces thématiques sont ainsi régulièrement proposées."
   },
   {
     "axe": "6.2.1",
@@ -1152,8 +1129,8 @@
     "num": [
       4
     ],
-    "titre": "Organisation d'une journée d'échanges autour de l'intégration des enjeux DD&RS dans les enseignements",
-    "description": "Le Centre d'Innovation Pédagogique et Numérique organise, pour le 28/11/24, une Journée de la pédagogie dont la thématique est \"Enjeux écologiques et pratiques enseignantes : quelles sont les clefs pour une pédagogie durable ?\". L'objectif est de favoriser les échanges entre enseignant⸱e⸱s, de proposer des témoignages et de partager des ressources."
+    "titre": "Organisation de journées d'échanges autour de l'intégration des enjeux DD&RS dans les enseignements",
+    "description": "On dénombre notamment l'organisation d'une Journée de la pédagogie par le CIPEN, dont la thématique était \"Enjeux écologiques et pratiques enseignantes : quelles sont les clefs pour une pédagogie durable ?\". Le colloque \"Comment enseigner les enjeux de durabilité du bac +1 au bac +3 ?\" a permis de continuer dans cette voie. L'objectif est de favoriser les échanges entre enseignant⸱e⸱s, de proposer des témoignages et de partager des ressources."
   },
   {
     "axe": "6.3.1",
@@ -1203,7 +1180,7 @@
       3
     ],
     "titre": "Nombreuses actions de prévention et de soin menées par le service de santé universitaire ",
-    "description": "En sus des consultations assurées par le SSU (3 médecins, 4 psychologues, 3 infirmières, une assistante, une secrétaire et une référente handicap) auprès de la communauté étudiante, le service organise des actions de prévention individuelles et collectives : santé mentale, conduites addictives...",
+    "description": "En sus des consultations assurées par le SSU (médecins, psychologues, infirmières, une assistante, une secrétaire et une référente handicap) auprès de la communauté étudiante, le service organise des actions de prévention individuelles et collectives : santé mentale, conduites addictives...",
     "url": "https://intranet-edu.univ-eiffel.fr/ressources/sante-handicap-et-social/pole-medical"
   },
   {
@@ -1239,7 +1216,7 @@
       3
     ],
     "titre": "Rédaction d'un Plan d'Amélioration de la Vie Etudiante ",
-    "description": "Le PAVE a vocation à définir les orientations concernant les démarches d'amélioration de la vie étudiante. Après une année d'enquêtes (focus groupe et consultation) et d’étude des pratiques de la vie étudiante à l’université auprès des étudiantes et étudiants, des services et directions qui sont acteurs de la vie étudiante, la rédaction du plan a pris la forme d’un recueil présentant l’université et son écosystème (incluant l’organisation territoriale et acteurs externes) et de fiches actions. La rédaction du PAVÉ ne doit pas être une fin en soi mais doit permettre d’enclencher une dynamique autour de la vie étudiante en stabilisant les actions existantes et en en proposant de nouvelles grâce à un comité de suivi dont la création fait l’objet de la 1ère fiche. Une trentaine d’actions ont ainsi été élaborées en identifiant les acteurs concernés, le contexte, les objectifs, la temporalité et les moyens humains et financiers ainsi que les facteurs d’évaluations de réussite et de validations pour une bonne mise en pratique."
+    "description": "Le PAVE a vocation à définir les orientations concernant les démarches d'amélioration de la vie étudiante. Après une année d'enquêtes (focus groupe et consultation) et d’étude des pratiques de la vie étudiante à l’université auprès des étudiantes et étudiants, des services et directions qui sont acteurs de la vie étudiante, la rédaction du plan a pris la forme d’un recueil présentant l’université et son écosystème (incluant l’organisation territoriale et acteurs externes) et de fiches actions. La rédaction du PAVÉ permet d’enclencher une dynamique autour de la vie étudiante en stabilisant les actions existantes et en en proposant de nouvelles grâce à un comité de suivi dont la création fait l’objet de la 1ère fiche. Une trentaine d’actions ont ainsi été élaborées en identifiant les acteurs concernés, le contexte, les objectifs, la temporalité et les moyens humains et financiers ainsi que les facteurs d’évaluations de réussite et de validations pour une bonne mise en pratique."
   },
   {
     "axe": "6.3.2",
@@ -1330,7 +1307,7 @@
       8
     ],
     "titre": "Possibilité de semaine de 4,5 jours pour une partie des personnels ",
-    "description": "Certain·e·s agent·e·s (MESR) ont la possibilité d'organiser leurs semaines pour travailler sur 4,5 jours. Le dispositif sera étendu à l'ensemble des personnels de l'université au 1er septembre 2025."
+    "description": "Les agent·e·s ont la possibilité d'organiser leurs semaines pour travailler sur 4,5 jours."
   },
   {
     "axe": "6.3.1",
@@ -1477,7 +1454,7 @@
       4
     ],
     "titre": "Mise en œuvre du projet NCU D.Clic ",
-    "description": "Le projet D.Clic \"Une licence pour chacun⸱e, des réussites pour tout⸱es\" vise à mettre en place différentes actions relatives à l'attractivité des licences, à la mise en place de dispositifs de pré-rentrée ou de remédiation pour les nouveaux et nouvelles étudiant⸱e⸱s, ainsi qu'au renforcement du lien avec les lycées (voir bilan à 4 ans du programme D.Clic en document d'appui).",
+    "description": "Le projet D.Clic \"Une licence pour chacun⸱e, des réussites pour tout⸱es\" vise à mettre en place différentes actions relatives à l'attractivité des licences, à la mise en place de dispositifs de pré-rentrée ou de remédiation pour les nouveaux et nouvelles étudiant⸱e⸱s, ainsi qu'au renforcement du lien avec les lycées.",
     "url": "https://www.univ-gustave-eiffel.fr/luniversite/nos-projets-transformants/dclic"
   },
   {
@@ -1503,7 +1480,7 @@
       4
     ],
     "titre": "Existence d'un service dédié aux étudiant·e·s internationaux ",
-    "description": "Les missions principales du service \"Relations Internationales\", en collaboration avec la VP International, sont d'internationaliser les formations et leur contenu, accompagner au développement",
+    "description": "Les missions principales du service \"Relations Internationales\", en collaboration avec la VP International, sont d'internationaliser les formations et leur contenu, et d'accueillir au mieux les étudiants internationaux.",
     "url": "https://www.univ-gustave-eiffel.fr/international/etudiants-internationaux"
   },
   {
