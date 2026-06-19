@@ -276,14 +276,6 @@
     "num": [
       4
     ],
-    "titre": "Etude des remontées HCERES des formations - critère relatif à la formation à et par la recherche",
-    "description": "Une analyse succincte des remontées HCERES 2024 des formations et de leur réponse au critère R3-C1 du référentiel HCERES \"La formation intègre une formation à et par la recherche adaptée à sa finalité\" montre que les composantes se positionnent globalement correctement sur ces thématiques."
-  },
-  {
-    "axe": "2.1.2",
-    "num": [
-      4
-    ],
     "titre": "Recensement de la contribution des formations continues courtes aux objectifs de développement durable",
     "description": "En 2024, le service formation continue a mené un premier travail de référencement de la contribution aux objectifs de développement durable des formations qu'il propose. L'objectif est de consolider la méthodologie et de l'étendre à l'ensemble des formations continues proposées par l'établissement et ses composantes."
   },
@@ -292,8 +284,16 @@
     "num": [
       4
     ],
-    "titre": "Organisation \" Journées de la pédagogie\" autour des enjeux DD&RS",
-    "description": "Le Centre d'Innovation Pédagogique et Numérique de l'université organise, en novembre 2024, une deuxième \"journée de la pédagogie\" autour des enjeux DD&RS. L'objectif est de donner des pistes aux enseignant⸱e⸱s pour intégrer le DD&RS dans leurs formations, en s'appuyant sur les retours d'expérience de chacun⸱e et sur les réflexions collectives. "
+    "titre": "Cellule d'accompagnement pédagogique pour l'intégration de la transition socio-écologique dans les enseignements",
+    "description": "L’équipe AVID constitue une cellule d’accompagnement pédagogique pour l’intégration du DD&RS. Les modalités de l’accompagnement proposé sont variées : évolution des parcours de formation vers une meilleure intégration des enjeux de durabilité (objectifs, contenus, modalités), appui à la création de travaux pratiques, conception d’un jeu de cartes sur le développement durable, développement d’un atelier de formation sur les éco-émotions et éco-anxiété, organisation de colloques sur la thématique…"
+  },
+  {
+    "axe": "2.1.2",
+    "num": [
+      4
+    ],
+    "titre": "Organisation de temps d'échanges, destinés aux enseignants, autour des enjeux DD&RS",
+    "description": "L'objectif est de donner des pistes aux enseignant⸱e⸱s pour intégrer le DD&RS dans leurs formations, en s'appuyant sur les retours d'expérience de chacun⸱e et sur les réflexions collectives. On peut notamment citer les journées de la pédagogie organisées par le CIPEN, ou encore le colloque \"Comment enseigner les enjeux de durabilite"\ proposé par l'équipe AVID."
   },
   {
     "axe": "2.1.2",
@@ -337,8 +337,8 @@
     "num": [
       4
     ],
-    "titre": "Organisation de sessions de formation au DD&RS, adaptées au contexte associatif étudiant, par le RESES ",
-    "description": "Début 2024, trois sessions de formation aux enjeux DD&RS (\"RSO dans mon asso\", \"Transition sur mon campus\" et \"Evénementiel responsable\") ont été proposées. Ces sessions ont malheureusement rencontré peu de participation de la part des étudiant·e·s. Il est envisagé de systématiser une intervention (potentiellement construite avec le RESES) de la mission DD&RS auprès des responsables associatifs, pour espérer une meilleure prise en compte des enjeux de développement durable dans les projets étudiants."
+    "titre": "Accompagnement des associations étudiantes dans l'intégration des enjeux DD&RS aux projets associatifs",
+    "description": "La mission DD&RS renforce les temps d'échange avec la VP Etudiante et les responsables associatifs pour envisager une meilleure prise en compte des enjeux de développement durable dans les projets étudiants."
   },
   {
     "axe": "2.2.1",
@@ -355,17 +355,16 @@
     "num": [
       4
     ],
-    "titre": "Modification du dispositif FSDIE projets pour y intégrer les thématiques de développement durable ",
-    "description": "La fiche-projet du FSDIE a été récemment modifiée pour y intégrer un questionnement sur l'intégration des enjeux sociaux et environnementaux dans le projet déposé : l'objectif est avant tout pédagogique, en poussant l'étudiant·e à s'interroger sur l'impact de son projet sur ces enjeux et en l'incitant à faire appel à des achats de seconde main ou à du prêt entre associations."
+    "titre": "Intégration des thématiques de développement durable dans la fiche-projet FSDIE",
+    "description": "La fiche-projet du FSDIE intègre désormais r un questionnement sur l'intégration des enjeux sociaux et environnementaux dans le projet déposé : l'objectif est avant tout pédagogique, en poussant l'étudiant·e à s'interroger sur l'impact de son projet sur ces enjeux et en l'incitant à faire appel à des achats de seconde main ou à du prêt entre associations."
   },
-  {
-    "axe": "2.2.3",
+    {
+    "axe": "2.2.1",
     "num": [
-      8
+      4
     ],
-    "titre": "Mise en ligne du \"Career Center\" de l'université ",
-    "description": "Le Career Center est un espace où les structures ont la possibilité de déposer des offres d'emploi et de stage, accessibles aux étudiant·e·s de l'Université Gustave Eiffel.",
-    "url": "https://univ-eiffel.jobteaser.com/fr/recruiter_account/sign_in?back_to_after_login=%2Ffr%2Frecruiter_account%2Fjob_offers"
+    "titre": "Intégration des thématiques de développement durable dans la fiche-projet FSDIE",
+    "description": "La fiche-projet du FSDIE intègre désormais r un questionnement sur l'intégration des enjeux sociaux et environnementaux dans le projet déposé : l'objectif est avant tout pédagogique, en poussant l'étudiant·e à s'interroger sur l'impact de son projet sur ces enjeux et en l'incitant à faire appel à des achats de seconde main ou à du prêt entre associations."
   },
   {
     "axe": "3.1.1",
@@ -403,14 +402,6 @@
     "description": "En 2023, un chargé de mission dédié à la recherche et à l'enseignement a été recruté à la mission DD&RS. Il renforce progressivement l'accompagnement proposé aux unités pour la transition de leurs activités et mène des démarches de valorisation de la contribution des travaux de recherche aux objectifs de développement durable"
   },
   {
-    "axe": "3.1.1",
-    "num": [
-      9
-    ],
-    "titre": "Auto-évaluation annuelle de l'axe recherche depuis la création de l'établissement ",
-    "description": "Depuis 2020, l'université s'est attachée à auto-évaluer l'intégration des enjeux de développement durable dans sa stratégie de recherche via l'axe 3 du référentiel DD&RS."
-  },
-  {
     "axe": "3.1.2",
     "num": [
       9
@@ -442,15 +433,7 @@
       9
     ],
     "titre": "Intégration d'un critère appréciant l'intégration des enjeux de développement durable dans les projets déposés au dispositif \"Actions incitatives à la recherche\" ",
-    "description": "Le dispositif des AIR a récemment été modifié pour y intégrer une prise en compte de l'intégration du développement durable dans l'analyse des projets déposés et dans l'octroi d'un soutien. Ceci incite les porteurs et porteuses de projet à apprécier leur impact."
-  },
-  {
-    "axe": "3.1.2",
-    "num": [
-      9
-    ],
-    "titre": "Formalisation du fait que le DD&RS doit être le \"prérequis\" de tout projet, y compris scientifique, dans le SD PINS ",
-    "description": "Le Schéma Directeur Patrimoine, Immobilier, Numérique et Scientifique formule la nécessité d'intégrer les enjeux de développement durable et de responsabilité sociétale comme \"prérequis de tout projet\", y compris scientifique. L'impact d'un projet de recherche doit donc être apprécié."
+    "description": "Le dispositif des AIR a été modifié pour y intégrer une prise en compte de l'intégration du développement durable dans l'analyse des projets déposés et dans l'octroi d'un soutien. Ceci incite les porteurs et porteuses de projet à apprécier leur impact."
   },
   {
     "axe": "3.1.2",
@@ -502,7 +485,7 @@
     "num": [
       9
     ],
-    "titre": "Accompagnement des chercheur·euse·s souhaitant initier un projet participatif par le service DSOS ",
+    "titre": "Accompagnement des chercheur·euse·s souhaitant initier un projet participatif par le service partage des savoirs",
     "description": "Outre les formats présentés, le service diffusion des savoirs et ouverture à la société (DSOS) propose un accompagnement aux équipes de recherche pour la mise en œuvre de projets participatifs."
   },
   {
@@ -558,7 +541,7 @@
     "num": [
       4
     ],
-    "titre": "Accompagnement par le service DSOS des actions de diffusion de la culture scientifique et technique ",
+    "titre": "Accompagnement par le service ouverture et partage des savoirs des actions de diffusion de la culture scientifique et technique ",
     "description": "Le service diffusion des savoirs et ouverture à la société accompagne les équipes de recherche et met en place plusieurs dispositifs pour faire découvrir la science au grand public."
   },
   {
@@ -638,7 +621,7 @@
       9
     ],
     "titre": "Installation d'un Comité d'Ethique, de Déontologie et d'Intégrité Scientifique ",
-    "description": "Prévu dans les statuts, le CEDIS a été officiellement installé en 2024. Adossé à un guichet unique éthique, il sera chargé de mener les réflexions éthiques de l'établissement."
+    "description": "Prévu dans les statuts, le CEDIS a été officiellement installé en 2024. Adossé à un guichet unique éthique, il est chargé de mener les réflexions éthiques de l'établissement."
   },
   {
     "axe": "3.3.1",
