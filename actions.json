@@ -655,7 +655,7 @@
       12
     ],
     "titre": "Mise en place de la plateforme Troc Eiffel",
-    "description": "Troc Eiffel est une plateforme facilitant l'échange de matériel entre personnels. Elle permet de donner une seconde vie à de nombreux objets (mobilier, équipements de laboratoire...) et d'éviter l'achat de produits neufs. Une newsletter est envoyée de manière trimestrielle aux personnels pour leur rappeler l'existence de cette plateforme. Un bilan des échanges est également diffusé.",
+    "description": "Troc Eiffel est une plateforme facilitant l'échange de matériel entre personnels. Elle permet de donner une seconde vie à de nombreux objets (mobilier, équipements de laboratoire...) et d'éviter l'achat de produits neufs. Une newsletter est envoyée de manière trimestrielle aux personnels pour rappeler l'existence de cette plateforme. Un bilan des transactions est également diffusé.",
     "url": "https://univ-eiffel.mytroc.pro/"
   },
   {
@@ -664,7 +664,7 @@
       12
     ],
     "titre": "Rédaction d'un SPASER",
-    "description": "La direction de la commande publique, créée début 2023, est lancée depuis début 2024 dans la formulation d'un schéma de promotion des achats socialement et écologiquement responsables. Un groupe de travail réunissant des personnes concernées par la thématique a été formé en ce sens. "
+    "description": "La direction de la commande publique, est lancée depuis début 2024 dans la formulation d'un schéma de promotion des achats socialement et écologiquement responsables. Un groupe de travail réunissant des personnes concernées par la thématique a été formé en ce sens. "
   },
   {
     "axe": "4.4.1",
@@ -684,6 +684,43 @@
     "titre": "Réalisation et suivi de plans de mobilités pour les campus de l'université ",
     "description": "Différents plans de mobilités ont été établis pour la majorité des sites de l'université."
   },
+    {
+    "axe": "4.1.3",
+    "num": [
+      7,
+      11
+    ],
+    "titre": "Organisation d'atelier de réparation de vélos",
+    "description": "Un atelier d'auto-réparation est présent deux fois par semaine sur le campus de MLV, assuré par la M2IE (structure d'insertion). A Nantes, les référent·es DD&RS assurent également des ateliers d'auto-réparation ponctuels. Les campus de Lille et de Lyon accueillent des ateliers de réparation vélo à l'occasion des Eco-Festivals.  Des kits de réparation vélo sont par ailleurs disponibles sur les campus de Nantes, Lyon, Versailles et Lille."
+  },
+  {
+    "axe": "4.1.3",
+    "num": [
+      7,
+      11
+    ],
+    "titre": "Mise à disposition de vélos pour le personnel et les étudiant·es",
+    "description": "Une flotte de vélos est mise à disposition à Nantes, afin de permettre aux agent·es de se déplacer entre les bâtiments du campus. A MLV, un système gratuit de location de vélos est proposé par la M2IE. Celui-ci doit cependant faire l’objet de davantage de communications. A Versailles, des VAE ont été ponctuellement loués à l'occasion de l'édition 2025  de \"Mai à vélo\", pour que le personnel puisse tester un trajet domicile-travail à vélo"
+  },
+  {
+    "axe": "4.1.3",
+    "num": [
+      7,
+      11
+    ],
+    "titre": "Création d'une communauté sur l'application Geovelo",
+    "description": "Depuis 2025, la communauté \"Gustavelo\" rassemble les cyclistes de l'université, pour participer à des challenges et pédaler ensemble. Elle regroupe plus de 150 membres"
+  },
+    {
+    "axe": "4.1.3",
+    "num": [
+      7,
+      11
+    ],
+    "titre": "Organisation d'activités pour Mai à vélo",
+    "description": "L'université participe à l'événement national Mai à vélo : les collègues cyclistes proposent des activités diverses sur les campus (balades, projection de documentaires, petit-déjeuner cycliste,...) afin de promouvoir ce mode de déplacement bénéfique à l'environnement et à la santé."
+  "url" : "https://mission-ddrs.univ-gustave-eiffel.fr/toute-lactualite/actualites-details/mai-a-velo-a-luniversite-gustave-eiffel-le-bilan"
+    },
   {
     "axe": "4.3.3",
     "num": [
@@ -706,8 +743,8 @@
     "num": [
       7
     ],
-    "titre": "Raccordement progressif de 9 bâtiments au réseau de chaleur urbain ",
-    "description": "En 2024, 9 bâtiments gérés par l'université sur le campus de Marne-la-Vallée sont raccordés au réseau de chaleur urbain. L'ENSA Paris-Est et l'ENSG-Géomatique le sont également.",
+    "titre": "Raccordement progressif desbâtiments au réseau de chaleur urbain ",
+    "description": "La majorité des bâtiments du campus de Marne-la-Vallée sont raccordés au réseau de chaleur urbain.",
     "url": "https://www.engie-solutions.com/fr/presse/chantier-geothermie-geomarne"
   },
   {
@@ -716,7 +753,7 @@
       11
     ],
     "titre": "Etablissement d'un schéma pluriannuel de stratégie immobilière (SPSI)",
-    "description": "En cohérence avec le SDPINS et en se basant sur un diagnostic immobilier précis, la direction de la stratégie immobilière a établi un SPSI couvrant le périmètre des établissements fusionnés (sauf ENSG-Géomatique, EIVP et ENSA Paris-Est). Le document intègre les enjeux DD&RS, particulièrement de transition énergétique et sera soumis au Conseil d'Administration en décembre 2024."
+    "description": "En cohérence avec le SDPINS et en se basant sur un diagnostic immobilier précis, la direction de la stratégie immobilière a établi un SPSI couvrant le périmètre des établissements fusionnés (sauf ENSG-Géomatique, EIVP et ENSA Paris-Est). Le document intègre les enjeux DD&RS, particulièrement de transition énergétique."
   },
   {
     "axe": "4.3.2",
